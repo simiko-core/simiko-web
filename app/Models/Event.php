@@ -6,8 +6,13 @@ use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-class Post extends Model
+class Event extends Model
 {
+
+    protected $casts = [
+        'payment_methods' => 'array',
+    ];
+
     protected static function booted(): void
     {
         static::addGlobalScope('unitKegiatan', function (Builder $query) {
@@ -18,9 +23,13 @@ class Post extends Model
         });
     }
 
-
     public function unitKegiatan()
     {
         return $this->belongsTo(UnitKegiatan::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(EventCategory::class);
     }
 }

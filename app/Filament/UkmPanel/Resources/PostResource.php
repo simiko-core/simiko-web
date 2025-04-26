@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources;
+namespace App\Filament\UkmPanel\Resources;
 
-use App\Filament\Resources\UnitKegiatanResource\Pages;
-use App\Filament\Resources\UnitKegiatanResource\RelationManagers;
-use App\Models\UnitKegiatan;
+use App\Filament\UkmPanel\Resources\PostResource\Pages;
+use App\Filament\UkmPanel\Resources\PostResource\RelationManagers;
+use App\Models\Post;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,35 +13,27 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class UnitKegiatanResource extends Resource
+class PostResource extends Resource
 {
-    protected static ?string $model = UnitKegiatan::class;
+    protected static ?string $model = Post::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    protected static ?string $navigationGroup = 'Unit Kegiatan';
-
-    protected static ?string $navigationLabel = 'Unit Kegiatan';
+    protected static ?string $navigationGroup = "Manajemen Konten";
+    protected static ?string $navigationLabel = 'Post';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('logo')
-                    ->label('Logo')
-                    ->image()
-                    ->disk('public')
-                    ->directory('logo_unit_kegiatan')
+                Forms\Components\Textarea::make('content')
                     ->required()
-                    ->maxSize(1024)
-                    ->preserveFilenames()
                     ->columnSpanFull(),
-
+                Forms\Components\FileUpload::make('image')
+                    ->image(),
             ]);
     }
 
@@ -49,10 +41,9 @@ class UnitKegiatanResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('logo')
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -85,9 +76,9 @@ class UnitKegiatanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUnitKegiatans::route('/'),
-            'create' => Pages\CreateUnitKegiatan::route('/create'),
-            'edit' => Pages\EditUnitKegiatan::route('/{record}/edit'),
+            'index' => Pages\ListPosts::route('/'),
+            'create' => Pages\CreatePost::route('/create'),
+            'edit' => Pages\EditPost::route('/{record}/edit'),
         ];
     }
 }

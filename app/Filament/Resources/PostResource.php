@@ -19,17 +19,24 @@ class PostResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = "Manajemen Konten";
+
+    protected static ?string $navigationLabel = 'Post';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('unit_kegiatan_id')
+                Forms\Components\Select::make('unit_kegiatan_id')
+                    ->relationship('unitKegiatan', 'name')
                     ->required()
-                    ->numeric(),
+                    ->preload()
+                    ->searchable()
+                    ->label('Unit Kegiatan'),
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('content')
+                Forms\Components\RichEditor::make('content')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
@@ -41,11 +48,10 @@ class PostResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('unit_kegiatan_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('unitKegiatan.name')
+                    ->label('Unit Kegiatan'),
                 Tables\Columns\ImageColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()

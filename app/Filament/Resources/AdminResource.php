@@ -19,6 +19,10 @@ class AdminResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'User Management';
+
+    protected static ?string $navigationLabel = 'Admin';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -26,7 +30,20 @@ class AdminResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->relationship("user", "name")
                     ->preload()
-                    ->required(),
+                    ->required()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('name')
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('email')
+                            ->email()
+                            ->required()
+                            ->maxLength(255),
+                        Forms\Components\TextInput::make('password')
+                            ->password()
+                            ->required()
+                            ->maxLength(255)
+                    ]),
                 Forms\Components\Select::make('unit_kegiatan_id')
                     ->relationship("unitKegiatan", "name")
                     ->preload()

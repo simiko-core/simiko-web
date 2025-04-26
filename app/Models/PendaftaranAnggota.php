@@ -3,10 +3,10 @@
 namespace App\Models;
 
 use Filament\Facades\Filament;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
-class Post extends Model
+class PendaftaranAnggota extends Model
 {
     protected static function booted(): void
     {
@@ -18,9 +18,13 @@ class Post extends Model
         });
     }
 
-
     public function unitKegiatan()
     {
         return $this->belongsTo(UnitKegiatan::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }
