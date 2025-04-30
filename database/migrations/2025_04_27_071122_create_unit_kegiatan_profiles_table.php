@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\UnitKegiatan;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('unit_kegiatans', function (Blueprint $table) {
+        Schema::create('unit_kegiatan_profiles', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->unique();
-            $table->boolean("open_registration")->default(false);
-            $table->string("logo")->nullable();
+            $table->foreignIdFor(UnitKegiatan::class)->constrained()->cascadeOnDelete();
+            $table->string("vision");
+            $table->string("mission");
+            $table->text("description");
+            $table->integer("period");
             $table->timestamps();
         });
     }
@@ -25,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('unit_kegiatans');
+        Schema::dropIfExists('unit_kegiatan_profiles');
     }
 };

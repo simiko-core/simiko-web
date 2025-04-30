@@ -122,12 +122,45 @@ class EventResource extends Resource
                     ->searchable()
                     ->sortable()
                     ->limit(50),
+
                 Tables\Columns\TextColumn::make('event_date')
                     ->label("Tanggal Pelaksanaan")
                     ->date("d F Y")
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('event_type')
+                    ->label('Jenis Event')
+                    ->badge()
+                    ->color(fn(string $state) => match ($state) {
+                        'online' => 'info',
+                        'offline' => 'success',
+                        default => 'gray',
+                    }),
+
                 Tables\Columns\TextColumn::make('location')
-                    ->label("Lokasi"),
+                    ->label("Lokasi")
+                    ->limit(30),
+
+                Tables\Columns\TextColumn::make('unitKegiatan.name')
+                    ->label("UKM")
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\IconColumn::make('is_paid')
+                    ->label('Berbayar')
+                    ->boolean(),
+
+                Tables\Columns\TextColumn::make('price')
+                    ->label('Harga Tiket')
+                    ->money('IDR')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                Tables\Columns\ImageColumn::make('poster')
+                    ->label('Poster')
+                    ->height(40)
+                    ->width(30)
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

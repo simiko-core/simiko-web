@@ -2,10 +2,26 @@
 
 namespace App\Models;
 
+use Filament\Facades\Filament;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class UnitKegiatan extends Model
 {
+    // protected static function booted(): void
+    // {
+    //     static::addGlobalScope('unitKegiatan', function (Builder $query) {
+    //         $user = Filament::auth()?->user();
+    //         if ($user && $user->hasRole('admin_ukm')) {
+    //             $query->where('unit_kegiatan_id', $user->admin->unit_kegiatan_id);
+    //         }
+    //     });
+    // }
+
+    protected $casts = [
+        'logo' => 'array',
+    ];
+
     public function admins()
     {
         return $this->hasOne(Admin::class);
@@ -24,5 +40,10 @@ class UnitKegiatan extends Model
     public function events()
     {
         return $this->hasMany(Event::class);
+    }
+
+    public function unitKegiatanProfile()
+    {
+        return $this->hasMany(UnitKegiatanProfile::class);
     }
 }

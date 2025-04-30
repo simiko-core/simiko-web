@@ -103,8 +103,8 @@ class EventResource extends Resource
                                 ->label('Nomor Rekening / Nomor HP')
                                 ->required(),
 
-                            Forms\Components\TextInput::make('account_name")')
-                                ->label('Nama Pemilik Rekening")')
+                            Forms\Components\TextInput::make('account_name')
+                                ->label('Nama Pemilik Rekening')
                                 ->required(),
                         ])
                         ->visible(fn(callable $get) => $get('is_paid'))

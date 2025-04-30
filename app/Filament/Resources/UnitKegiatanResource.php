@@ -10,38 +10,44 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UnitKegiatanResource extends Resource
 {
     protected static ?string $model = UnitKegiatan::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
     protected static ?string $navigationGroup = 'Unit Kegiatan';
-
     protected static ?string $navigationLabel = 'Unit Kegiatan';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('logo')
-                    ->label('Logo')
-                    ->image()
-                    ->disk('public')
-                    ->directory('logo_unit_kegiatan')
-                    ->required()
-                    ->maxSize(1024)
-                    ->preserveFilenames()
-                    ->columnSpanFull(),
+                Forms\Components\Section::make()
+                    ->schema([
+                        Forms\Components\Grid::make(2)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->label('Nama Unit Kegiatan')
+                                    ->placeholder('Masukkan nama unit kegiatan')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->helperText('Nama lengkap unit kegiatan (contoh: UKM Fotografi)'),
 
+                                Forms\Components\FileUpload::make('logo')
+                                    ->label('Upload Logo')
+                                    ->image()
+                                    ->disk('public')
+                                    ->directory('logo_unit_kegiatan')
+                                    ->preserveFilenames()
+                                    ->maxSize(1024)
+                                    ->required()
+                                    ->helperText('Format: JPG, PNG. Maksimal 1MB.'),
+                            ]),
+                    ])
+                    ->columns(1)
+                    ->columnSpanFull()
+                // ->collapsed(false),
             ]);
     }
 
@@ -50,35 +56,33 @@ class UnitKegiatanResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('logo')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Nama Unit Kegiatan')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\ImageColumn::make('logo')
+                    ->label('Logo')
+                    ->disk('public')
+                    ->circular(),
             ])
-            ->filters([
-                //
-            ])
+            ->filters([])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
             ])
+
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Hapus Terpilih'),
                 ]),
-            ]);
+            ])
+            ->defaultSort('created_at', 'desc');
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\UnitKegiatanProfileRelationManager::class,
         ];
     }
 
