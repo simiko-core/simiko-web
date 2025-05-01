@@ -12,11 +12,13 @@ class PendaftaranAnggota extends Model
     {
         static::addGlobalScope('unitKegiatan', function (Builder $query) {
             $user = Filament::auth()?->user();
+
             if ($user && $user->hasRole('admin_ukm')) {
                 $query->where('unit_kegiatan_id', $user->admin->unit_kegiatan_id);
             }
         });
     }
+
 
     public function unitKegiatan()
     {
@@ -26,5 +28,10 @@ class PendaftaranAnggota extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function IsOpen()
+    {
+        return $this->where('is_open', true)->exists();
     }
 }

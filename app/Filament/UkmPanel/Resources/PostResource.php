@@ -41,6 +41,8 @@ class PostResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->emptyStateHeading('Post')
+            ->emptyStateDescription('Tidak ada post yang ditemukan.')
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->label('Judul')

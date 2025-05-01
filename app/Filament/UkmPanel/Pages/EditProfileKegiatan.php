@@ -30,16 +30,6 @@ class EditProfileKegiatan extends Page implements HasForms
     public $record;
 
 
-    // public function mount(): void
-    // {
-    //     $this->record = Auth::user()->admin->unitKegiatan;
-
-    //     $this->form->fill([
-    //         'name' => $this->record->name,
-    //         'logo' => $this->record->logo ?? null,
-    //     ]);
-    // }
-
     public function form(Form $form): Form
     {
         return $form

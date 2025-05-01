@@ -18,7 +18,6 @@ class Post extends Model
         });
     }
 
-
     public function unitKegiatan()
     {
         return $this->belongsTo(UnitKegiatan::class);
