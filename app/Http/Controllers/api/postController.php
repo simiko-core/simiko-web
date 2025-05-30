@@ -11,45 +11,35 @@ use App\Models\UnitKegiatan;
 
 class postController extends Controller
 {
-    public function index()
-    {
-        $posts = Post::with('unitKegiatan')->latest()->get();
-        return response()->json($posts);
+    public function index(){
+
+    
+
+    $posts = Post::select('id', 'title', 'content', 'image', 'unit_kegiatan_id', 'created_at')
+        ->with('unitKegiatan:id,name,logo')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // check if posts are empty
+    if ($posts->isEmpty()) {
+        return response()->json([
+            'status' => false,
+            'message' => 'No posts found',
+        ], 404);
     }
+    
+    return response()->json($posts);
+}
 
-    // POST /api/post
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'unit_kegiatan_id' => 'required|exists:unit_kegiatans,id',
-            'title' => 'required|string|max:255',   
-            'content' => 'required|string',
-            'image' => 'nullable|image|max:2048',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('posts', 'public');
-        }
-
-        $post = Post::create([
-            'unit_kegiatan_id' => $request->unit_kegiatan_id,
-            'title' => $request->title,
-            'content' => $request->content,
-            'image' => $imagePath,
-        ]);
-
-        return response()->json($post, 201);
-    }
 
     // GET /api/post/{id}
     public function show($id)
     {
-        $post = Post::with('unitKegiatan')->find($id);
+    $post = Post::select('id', 'title', 'content', 'image', 'unit_kegiatan_id', 'created_at')
+        ->with('unitKegiatan:id,name,logo')
+        ->orderBy('created_at', 'desc')
+        ->where('id', $id)
+        ->get();
 
         if (!$post) {
             return response()->json(['message' => 'Post not found'], 404);

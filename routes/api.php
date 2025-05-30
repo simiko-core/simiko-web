@@ -8,4 +8,5 @@ use App\Http\Controllers\api\postController;
 Route::post("/login", [authController::class, "login"]);
 Route::post("/register", [authController::class, "register"]);
 
-Route::apiResource("/post", postController::class);
+Route::get("/posts", [postController::class, "index"]);
+Route::get("/post/{id}", [postController::class, "show"]);
