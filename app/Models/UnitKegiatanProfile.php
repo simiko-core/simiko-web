@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnitKegiatanProfile extends Model
 {
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
     protected static function booted(): void
     {
         static::addGlobalScope('unitKegiatanProfiles', function (Builder $query) {
