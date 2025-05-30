@@ -34,7 +34,11 @@ class PostResource extends Resource
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
-                    ->image(),
+                    ->image()
+                    ->height(40)
+                    ->width(30)
+                    ->directory('posts')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ]);
     }
 
