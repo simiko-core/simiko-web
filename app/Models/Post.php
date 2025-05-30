@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'unit_kegiatan_id',
+    ];
+
     protected static function booted(): void
     {
         static::addGlobalScope('unitKegiatan', function (Builder $query) {

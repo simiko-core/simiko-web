@@ -22,6 +22,11 @@ class UnitKegiatan extends Model
         'logo' => 'array',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function admins()
     {
         return $this->hasOne(Admin::class);
