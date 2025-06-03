@@ -29,6 +29,11 @@ class eventsController extends Controller
             ->orderBy("event_date", "desc")
             ->get();
 
+        // Check if the event exists
+        if (!$events) {
+            return response()->json(["message" => "Event not found"], 404);
+        }
+
         // return the data as a JSON response
         return response()->json($events);
     }
@@ -54,7 +59,30 @@ class eventsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // Find the event by ID
+        $event = Event::select(
+            "id",
+            "name",
+            "event_date",
+            "description",
+            "location",
+            "poster",
+            "is_paid",
+            "price",
+            "payment_methods",
+            "unit_kegiatan_id"
+        )
+            ->with("unitKegiatan:id,name,logo")
+            ->where("id", $id)
+            ->first();
+
+        // Check if the event exists
+        if (!$event) {
+            return response()->json(["message" => "Event not found"], 404);
+        }
+
+        // Return the event data as a JSON response
+        return response()->json($event);
     }
 
     /**

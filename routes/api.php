@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\api\authController;
 use App\Http\Controllers\api\eventsController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\postController;
 use App\Http\Controllers\api\ukmController;
@@ -16,3 +15,4 @@ Route::get("/post/{id}", [postController::class, "show"]);
 Route::get("/ukms", [ukmController::class, "index"]);
 
 Route::get("/events", [eventsController::class, "index"]);
+Route::get("/event/{id}", [eventsController::class, "show"]);
