@@ -36,6 +36,17 @@ class authController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+    {
+        // Revoke all tokens...
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            "status" => true,
+            "message" => "Successfully logged out",
+        ]);
+    }
+
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [

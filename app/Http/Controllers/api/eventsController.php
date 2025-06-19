@@ -29,29 +29,15 @@ class eventsController extends Controller
             ->orderBy("event_date", "desc")
             ->get();
 
-        // Check if the event exists
-        if (!$events) {
-            return response()->json(["message" => "Event not found"], 404);
-        }
-
         // return the data as a JSON response
-        return response()->json($events);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        return response()->json(
+            [
+                "status" => true,
+                "message" => "Events retrieved successfully",
+                "data" => $events,
+            ],
+            200
+        );
     }
 
     /**
@@ -76,36 +62,14 @@ class eventsController extends Controller
             ->where("id", $id)
             ->first();
 
-        // Check if the event exists
-        if (!$event) {
-            return response()->json(["message" => "Event not found"], 404);
-        }
-
         // Return the event data as a JSON response
-        return response()->json($event);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return response()->json(
+            [
+                "status" => true,
+                "message" => "Event retrieved successfully",
+                "data" => $event,
+            ],
+            200
+        );
     }
 }

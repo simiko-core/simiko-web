@@ -17,44 +17,39 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = "heroicon-o-rectangle-stack";
 
     protected static ?string $navigationGroup = "Manajemen Konten";
 
-    protected static ?string $navigationLabel = 'Post';
+    protected static ?string $navigationLabel = "Post";
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\RichEditor::make('content')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->height(40)
-                    ->width(30)
-                    ->directory('posts')
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ]);
+        return $form->schema([
+            Forms\Components\TextInput::make("title")
+                ->required()
+                ->maxLength(255),
+            Forms\Components\RichEditor::make("content")
+                ->required()
+                ->columnSpanFull(),
+            Forms\Components\FileUpload::make("image")
+                ->image()
+                ->directory("posts"),
+        ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
-            ->emptyStateHeading('Post')
-            ->emptyStateDescription('Tidak ada post yang ditemukan.')
+            ->emptyStateHeading("Post")
+            ->emptyStateDescription("Tidak ada post yang ditemukan.")
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Judul')
+                Tables\Columns\TextColumn::make("title")
+                    ->label("Judul")
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('Thumbnail'),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
+                Tables\Columns\ImageColumn::make("image")->label("Thumbnail"),
+                Tables\Columns\TextColumn::make("created_at")
+                    ->label("Dibuat Pada")
                     ->dateTime()
                     ->sortable(),
             ])
@@ -75,16 +70,16 @@ class PostResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
-        ];
+                //
+            ];
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPosts::route('/'),
-            'create' => Pages\CreatePost::route('/create'),
-            'edit' => Pages\EditPost::route('/{record}/edit'),
+            "index" => Pages\ListPosts::route("/"),
+            "create" => Pages\CreatePost::route("/create"),
+            "edit" => Pages\EditPost::route("/{record}/edit"),
         ];
     }
 }
