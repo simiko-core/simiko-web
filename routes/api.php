@@ -5,6 +5,7 @@ use App\Http\Controllers\api\eventsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\postController;
 use App\Http\Controllers\api\ukmController;
+use App\Http\Controllers\api\bannerController;
 
 Route::post("/login", [authController::class, "login"]);
 Route::post("/register", [authController::class, "register"]);
@@ -24,6 +25,9 @@ Route::middleware("auth:sanctum")->group(function () {
 
     // Profile UKM
     Route::get("/ukm/{id}/profile", [ukmController::class, "profile"]);
+
+    // Banner endpoint
+    Route::get("/banner", [bannerController::class, "index"]);
 
     // Add user profile endpoint for checking current user data
     // Route::get("/user/profile", [authController::class, "profile"]);
