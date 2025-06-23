@@ -113,4 +113,28 @@ class ukmController extends Controller
             201
         );
     }
+
+    /**
+     * Search UKM by name
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('q');
+        $ukmData = UnitKegiatan::select('id', 'name', 'logo')
+            ->when($query, function ($q) use ($query) {
+                $q->where('name', 'like', "%$query%");
+            })
+            ->with([
+                'unitKegiatanProfile' => function ($query) {
+                    $query->select('id', 'unit_kegiatan_id', 'description')->latest()->take(1);
+                },
+            ])
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'UKM search result',
+            'data' => $ukmData,
+        ], 200);
+    }
 }

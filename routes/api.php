@@ -31,4 +31,5 @@ Route::middleware("auth:sanctum")->group(function () {
 
     // Add user profile endpoint for checking current user data
     // Route::get("/user/profile", [authController::class, "profile"]);
+    Route::get("/ukms/search", [ukmController::class, "search"]);
 });
