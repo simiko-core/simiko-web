@@ -22,7 +22,7 @@ class bannerController extends Controller
                 return [
                     "id" => $banner->id,
                     "post_id" => $banner->post_id,
-                    "image_url" => Storage::url($banner->post->image),
+                    "image_url" => asset('storage/' . $banner->post->image),
                     "ukm" => $banner->post->unitKegiatan->alias,
                 ];
             }),
