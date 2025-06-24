@@ -14,23 +14,27 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+        // Run seeders in proper order
         $this->call([
-            UnitKegiatan::class,
-            ShieldSeeder::class,
-            UserSeeder::class,
-           
-            PostSeeder::class,
-            BannerSeeder::class,
-            EventSeeder::class,
-            EventCategorySeeder::class,
-            PendaftaranAnggotaSeeder::class,
-            UnitKegiatanProfileSeeder::class,
+            ShieldSeeder::class,           // Setup roles and permissions first
+            UnitKegiatanSeeder::class,     // Create UKMs
+            UserSeeder::class,             // Create users (including UKM admins)
+            UnitKegiatanProfileSeeder::class, // Create UKM profiles
+            PendaftaranAnggotaSeeder::class,  // Create registrations
+            FeedSeeder::class,             // Create feeds (posts and events)
+            AchievementSeeder::class,      // Create achievements
+            ActivityGallerySeeder::class,  // Create activity galleries
+            BannerSeeder::class,           // Create banners (depends on feeds)
         ]);
 
-        
-
-        // Create a super admin user & register shield to admin panel
-       
+        $this->command->info('🎉 All seeders completed successfully!');
+        $this->command->info('📊 Database Summary:');
+        $this->command->info('- Users: ' . User::count());
+        $this->command->info('- UKMs: ' . \App\Models\UnitKegiatan::count());
+        $this->command->info('- Feeds: ' . \App\Models\Feed::count());
+        $this->command->info('- Achievements: ' . \App\Models\Achievement::count());
+        $this->command->info('- Activity Galleries: ' . \App\Models\ActivityGallery::count());
+        $this->command->info('- Registrations: ' . \App\Models\PendaftaranAnggota::count());
+        $this->command->info('- Banners: ' . \App\Models\Banner::count());
     }
 }

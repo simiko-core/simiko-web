@@ -9,6 +9,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Table;
 
@@ -20,105 +21,154 @@ class FormPendaftaran extends Component implements HasForms, HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->emptyStateHeading('Pendaftaran Anggota')
-            ->emptyStateDescription('Tidak ada pendaftaran anggota yang ditemukan.')
+            ->emptyStateHeading('No Membership Applications')
+            ->emptyStateDescription('When students apply for membership, their applications will appear here for review.')
+            ->emptyStateIcon('heroicon-o-user-group')
             ->query(PendaftaranAnggota::query()->where('user_id', '!=', 1))
             ->columns([
+                ImageColumn::make('user.photo')
+                    ->label('Photo')
+                    ->circular()
+                    ->defaultImageUrl(url('/images/default-avatar.png'))
+                    ->size(40),
+
                 TextColumn::make('user.name')
-                    ->label('Nama Lengkap')
+                    ->label('Full Name')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->weight('semibold'),
 
                 TextColumn::make('user.email')
-                    ->label('Email')
+                    ->label('Email Address')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->color('gray'),
 
                 TextColumn::make('user.phone')
-                    ->label('Nomor Telepon')
+                    ->label('Phone Number')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->placeholder('Not provided'),
 
                 TextColumn::make('status')
                     ->badge()
-                    ->label('Status')
+                    ->label('Application Status')
                     ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'accepted' => 'success',
                         'rejected' => 'danger',
                     })
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
+                        'pending' => 'Pending Review',
+                        'accepted' => 'Accepted',
+                        'rejected' => 'Rejected',
+                        default => $state,
+                    })
+                    ->sortable(),
+
+                TextColumn::make('created_at')
+                    ->label('Applied Date')
+                    ->dateTime('M j, Y H:i')
                     ->sortable()
-                    ->searchable(),
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->filters([])
-            // ->headerActions([
-            //     \Filament\Tables\Actions\CreateAction::make()
-            //         ->icon('heroicon-o-plus')
-            //         ->label('Tambah Pendaftaran')
-            //         ->form([
-            //             \Filament\Forms\Components\TextInput::make('name')
-            //                 ->label('Nama Lengkap')
-            //                 ->required()
-            //                 ->placeholder('Masukkan nama lengkap'),
-
-            //             \Filament\Forms\Components\TextInput::make('email')
-            //                 ->label('Email')
-            //                 ->email()
-            //                 ->required()
-            //                 ->placeholder('Masukkan email'),
-
-            //             \Filament\Forms\Components\TextInput::make('phone'
-            //                 ->label('Nomor Telepon')
-            //                 ->tel()
-            //                 ->required()
-            //                 ->placeholder('Masukkan nomor telepon'),
-            //         ])
-            // ])
+            ->defaultSort('created_at', 'desc')
+            ->filters([
+                \Filament\Tables\Filters\SelectFilter::make('status')
+                    ->label('Application Status')
+                    ->options([
+                        'pending' => 'Pending',
+                        'accepted' => 'Accepted', 
+                        'rejected' => 'Rejected',
+                    ]),
+            ])
             ->actions([
-                \Filament\Tables\Actions\Action::make('terima')
-                    ->icon('heroicon-o-check')
-                    ->label('Terima')
+                \Filament\Tables\Actions\Action::make('accept')
+                    ->label('Accept')
+                    ->icon('heroicon-o-check-circle')
                     ->color('success')
                     ->requiresConfirmation()
+                    ->modalHeading('Accept Application?')
+                    ->modalDescription('This will approve the student\'s membership application.')
                     ->visible(fn(PendaftaranAnggota $record): bool => $record->status === 'pending')
                     ->action(function (PendaftaranAnggota $record) {
                         $record->update(['status' => 'accepted']);
                         Notification::make()
-                            ->title('Pendaftaran Diterima')
+                            ->title('Application Accepted')
+                            ->body("Successfully accepted {$record->user->name}'s membership application.")
                             ->success()
                             ->send();
                     }),
 
-                \Filament\Tables\Actions\Action::make('tolak')
-                    ->icon('heroicon-o-check')
-                    ->label('Tolak')
+                \Filament\Tables\Actions\Action::make('reject')
+                    ->label('Reject')
+                    ->icon('heroicon-o-x-circle')
                     ->color('danger')
                     ->requiresConfirmation()
+                    ->modalHeading('Reject Application?')
+                    ->modalDescription('This will reject the student\'s membership application.')
                     ->visible(fn(PendaftaranAnggota $record): bool => $record->status === 'pending')
                     ->action(function (PendaftaranAnggota $record) {
                         $record->update(['status' => 'rejected']);
                         Notification::make()
-                            ->title('Pendaftaran Diterima')
-                            ->success()
+                            ->title('Application Rejected')
+                            ->body("Rejected {$record->user->name}'s membership application.")
+                            ->warning()
                             ->send();
                     }),
 
-                \Filament\Tables\Actions\Action::make('hapus')
+                \Filament\Tables\Actions\Action::make('delete')
+                    ->label('Delete')
                     ->icon('heroicon-o-trash')
-                    ->label('Hapus')
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->visible(fn(PendaftaranAnggota $record): bool => $record->status === 'pending' || $record->status === 'rejected')
+                    ->modalHeading('Delete Application?')
+                    ->modalDescription('This action cannot be undone.')
+                    ->visible(fn(PendaftaranAnggota $record): bool => in_array($record->status, ['pending', 'rejected']))
                     ->action(function (PendaftaranAnggota $record) {
+                        $userName = $record->user->name;
                         $record->delete();
                         Notification::make()
-                            ->title('Pendaftaran Dihapus')
+                            ->title('Application Deleted')
+                            ->body("Deleted {$userName}'s membership application.")
                             ->success()
                             ->send();
                     }),
             ])
             ->bulkActions([
-                // ...
+                \Filament\Tables\Actions\BulkActionGroup::make([
+                    \Filament\Tables\Actions\BulkAction::make('accept_selected')
+                        ->label('Accept Selected')
+                        ->icon('heroicon-o-check-circle')
+                        ->color('success')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $count = $records->where('status', 'pending')->count();
+                            $records->where('status', 'pending')->each->update(['status' => 'accepted']);
+                            
+                            Notification::make()
+                                ->title('Applications Accepted')
+                                ->body("Successfully accepted {$count} membership applications.")
+                                ->success()
+                                ->send();
+                        }),
+
+                    \Filament\Tables\Actions\BulkAction::make('reject_selected')
+                        ->label('Reject Selected')
+                        ->icon('heroicon-o-x-circle')
+                        ->color('danger')
+                        ->requiresConfirmation()
+                        ->action(function (\Illuminate\Database\Eloquent\Collection $records) {
+                            $count = $records->where('status', 'pending')->count();
+                            $records->where('status', 'pending')->each->update(['status' => 'rejected']);
+                            
+                            Notification::make()
+                                ->title('Applications Rejected')
+                                ->body("Rejected {$count} membership applications.")
+                                ->warning()
+                                ->send();
+                        }),
+                ]),
             ]);
     }
 

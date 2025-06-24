@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Banner extends Model
 {
-    protected $fillable = ["post_id", "active"];
+    protected $fillable = ["feed_id", "active"];
 
-    public function post()
+    public function feed()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Feed::class);
     }
 }

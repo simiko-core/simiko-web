@@ -1,11 +1,9 @@
 <?php
 
 use App\Http\Controllers\api\authController;
-use App\Http\Controllers\api\eventsController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\api\postController;
 use App\Http\Controllers\api\ukmController;
 use App\Http\Controllers\api\bannerController;
+use App\Http\Controllers\api\feedController;
 
 Route::post("/login", [authController::class, "login"]);
 Route::post("/register", [authController::class, "register"]);
@@ -14,23 +12,29 @@ Route::post("/register", [authController::class, "register"]);
 Route::middleware("auth:sanctum")->group(function () {
     Route::post("/logout", [authController::class, "logout"]);
 
-    Route::get("/posts", [postController::class, "index"]);
-    Route::get("/post/{id}", [postController::class, "show"]);
     Route::get("/ukms", [ukmController::class, "index"]);
-    Route::get("/events", [eventsController::class, "index"]);
-    Route::get("/event/{id}", [eventsController::class, "show"]);
 
-    // UKM member registration requires authentication
+    // UKM registration
     Route::post("/ukm/{id}/register", [ukmController::class, "registerMember"]);
 
-    // Profile UKM
+    // UKM profile
     Route::get("/ukm/{id}/profile", [ukmController::class, "profile"]);
 
-    // Banner endpoint
+    // Banner
     Route::get("/banner", [bannerController::class, "index"]);
 
-    // Add user profile endpoint for checking current user data
-    Route::get("/user/profile", [authController::class, "profile"]); 
+    // User profile
+    Route::get("/user/profile", [authController::class, "profile"]);
+
     // Search UKM by name
     Route::get("/ukms/search", [ukmController::class, "search"]);
+
+    // New route for full UKM profile
+    Route::get('/ukm/{id}/profile-full', [App\Http\Controllers\api\ukmController::class, 'profileFull']);
+
+    // Unified Feed endpoints
+    Route::get("/feed", [feedController::class, "index"]);
+    Route::get("/feed/{id}", [feedController::class, "show"]);
+    Route::get("/posts", [feedController::class, "posts"]);
+    Route::get("/events", [feedController::class, "events"]);
 });

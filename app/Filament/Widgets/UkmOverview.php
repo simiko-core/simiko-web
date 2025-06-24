@@ -2,9 +2,8 @@
 
 namespace App\Filament\Widgets;
 
-use App\Models\Admin;
 use App\Models\UnitKegiatan;
-use App\Models\User;
+use App\Models\Admin;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 
@@ -13,15 +12,21 @@ class UkmOverview extends BaseWidget
     protected function getStats(): array
     {
         return [
-            // total ukm
             Stat::make('Total UKM', UnitKegiatan::count())
-                ->label('Total UKM')
-                ->icon('heroicon-o-users'),
+                ->description('Student Organizations')
+                ->color('success'),
 
-            // total user witout admin role
-            Stat::make('Total User', User::count() - Admin::count() - 1)
-                ->label('Total User')
-                ->icon('heroicon-o-user-group'),
+            Stat::make('UKM Admins', Admin::count())
+                ->description('Organization Administrators')
+                ->color('info'),
+
+            Stat::make('Open Registration', UnitKegiatan::where('open_registration', true)->count())
+                ->description('Accepting New Members')
+                ->color('warning'),
+
+            Stat::make('Closed Registration', UnitKegiatan::where('open_registration', false)->count())
+                ->description('Not Accepting Members')
+                ->color('gray'),
         ];
     }
 }

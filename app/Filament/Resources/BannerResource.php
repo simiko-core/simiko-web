@@ -17,18 +17,29 @@ class BannerResource extends Resource
 {
     protected static ?string $model = Banner::class;
 
-    protected static ?string $navigationIcon = "heroicon-o-rectangle-stack";
+    protected static ?string $navigationIcon = "heroicon-o-megaphone";
+
+    protected static ?string $navigationGroup = 'Content Management';
+
+    protected static ?string $navigationLabel = 'Promotional Banners';
+
+    protected static ?string $modelLabel = 'Banner';
+
+    protected static ?string $pluralModelLabel = 'Promotional Banners';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form->schema([
-            Forms\Components\Section::make("Informasi Banner")
+            Forms\Components\Section::make("Banner Configuration")
                 ->description(
-                    "Lengkapi informasi banner yang akan ditampilkan di aplikasi"
+                    "Create promotional banners from existing posts and events to highlight important content"
                 )
                 ->schema([
-                    Forms\Components\Select::make("post_id")
-                        ->relationship("post", "title", function (
+                    Forms\Components\Select::make("feed_id")
+                        ->label("Select Content to Promote")
+                        ->relationship("feed", "title", function (
                             Builder $query,
                             $livewire
                         ) {
@@ -41,16 +52,25 @@ class BannerResource extends Resource
                                 ) {
                                     $q->orWhere(
                                         "id",
-                                        $livewire->record->post_id
+                                        $livewire->record->feed_id
                                     );
                                 }
                             });
                         })
-                        ->label("Post Terkait")
+                        ->getOptionLabelFromRecordUsing(fn ($record) => 
+                            "{$record->unitKegiatan->alias} - {$record->title} ({$record->type})"
+                        )
                         ->required()
                         ->searchable()
-                        ->preload(),
+                        ->preload()
+                        ->helperText('Choose a post or event to feature as a banner. Only content without existing banners is shown.'),
+
+                    Forms\Components\Toggle::make('active')
+                        ->label('Banner Active')
+                        ->helperText('Enable to display this banner to users')
+                        ->default(true),
                 ])
+                ->columns(2)
                 ->collapsible(),
         ]);
     }
@@ -59,23 +79,85 @@ class BannerResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make("post.title")
-                    ->label("Post Terkait")
-                    ->searchable(),
+                Tables\Columns\ImageColumn::make("feed.image")
+                    ->label("Preview")
+                    ->disk('public')
+                    ->square()
+                    ->size(80),
+
+                Tables\Columns\TextColumn::make("feed.unitKegiatan.name")
+                    ->label("Organization")
+                    ->searchable()
+                    ->sortable()
+                    ->weight('medium')
+                    ->color('info'),
+
+                Tables\Columns\TextColumn::make("feed.title")
+                    ->label("Content Title")
+                    ->searchable()
+                    ->sortable()
+                    ->weight('semibold')
+                    ->limit(50)
+                    ->wrap(),
+
+                Tables\Columns\TextColumn::make("feed.type")
+                    ->label("Type")
+                    ->badge()
+                    ->color(fn (string $state): string => match($state) {
+                        'post' => 'info',
+                        'event' => 'success',
+                        default => 'gray',
+                    })
+                    ->formatStateUsing(fn (string $state): string => match($state) {
+                        'post' => 'Post',
+                        'event' => 'Event',
+                        default => $state,
+                    }),
+
+                Tables\Columns\IconColumn::make('active')
+                    ->label('Status')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+
                 Tables\Columns\TextColumn::make("created_at")
-                    ->label("Dibuat Pada")
-                    ->dateTime()
-                    ->sortable(),
+                    ->label("Created")
+                    ->dateTime('M j, Y H:i')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('created_at', 'desc')
             ->filters([
-                //
+                Tables\Filters\TernaryFilter::make('active')
+                    ->label('Banner Status')
+                    ->placeholder('All banners')
+                    ->trueLabel('Active banners')
+                    ->falseLabel('Inactive banners'),
+
+                Tables\Filters\SelectFilter::make('feed.type')
+                    ->label('Content Type')
+                    ->options([
+                        'post' => 'Posts',
+                        'event' => 'Events',
+                    ]),
             ])
-            ->actions([Tables\Actions\DeleteAction::make()])
+            ->actions([
+                Tables\Actions\EditAction::make()
+                    ->label('Edit Banner'),
+                Tables\Actions\DeleteAction::make()
+                    ->label('Remove Banner'),
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->label('Remove Selected Banners'),
                 ]),
-            ]);
+            ])
+            ->emptyStateHeading('No Promotional Banners')
+            ->emptyStateDescription('Create banners to highlight important posts and events on the main page.')
+            ->emptyStateIcon('heroicon-o-megaphone');
     }
 
     public static function getRelations(): array

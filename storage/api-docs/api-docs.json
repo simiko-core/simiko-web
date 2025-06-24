@@ -1,0 +1,1267 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Simiko API",
+        "description": "API documentation for Simiko - Student Activity Management System",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000/api",
+            "description": "Local development server"
+        },
+        {
+            "url": "https://simiko.rizkirmdhn.web.id/api",
+            "description": "Production server"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User login",
+                "operationId": "575a44b94e760800b8194882769f5c35",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "Bearer"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User logout",
+                "operationId": "76d07f1430d357ac05fc10a1e5c4be7b",
+                "responses": {
+                    "200": {
+                        "description": "Logout successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "User registration",
+                "operationId": "29ed8e4ea14b7cb1e04e7e04e77ea507",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "08123456789"
+                                    },
+                                    "img_photo": {
+                                        "description": "Profile photo (JPG, PNG, GIF, SVG max 2MB)",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Registration successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration successful"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "access_token": {
+                                                    "type": "string"
+                                                },
+                                                "token_type": {
+                                                    "type": "string",
+                                                    "example": "Bearer"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/User"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/user/profile": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user profile",
+                "operationId": "404212f8dd161d3a10f389fafd2347c1",
+                "responses": {
+                    "200": {
+                        "description": "Profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Profile retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserProfile"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/banner": {
+            "get": {
+                "tags": [
+                    "Banner"
+                ],
+                "summary": "Get active banners",
+                "description": "Retrieve a list of all active banners with associated feed information",
+                "operationId": "1253c1c2387f9661fbb178b90aac4851",
+                "responses": {
+                    "200": {
+                        "description": "Banners retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Banner"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/feed": {
+            "get": {
+                "tags": [
+                    "Feeds"
+                ],
+                "summary": "Get all feeds (posts and events)",
+                "description": "Retrieve a list of all feeds including posts and events with optional filtering",
+                "operationId": "f3d0fca51d413f454a4f508bf62fc12d",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "Filter by feed type",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "post",
+                                "event"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "ukm_id",
+                        "in": "query",
+                        "description": "Filter by UKM ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feed retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Feed retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FeedSummary"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/feed/{id}": {
+            "get": {
+                "tags": [
+                    "Feeds"
+                ],
+                "summary": "Get specific feed item",
+                "description": "Retrieve detailed information about a specific feed item by ID",
+                "operationId": "d9cd72d7891395525a60caaeff095ed2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Feed ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Feed item retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Feed item retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/FeedDetail"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Feed item not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/posts": {
+            "get": {
+                "tags": [
+                    "Feeds"
+                ],
+                "summary": "Get posts only",
+                "description": "Retrieve a list of posts only (excludes events)",
+                "operationId": "4c3f4aacd6a974d6fb5600858ae109d9",
+                "parameters": [
+                    {
+                        "name": "ukm_id",
+                        "in": "query",
+                        "description": "Filter by UKM ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Posts retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Feed retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FeedSummary"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/events": {
+            "get": {
+                "tags": [
+                    "Feeds"
+                ],
+                "summary": "Get events only",
+                "description": "Retrieve a list of events only (excludes posts)",
+                "operationId": "6609e0a577d5d62add8efc4f6e26a430",
+                "parameters": [
+                    {
+                        "name": "ukm_id",
+                        "in": "query",
+                        "description": "Filter by UKM ID",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Events retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Feed retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/FeedSummary"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/ukms": {
+            "get": {
+                "tags": [
+                    "UKM"
+                ],
+                "summary": "Get all UKMs",
+                "description": "Retrieve a list of all Unit Kegiatan Mahasiswa (UKMs) with their latest profiles",
+                "operationId": "4fe14f9be48fceb456c320f5e8da4a23",
+                "responses": {
+                    "200": {
+                        "description": "UKM data retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "UKM data retrieved successfully"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UkmSummary"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/ukm/{id}/profile": {
+            "get": {
+                "tags": [
+                    "UKM"
+                ],
+                "summary": "Get UKM profile",
+                "description": "Retrieve basic profile information for a specific UKM",
+                "operationId": "7b5bd2a97db59e6ef501765f1816f1c3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UKM ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UKM profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "UKM profile retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UkmProfile"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "UKM not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/ukm/{id}/register": {
+            "post": {
+                "tags": [
+                    "UKM"
+                ],
+                "summary": "Register for UKM membership",
+                "description": "Submit a membership registration request to a specific UKM",
+                "operationId": "84849eb96c8327800bbc1e08f7e0027e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UKM ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Registration submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Registration submitted successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/RegistrationData"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Already registered",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are already registered for this UKM"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "UKM not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Registration failed"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/ukms/search": {
+            "get": {
+                "tags": [
+                    "UKM"
+                ],
+                "summary": "Search UKMs",
+                "description": "Search for UKMs by name with optional query parameter",
+                "operationId": "56bc23a9a72abf4c232da68bb40f6879",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Search query for UKM name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UKM search result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "UKM search result"
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UkmSummary"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/ukm/{id}/profile-full": {
+            "get": {
+                "tags": [
+                    "UKM"
+                ],
+                "summary": "Get complete UKM profile",
+                "description": "Retrieve comprehensive profile information including achievements, recent posts, and activity gallery",
+                "operationId": "0110006e2792f17177c23e05b78455a0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "UKM ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "UKM full profile retrieved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "UKM full profile retrieved successfully"
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UkmFullProfile"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "UKM not found"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "08123456789"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UserProfile": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "phone": {
+                        "type": "string",
+                        "example": "08123456789"
+                    },
+                    "photo_url": {
+                        "type": "string",
+                        "example": "https://example.com/photo.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "FeedSummary": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "post",
+                            "event"
+                        ],
+                        "example": "post"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Sample Post Title"
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "ukm_alias": {
+                        "type": "string",
+                        "example": "HMIF"
+                    }
+                },
+                "type": "object"
+            },
+            "FeedDetail": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": [
+                            "post",
+                            "event"
+                        ],
+                        "example": "event"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Tech Workshop 2024"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Join us for an exciting tech workshop..."
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "event_date": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "2024-12-25"
+                    },
+                    "event_type": {
+                        "type": "string",
+                        "enum": [
+                            "online",
+                            "offline"
+                        ],
+                        "example": "offline"
+                    },
+                    "location": {
+                        "type": "string",
+                        "example": "Building A, 3rd Floor"
+                    },
+                    "is_paid": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "price": {
+                        "type": "number",
+                        "example": 50000
+                    },
+                    "payment_methods": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "method": {
+                                    "type": "string",
+                                    "example": "Bank Transfer"
+                                },
+                                "account_number": {
+                                    "type": "string",
+                                    "example": "1234567890"
+                                },
+                                "account_name": {
+                                    "type": "string",
+                                    "example": "HMIF UNS"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "ukm": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Himpunan Mahasiswa Informatika"
+                            },
+                            "alias": {
+                                "type": "string",
+                                "example": "HMIF"
+                            },
+                            "logo_url": {
+                                "type": "string",
+                                "example": "https://example.com/logo.jpg"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UkmSummary": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Himpunan Mahasiswa Informatika"
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "logo_unit_kegiatan/hmif-logo.png"
+                    },
+                    "unit_kegiatan_profile": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "unit_kegiatan_id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "Student organization for computer science students"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UkmProfile": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Himpunan Mahasiswa Informatika"
+                    },
+                    "logo": {
+                        "type": "string",
+                        "example": "logo_unit_kegiatan/hmif-logo.png"
+                    },
+                    "unit_kegiatan_profile": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "unit_kegiatan_id": {
+                                    "type": "integer",
+                                    "example": 1
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "Detailed description of the UKM"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "UkmFullProfile": {
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "example": "Comprehensive description of the UKM"
+                    },
+                    "vision": {
+                        "type": "string",
+                        "example": "Our vision statement"
+                    },
+                    "mission": {
+                        "type": "string",
+                        "example": "Our mission statement"
+                    },
+                    "achievements": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "title": {
+                                    "type": "string",
+                                    "example": "Programming Competition Winner"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "Won first place in national programming competition"
+                                },
+                                "image_url": {
+                                    "type": "string",
+                                    "example": "https://example.com/achievement.jpg"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "recent_posts": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "title": {
+                                    "type": "string",
+                                    "example": "Recent Activity Post"
+                                },
+                                "type": {
+                                    "type": "string",
+                                    "enum": [
+                                        "post",
+                                        "event"
+                                    ],
+                                    "example": "post"
+                                },
+                                "image_url": {
+                                    "type": "string",
+                                    "example": "https://example.com/post.jpg"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "activity_gallery": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "image_url": {
+                                    "type": "string",
+                                    "example": "https://example.com/gallery.jpg"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "RegistrationData": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "user_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "unit_kegiatan_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "accepted",
+                            "rejected"
+                        ],
+                        "example": "pending"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "Banner": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "feed_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "image_url": {
+                        "type": "string",
+                        "example": "https://example.com/banner.jpg"
+                    },
+                    "ukm": {
+                        "type": "string",
+                        "example": "HMIF"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Authentication"
+        },
+        {
+            "name": "User",
+            "description": "User"
+        },
+        {
+            "name": "Banner",
+            "description": "Banner"
+        },
+        {
+            "name": "Feeds",
+            "description": "Feeds"
+        },
+        {
+            "name": "UKM",
+            "description": "UKM"
+        }
+    ]
+}

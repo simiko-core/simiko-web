@@ -24,8 +24,9 @@ class UkmPanelPanelProvider extends PanelProvider
     {
         return $panel
             ->id('ukmPanel')
-            ->path('ukmPanel')
+            ->path('admin-panel')
             ->login()
+            ->brandName('Simiko')
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -38,6 +39,7 @@ class UkmPanelPanelProvider extends PanelProvider
             ->widgets([
                 // Widgets\AccountWidget::class,
                 // Widgets\FilamentInfoWidget::class,
+                \App\Filament\UkmPanel\Widgets\UkmOverview::class,
             ])
             ->middleware([
                 EncryptCookies::class,

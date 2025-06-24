@@ -2,13 +2,17 @@
 
 namespace App\Providers;
 
-use App\Models\Event;
-use App\Models\Post;
 use App\Models\UnitKegiatan;
 use App\Models\UnitKegiatanProfile;
-use App\Observers\EventObserver;
-use App\Observers\PostObserver;
+use App\Models\Achievement;
+use App\Models\ActivityGallery;
+use App\Models\Feed;
+use App\Models\Admin;
 use App\Observers\UnitKegiatanProfileObserver;
+use App\Observers\AchievementObserver;
+use App\Observers\ActivityGalleryObserver;
+use App\Observers\FeedObserver;
+use App\Observers\AdminObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,8 +32,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::unguard();
-        Post::observe(PostObserver::class);
-        Event::observe(EventObserver::class);
         UnitKegiatanProfile::observe(UnitKegiatanProfileObserver::class);
+        Achievement::observe(AchievementObserver::class);
+        ActivityGallery::observe(ActivityGalleryObserver::class);
+        Feed::observe(FeedObserver::class);
+        Admin::observe(AdminObserver::class);
     }
 }

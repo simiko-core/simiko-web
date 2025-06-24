@@ -21,8 +21,16 @@ class UnitKegiatan extends Model
     //     });
     // }
 
+    protected $fillable = [
+        'name',
+        'alias', 
+        'logo',
+        'open_registration',
+    ];
+
     protected $casts = [
         'logo' => 'array',
+        'open_registration' => 'boolean',
     ];
 
     protected $hidden = [
@@ -35,23 +43,28 @@ class UnitKegiatan extends Model
         return $this->hasOne(Admin::class);
     }
 
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    }
-
     public function pendaftaranAnggota()
     {
         return $this->hasMany(PendaftaranAnggota::class);
     }
 
-    public function events()
-    {
-        return $this->hasMany(Event::class);
-    }
-
     public function unitKegiatanProfile()
     {
         return $this->hasMany(UnitKegiatanProfile::class);
+    }
+
+    public function achievements()
+    {
+        return $this->hasMany(Achievement::class);
+    }
+
+    public function activityGalleries()
+    {
+        return $this->hasMany(ActivityGallery::class);
+    }
+
+    public function feeds()
+    {
+        return $this->hasMany(Feed::class);
     }
 }

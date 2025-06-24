@@ -6,12 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Models\PendaftaranAnggota;
 use App\Models\UnitKegiatan;
 use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
 
 class ukmController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    #[OA\Get(
+        path: "/ukms",
+        summary: "Get all UKMs",
+        description: "Retrieve a list of all Unit Kegiatan Mahasiswa (UKMs) with their latest profiles",
+        security: [["bearerAuth" => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "UKM data retrieved successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "message", type: "string", example: "UKM data retrieved successfully"),
+                        new OA\Property(
+                            property: "data",
+                            type: "array",
+                            items: new OA\Items(ref: "#/components/schemas/UkmSummary")
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: "Unauthorized")
+        ],
+        tags: ["UKM"]
+    )]
     public function index()
     {
         $ukmData = UnitKegiatan::select("id", "name", "logo")
@@ -36,9 +59,37 @@ class ukmController extends Controller
         );
     }
 
-    /**
-     * Display profile ukm.
-     */
+    #[OA\Get(
+        path: "/ukm/{id}/profile",
+        summary: "Get UKM profile",
+        description: "Retrieve basic profile information for a specific UKM",
+        security: [["bearerAuth" => []]],
+        parameters: [
+            new OA\Parameter(
+                name: "id",
+                description: "UKM ID",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "UKM profile retrieved successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "message", type: "string", example: "UKM profile retrieved successfully"),
+                        new OA\Property(property: "data", ref: "#/components/schemas/UkmProfile")
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: "UKM not found"),
+            new OA\Response(response: 401, description: "Unauthorized")
+        ],
+        tags: ["UKM"]
+    )]
     public function profile(string $id)
     {
         // Find the UKM by ID
@@ -61,9 +112,48 @@ class ukmController extends Controller
         );
     }
 
-    /**
-     * Register a new member for a UKM
-     */
+    #[OA\Post(
+        path: "/ukm/{id}/register",
+        summary: "Register for UKM membership",
+        description: "Submit a membership registration request to a specific UKM",
+        security: [["bearerAuth" => []]],
+        parameters: [
+            new OA\Parameter(
+                name: "id",
+                description: "UKM ID",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Registration submitted successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "message", type: "string", example: "Registration submitted successfully"),
+                        new OA\Property(property: "data", ref: "#/components/schemas/RegistrationData")
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 400,
+                description: "Already registered",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "status", type: "boolean", example: false),
+                        new OA\Property(property: "message", type: "string", example: "You are already registered for this UKM")
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: "UKM not found"),
+            new OA\Response(response: 401, description: "Unauthorized"),
+            new OA\Response(response: 500, description: "Registration failed")
+        ],
+        tags: ["UKM"]
+    )]
     public function registerMember(Request $request, string $id)
     {
         // Get the authenticated user
@@ -114,9 +204,40 @@ class ukmController extends Controller
         );
     }
 
-    /**
-     * Search UKM by name
-     */
+    #[OA\Get(
+        path: "/ukms/search",
+        summary: "Search UKMs",
+        description: "Search for UKMs by name with optional query parameter",
+        security: [["bearerAuth" => []]],
+        parameters: [
+            new OA\Parameter(
+                name: "q",
+                description: "Search query for UKM name",
+                in: "query",
+                required: false,
+                schema: new OA\Schema(type: "string")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "UKM search result",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "message", type: "string", example: "UKM search result"),
+                        new OA\Property(
+                            property: "data",
+                            type: "array",
+                            items: new OA\Items(ref: "#/components/schemas/UkmSummary")
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: "Unauthorized")
+        ],
+        tags: ["UKM"]
+    )]
     public function search(Request $request)
     {
         $query = $request->input('q');
@@ -135,6 +256,82 @@ class ukmController extends Controller
             'status' => true,
             'message' => 'UKM search result',
             'data' => $ukmData,
+        ], 200);
+    }
+
+    #[OA\Get(
+        path: "/ukm/{id}/profile-full",
+        summary: "Get complete UKM profile",
+        description: "Retrieve comprehensive profile information including achievements, recent posts, and activity gallery",
+        security: [["bearerAuth" => []]],
+        parameters: [
+            new OA\Parameter(
+                name: "id",
+                description: "UKM ID",
+                in: "path",
+                required: true,
+                schema: new OA\Schema(type: "integer")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "UKM full profile retrieved successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "message", type: "string", example: "UKM full profile retrieved successfully"),
+                        new OA\Property(property: "data", ref: "#/components/schemas/UkmFullProfile")
+                    ]
+                )
+            ),
+            new OA\Response(response: 404, description: "UKM not found"),
+            new OA\Response(response: 401, description: "Unauthorized")
+        ],
+        tags: ["UKM"]
+    )]
+    public function profileFull(string $id)
+    {
+        $ukm = \App\Models\UnitKegiatan::with([
+            'unitKegiatanProfile' => function ($query) {
+                $query->orderByDesc('period')->limit(1);
+            },
+            'achievements:id,unit_kegiatan_id,title,image,description',
+            'feeds' => function ($query) {
+                $query->orderByDesc('created_at')->limit(5)->select('id','unit_kegiatan_id','title','image','content','type');
+            },
+            'activityGalleries:id,unit_kegiatan_id,image'
+        ])->findOrFail($id);
+
+        $profile = $ukm->unitKegiatanProfile->first();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'UKM full profile retrieved successfully',
+            'data' => [
+                'description' => $profile?->description,
+                'vision' => $profile?->vision,
+                'mission' => $profile?->mission,
+                'achievements' => $ukm->achievements->map(function($a) {
+                    return [
+                        'title' => $a->title,
+                        'description' => $a->description,
+                        'image_url' => asset('storage/' . $a->image),
+                    ];
+                }),
+                'recent_posts' => $ukm->feeds->map(function($f) {
+                    return [
+                        'title' => $f->title,
+                        'type' => $f->type,
+                        'image_url' => asset('storage/' . $f->image),
+                    ];
+                }),
+                'activity_gallery' => $ukm->activityGalleries->map(function($g) {
+                    return [
+                        'image_url' => asset('storage/' . $g->image),
+                    ];
+                }),
+            ]
         ], 200);
     }
 }

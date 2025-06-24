@@ -10,12 +10,20 @@ use Illuminate\Support\Facades\Auth;
 
 class PendaftaranPage extends Page
 {
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    protected static ?string $navigationIcon = 'heroicon-o-user-plus';
+    
     protected static string $view = 'filament.ukm-panel.pages.pendaftaran-page';
-    protected static ?string $navigationLabel = 'Pendaftaran';
-    protected static ?string $navigationGroup = 'Management Member';
-    protected ?string $heading = 'Form Pendaftaran';
-    protected ?string $subheading = 'Silakan isi form pendaftaran di bawah ini';
+    
+    protected static ?string $navigationLabel = 'Member Registration';
+    
+    protected static ?string $navigationGroup = 'Member Management';
+    
+    protected static ?int $navigationSort = 1;
+    
+    protected ?string $heading = 'Member Registration Management';
+    
+    protected ?string $subheading = 'Manage new member applications and control registration status';
+    
     public $unitKegiatan;
     public $isOpenPendaftaran;
     public $unitKegiatanId;
@@ -29,20 +37,30 @@ class PendaftaranPage extends Page
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('Toggle Pendaftaran')
-                ->icon($this->isOpenPendaftaran ? 'heroicon-o-x-mark' : 'heroicon-o-check')
+            Action::make('toggleRegistration')
+                ->label($this->isOpenPendaftaran ? 'Close Registration' : 'Open Registration')
+                ->icon($this->isOpenPendaftaran ? 'heroicon-o-lock-closed' : 'heroicon-o-lock-open')
                 ->color($this->isOpenPendaftaran ? 'danger' : 'success')
-                ->label($this->isOpenPendaftaran ? 'Tutup Pendaftaran' : 'Buka Pendaftaran')
                 ->action(function () {
                     $this->unitKegiatan->open_registration = !$this->unitKegiatan->open_registration;
                     $this->unitKegiatan->save();
                     $this->isOpenPendaftaran = $this->unitKegiatan->open_registration;
+                    
                     Notification::make()
-                        ->title('Pendaftaran ' . ($this->isOpenPendaftaran ? 'dibuka' : 'ditutup'))
+                        ->title($this->isOpenPendaftaran ? 'Registration Opened' : 'Registration Closed')
+                        ->body($this->isOpenPendaftaran 
+                            ? 'Students can now apply for membership' 
+                            : 'New membership applications are now disabled'
+                        )
                         ->success()
                         ->send();
                 })
                 ->requiresConfirmation()
+                ->modalHeading($this->isOpenPendaftaran ? 'Close Registration?' : 'Open Registration?')
+                ->modalDescription($this->isOpenPendaftaran 
+                    ? 'This will prevent new students from applying for membership.' 
+                    : 'This will allow students to submit membership applications.'
+                )
         ];
     }
 }
