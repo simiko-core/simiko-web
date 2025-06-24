@@ -82,4 +82,16 @@ class authController extends Controller
             201
         );
     }
+
+    public function profile(Request $request) {
+        return response()->json([
+            "user" => [
+                "id" => $request->user()->id,
+                "name" => $request->user()->name,
+                "email" => $request->user()->email,
+                "phone" => $request->user()->phone,
+                "photo_url" => $request->user()->photo ? asset('storage/' . $request->user()->photo) : null,
+            ],
+        ]);
+    }
 }

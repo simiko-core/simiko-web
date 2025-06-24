@@ -30,6 +30,7 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get("/banner", [bannerController::class, "index"]);
 
     // Add user profile endpoint for checking current user data
-    // Route::get("/user/profile", [authController::class, "profile"]);
+    Route::get("/user/profile", [authController::class, "profile"]); 
+    // Search UKM by name
     Route::get("/ukms/search", [ukmController::class, "search"]);
 });
