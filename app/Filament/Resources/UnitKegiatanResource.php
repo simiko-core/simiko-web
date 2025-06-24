@@ -34,6 +34,13 @@ class UnitKegiatanResource extends Resource
                                     ->maxLength(255)
                                     ->helperText('Nama lengkap unit kegiatan (contoh: UKM Fotografi)'),
 
+                                Forms\Components\TextInput::make('alias')
+                                    ->label('Alias Unit Kegiatan')
+                                    ->placeholder('Masukkan alias unit kegiatan')
+                                    ->required()
+                                    ->maxLength(50)
+                                    ->helperText('Alias singkat unit kegiatan (contoh: HMIF)'),
+
                                 Forms\Components\FileUpload::make('logo')
                                     ->label('Upload Logo')
                                     ->image()
@@ -57,6 +64,10 @@ class UnitKegiatanResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->label('Nama Unit Kegiatan')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('alias')
+                    ->label('Alias Unit Kegiatan')
                     ->searchable()
                     ->sortable(),
 

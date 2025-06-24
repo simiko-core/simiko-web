@@ -17,11 +17,13 @@ class bannerController extends Controller
 
         return response()->json([
             "status" => "success",
+            
             "data" => $banners->map(function ($banner) {
                 return [
                     "id" => $banner->id,
                     "post_id" => $banner->post_id,
                     "image_url" => Storage::url($banner->post->image),
+                    "ukm" => $banner->post->unitKegiatan->alias,
                 ];
             }),
         ]);
