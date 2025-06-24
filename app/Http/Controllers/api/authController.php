@@ -54,6 +54,7 @@ class authController extends Controller
             "email" => "required|string|email|max:255|unique:users",
             "password" => "required|string|min:6",
             "phone" => "nullable|string|max:20",
+            "img_photo" => "nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048",
         ]);
 
         if ($validator->fails()) {
@@ -65,6 +66,9 @@ class authController extends Controller
             "email" => $request->email,
             "password" => Hash::make($request->password),
             "phone" => $request->phone,
+            "photo" => $request->file("img_photo")
+                ? $request->file("img_photo")->store("profile_photos", "public")
+                : null,
         ]);
 
         $token = $user->createToken("auth_token")->plainTextToken;
