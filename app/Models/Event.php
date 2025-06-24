@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
+    use HasFactory;
 
     protected $casts = [
         'payment_methods' => 'array',

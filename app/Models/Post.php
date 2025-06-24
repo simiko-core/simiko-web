@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use HasFactory;
+
     protected $hidden = ["created_at", "updated_at", "unit_kegiatan_id"];
 
     protected static function booted(): void

@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Filament\Facades\Filament;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UnitKegiatan extends Model
 {
+    use HasFactory;
+
     // protected static function booted(): void
     // {
     //     static::addGlobalScope('unitKegiatan', function (Builder $query) {

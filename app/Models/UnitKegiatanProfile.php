@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Filament\Facades\Filament;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class UnitKegiatanProfile extends Model
 {
+    use HasFactory;
 
     protected $hidden = [
         'created_at',
