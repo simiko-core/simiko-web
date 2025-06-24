@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UnitKegiatan::class,
             ShieldSeeder::class,
-            //UserSeeder::class,
-            //AdminSeeder::class,
+            UserSeeder::class,
+           
             PostSeeder::class,
             BannerSeeder::class,
             EventSeeder::class,
@@ -28,14 +28,9 @@ class DatabaseSeeder extends Seeder
             UnitKegiatanProfileSeeder::class,
         ]);
 
-        User::factory()->create([
-            'name' => 'Super Admin',
-            'email' => 'superadmin@gmail.com',
-            'password' => bcrypt('superadmin'),
-        ]);
+        
 
         // Create a super admin user & register shield to admin panel
-        Artisan::call('shield:super-admin');
-        Artisan::call('shield:install admin');
+       
     }
 }

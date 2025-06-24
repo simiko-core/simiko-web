@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean("open_registration")->default(false);
             $table->string("logo")->nullable();
             $table->timestamps();
+            $table->index('name');
         });
     }
 

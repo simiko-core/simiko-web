@@ -20,6 +20,9 @@ return new class extends Migration {
                 ->onDelete("cascade");
             $table->boolean("active")->default(true);
             $table->timestamps();
+
+            $table->index('post_id');
+            $table->index('active');
         });
     }
 

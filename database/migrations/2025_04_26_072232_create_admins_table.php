@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(UnitKegiatan::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
+
+            $table->index('user_id');
+            $table->index('unit_kegiatan_id');
         });
     }
 

@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('event_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->index('name');
             $table->timestamps();
         });
 
@@ -23,6 +24,8 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Event::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(EventCategory::class)->constrained()->onDelete('cascade');
+            $table->index('event_id');
+            $table->index('event_category_id');
         });
     }
 

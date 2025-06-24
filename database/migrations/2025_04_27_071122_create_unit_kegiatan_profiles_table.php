@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text("description");
             $table->integer("period");
             $table->timestamps();
+
+            $table->index('unit_kegiatan_id');
+            $table->index('period');
         });
     }
 

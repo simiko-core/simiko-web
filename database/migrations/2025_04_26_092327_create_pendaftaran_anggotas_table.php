@@ -19,6 +19,10 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->string('status')->default('pending'); // pending, accepted, rejected
             $table->timestamps();
+
+            $table->index('unit_kegiatan_id');
+            $table->index('user_id');
+            $table->index('status');
         });
     }
 

@@ -19,6 +19,9 @@ return new class extends Migration
             $table->text('content');
             $table->string('image')->nullable();
             $table->timestamps();
+
+            $table->index('unit_kegiatan_id');
+            $table->index('title');
         });
     }
 

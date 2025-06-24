@@ -25,6 +25,11 @@ return new class extends Migration
             $table->unsignedInteger('price')->nullable();
             $table->string('payment_methods')->nullable();
             $table->timestamps();
+
+            $table->index('unit_kegiatan_id');
+            $table->index('event_date');
+            $table->index('event_type');
+            $table->index('is_paid');
         });
     }
 
