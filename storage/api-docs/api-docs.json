@@ -1041,29 +1041,21 @@
                         "type": "string",
                         "example": "Himpunan Mahasiswa Informatika"
                     },
+                    "alias": {
+                        "type": "string",
+                        "example": "HMIF"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "Himpunan"
+                    },
                     "logo": {
                         "type": "string",
                         "example": "logo_unit_kegiatan/hmif-logo.png"
                     },
-                    "unit_kegiatan_profile": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "id": {
-                                    "type": "integer",
-                                    "example": 1
-                                },
-                                "unit_kegiatan_id": {
-                                    "type": "integer",
-                                    "example": 1
-                                },
-                                "description": {
-                                    "type": "string",
-                                    "example": "Student organization for computer science students"
-                                }
-                            },
-                            "type": "object"
-                        }
+                    "description": {
+                        "type": "string",
+                        "example": "Student organization for computer science students"
                     }
                 },
                 "type": "object"
@@ -1077,6 +1069,14 @@
                     "name": {
                         "type": "string",
                         "example": "Himpunan Mahasiswa Informatika"
+                    },
+                    "alias": {
+                        "type": "string",
+                        "example": "HMIF"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "Himpunan"
                     },
                     "logo": {
                         "type": "string",

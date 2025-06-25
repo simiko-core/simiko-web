@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PendaftaranAnggota;
 use App\Models\UnitKegiatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use OpenApi\Attributes as OA;
 
 class ukmController extends Controller
@@ -37,7 +38,7 @@ class ukmController extends Controller
     )]
     public function index()
     {
-        $ukmData = UnitKegiatan::select("id", "name", "logo")
+        $ukmData = UnitKegiatan::select("id", "name", "alias", "category", "logo")
             ->with([
                 "unitKegiatanProfile" => function ($query) {
                     $query
@@ -46,7 +47,17 @@ class ukmController extends Controller
                         ->take(1);
                 },
             ])
-            ->get();
+            ->get()
+            ->map(function ($ukm) {
+                return [
+                    'id' => $ukm->id,
+                    'name' => $ukm->name,
+                    'alias' => $ukm->alias,
+                    'category' => $ukm->category,
+                    'logo' => url(Storage::url($ukm->logo)),
+                    'description' => $ukm->unitKegiatanProfile->first()?->description ?? null,
+                ];
+            });
 
         // Return the data as a JSON response
         return response()->json(
@@ -93,7 +104,7 @@ class ukmController extends Controller
     public function profile(string $id)
     {
         // Find the UKM by ID
-        $ukm = UnitKegiatan::select("id", "name", "logo")
+        $ukm = UnitKegiatan::select("id", "name", "alias", "category", "logo")
             ->with([
                 "unitKegiatanProfile" => function ($query) {
                     $query->select("id", "unit_kegiatan_id", "description");
@@ -241,16 +252,30 @@ class ukmController extends Controller
     public function search(Request $request)
     {
         $query = $request->input('q');
-        $ukmData = UnitKegiatan::select('id', 'name', 'logo')
+        $ukmData = UnitKegiatan::select('id', 'name', 'alias', 'category', 'logo')
             ->when($query, function ($q) use ($query) {
-                $q->where('name', 'like', "%$query%");
+                $q->where(function($subQuery) use ($query) {
+                    $subQuery->where('name', 'like', "%$query%")
+                             ->orWhere('alias', 'like', "%$query%")
+                             ->orWhere('category', 'like', "%$query%");
+                });
             })
             ->with([
                 'unitKegiatanProfile' => function ($query) {
                     $query->select('id', 'unit_kegiatan_id', 'description')->latest()->take(1);
                 },
             ])
-            ->get();
+            ->get()
+            ->map(function ($ukm) {
+                return [
+                    'id' => $ukm->id,
+                    'name' => $ukm->name,
+                    'alias' => $ukm->alias,
+                    'category' => $ukm->category,
+                    'logo' => $ukm->logo,
+                    'description' => $ukm->unitKegiatanProfile->first()?->description ?? null,
+                ];
+            });
 
         return response()->json([
             'status' => true,

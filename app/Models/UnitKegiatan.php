@@ -23,7 +23,8 @@ class UnitKegiatan extends Model
 
     protected $fillable = [
         'name',
-        'alias', 
+        'alias',
+        'category',
         'logo',
         'open_registration',
     ];

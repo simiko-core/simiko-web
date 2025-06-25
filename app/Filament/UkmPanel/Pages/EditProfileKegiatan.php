@@ -59,6 +59,24 @@ class EditProfileKegiatan extends Page implements HasForms
                             ->maxLength(50)
                             ->helperText('Short abbreviation commonly used'),
 
+                        Select::make('category')
+                            ->label('Category')
+                            ->options([
+                                'Himpunan' => 'Himpunan (Academic Department)',
+                                'UKM Olahraga' => 'UKM Olahraga (Sports)',
+                                'UKM Seni' => 'UKM Seni (Arts & Culture)',
+                                'UKM Keagamaan' => 'UKM Keagamaan (Religious)',
+                                'UKM Keilmuan' => 'UKM Keilmuan (Academic)',
+                                'UKM Kemasyarakatan' => 'UKM Kemasyarakatan (Community Service)',
+                                'UKM Kewirausahaan' => 'UKM Kewirausahaan (Entrepreneurship)',
+                                'UKM Teknologi' => 'UKM Teknologi (Technology)',
+                                'UKM Media' => 'UKM Media (Media & Communication)',
+                                'Lainnya' => 'Other',
+                            ])
+                            ->required()
+                            ->searchable()
+                            ->helperText('Select the type/category of your organization'),
+
                         FileUpload::make('logo')
                             ->label('Organization Logo')
                             ->image()
@@ -100,6 +118,7 @@ class EditProfileKegiatan extends Page implements HasForms
         $this->record->update([
             'name' => $this->data['name'],
             'alias' => $this->data['alias'],
+            'category' => $this->data['category'],
             'logo' => $this->data['logo'],
             'open_registration' => $this->data['open_registration'] ?? false,
         ]);

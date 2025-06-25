@@ -50,11 +50,30 @@ class UnitKegiatanResource extends Resource
                             ->helperText('Short abbreviation or commonly used alias')
                             ->columnSpan(1),
 
+                        Forms\Components\Select::make('category')
+                            ->label('Category')
+                            ->options([
+                                'Himpunan' => 'Himpunan (Academic Department)',
+                                'UKM Olahraga' => 'UKM Olahraga (Sports)',
+                                'UKM Seni' => 'UKM Seni (Arts & Culture)',
+                                'UKM Keagamaan' => 'UKM Keagamaan (Religious)',
+                                'UKM Keilmuan' => 'UKM Keilmuan (Academic)',
+                                'UKM Kemasyarakatan' => 'UKM Kemasyarakatan (Community Service)',
+                                'UKM Kewirausahaan' => 'UKM Kewirausahaan (Entrepreneurship)',
+                                'UKM Teknologi' => 'UKM Teknologi (Technology)',
+                                'UKM Media' => 'UKM Media (Media & Communication)',
+                                'Lainnya' => 'Other',
+                            ])
+                            ->required()
+                            ->searchable()
+                            ->helperText('Select the type/category of this organization')
+                            ->columnSpan(1),
+
                         Forms\Components\Toggle::make('open_registration')
                             ->label('Registration Open')
                             ->helperText('Allow new students to register for this UKM')
                             ->default(true)
-                            ->columnSpan(1),
+                            ->columnSpan(2),
                     ])
                     ->columns(2)
                     ->collapsible(),
@@ -103,6 +122,13 @@ class UnitKegiatanResource extends Resource
                     ->badge()
                     ->color('info'),
 
+                Tables\Columns\TextColumn::make('category')
+                    ->label('Category')
+                    ->searchable()
+                    ->sortable()
+                    ->badge()
+                    ->color('primary'),
+
                 Tables\Columns\IconColumn::make('open_registration')
                     ->label('Registration')
                     ->boolean()
@@ -129,6 +155,22 @@ class UnitKegiatanResource extends Resource
                     ->placeholder('All organizations')
                     ->trueLabel('Open for registration')
                     ->falseLabel('Closed for registration'),
+                    
+                Tables\Filters\SelectFilter::make('category')
+                    ->label('Category')
+                    ->options([
+                        'Himpunan' => 'Himpunan',
+                        'UKM Olahraga' => 'UKM Olahraga',
+                        'UKM Seni' => 'UKM Seni',
+                        'UKM Keagamaan' => 'UKM Keagamaan',
+                        'UKM Keilmuan' => 'UKM Keilmuan',
+                        'UKM Kemasyarakatan' => 'UKM Kemasyarakatan',
+                        'UKM Kewirausahaan' => 'UKM Kewirausahaan',
+                        'UKM Teknologi' => 'UKM Teknologi',
+                        'UKM Media' => 'UKM Media',
+                        'Lainnya' => 'Other',
+                    ])
+                    ->multiple(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make()

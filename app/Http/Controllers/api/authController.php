@@ -304,18 +304,10 @@ class SwaggerSchemas {}
     properties: [
         new OA\Property(property: "id", type: "integer", example: 1),
         new OA\Property(property: "name", type: "string", example: "Himpunan Mahasiswa Informatika"),
+        new OA\Property(property: "alias", type: "string", example: "HMIF"),
+        new OA\Property(property: "category", type: "string", example: "Himpunan"),
         new OA\Property(property: "logo", type: "string", example: "logo_unit_kegiatan/hmif-logo.png"),
-        new OA\Property(
-            property: "unit_kegiatan_profile",
-            type: "array",
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: "id", type: "integer", example: 1),
-                    new OA\Property(property: "unit_kegiatan_id", type: "integer", example: 1),
-                    new OA\Property(property: "description", type: "string", example: "Student organization for computer science students")
-                ]
-            )
-        )
+        new OA\Property(property: "description", type: "string", example: "Student organization for computer science students")
     ]
 )]
 #[OA\Schema(
@@ -323,6 +315,8 @@ class SwaggerSchemas {}
     properties: [
         new OA\Property(property: "id", type: "integer", example: 1),
         new OA\Property(property: "name", type: "string", example: "Himpunan Mahasiswa Informatika"),
+        new OA\Property(property: "alias", type: "string", example: "HMIF"),
+        new OA\Property(property: "category", type: "string", example: "Himpunan"),
         new OA\Property(property: "logo", type: "string", example: "logo_unit_kegiatan/hmif-logo.png"),
         new OA\Property(
             property: "unit_kegiatan_profile",
