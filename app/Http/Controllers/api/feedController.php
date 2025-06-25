@@ -37,12 +37,46 @@ class feedController extends Controller
                 description: "Feed retrieved successfully",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "success", type: "boolean", example: true),
                         new OA\Property(property: "message", type: "string", example: "Feed retrieved successfully"),
                         new OA\Property(
                             property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/FeedSummary")
+                            type: "object",
+                            properties: [
+                                new OA\Property(
+                                    property: "feeds",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "object",
+                                        properties: [
+                                            new OA\Property(property: "id", type: "integer", example: 10),
+                                            new OA\Property(property: "type", type: "string", example: "post"),
+                                            new OA\Property(property: "title", type: "string", example: "Sample Post Title"),
+                                            new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
+                                            new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                            new OA\Property(
+                                                property: "ukm",
+                                                type: "object",
+                                                properties: [
+                                                    new OA\Property(property: "id", type: "integer", example: 2),
+                                                    new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                ]
+                                            )
+                                        ]
+                                    )
+                                ),
+                                new OA\Property(
+                                    property: "ukms",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "object",
+                                        properties: [
+                                            new OA\Property(property: "id", type: "integer", example: 1),
+                                            new OA\Property(property: "name", type: "string", example: "HMIF")
+                                        ]
+                                    )
+                                )
+                            ]
                         )
                     ]
                 )
@@ -70,18 +104,39 @@ class feedController extends Controller
         ->limit(50)
         ->get();
 
-        $data = $feeds->map(function ($feed) {
+        $feedsData = $feeds->map(function ($feed) {
             return [
                 'id' => $feed->id,
                 'type' => $feed->type,
                 'title' => $feed->title,
                 'image_url' => $feed->image ? asset('storage/' . $feed->image) : null,
                 'created_at' => $feed->created_at,
-                'ukm_alias' => $feed->unitKegiatan->alias,
+                'ukm' => [
+                    'id' => $feed->unitKegiatan->id,
+                    'name' => $feed->unitKegiatan->alias,
+                ],
             ];
         });
 
-        return ApiResponse::success($data, 'Feed retrieved successfully');
+        // Get all UKM with id and alias
+        $ukms = \App\Models\UnitKegiatan::select('id', 'alias')
+            ->whereNotNull('alias')
+            ->orderBy('alias')
+            ->get()
+            ->map(function ($ukm) {
+                return [
+                    'id' => $ukm->id,
+                    'name' => $ukm->alias
+                ];
+            })
+            ->toArray();
+
+        $responseData = [
+            'feeds' => $feedsData,
+            'ukms' => $ukms
+        ];
+
+        return ApiResponse::success($responseData, 'Feed retrieved successfully');
     }
 
     #[OA\Get(
@@ -104,7 +159,7 @@ class feedController extends Controller
                 description: "Feed item retrieved successfully",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "success", type: "boolean", example: true),
                         new OA\Property(property: "message", type: "string", example: "Feed item retrieved successfully"),
                         new OA\Property(property: "data", ref: "#/components/schemas/FeedDetail")
                     ]
@@ -173,12 +228,46 @@ class feedController extends Controller
                 description: "Posts retrieved successfully",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "success", type: "boolean", example: true),
                         new OA\Property(property: "message", type: "string", example: "Feed retrieved successfully"),
                         new OA\Property(
                             property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/FeedSummary")
+                            type: "object",
+                            properties: [
+                                new OA\Property(
+                                    property: "feeds",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "object",
+                                        properties: [
+                                            new OA\Property(property: "id", type: "integer", example: 10),
+                                            new OA\Property(property: "type", type: "string", example: "post"),
+                                            new OA\Property(property: "title", type: "string", example: "Sample Post Title"),
+                                            new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
+                                            new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                            new OA\Property(
+                                                property: "ukm",
+                                                type: "object",
+                                                properties: [
+                                                    new OA\Property(property: "id", type: "integer", example: 2),
+                                                    new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                ]
+                                            )
+                                        ]
+                                    )
+                                ),
+                                new OA\Property(
+                                    property: "ukms",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "object",
+                                        properties: [
+                                            new OA\Property(property: "id", type: "integer", example: 1),
+                                            new OA\Property(property: "name", type: "string", example: "HMIF")
+                                        ]
+                                    )
+                                )
+                            ]
                         )
                     ]
                 )
@@ -213,12 +302,46 @@ class feedController extends Controller
                 description: "Events retrieved successfully",
                 content: new OA\JsonContent(
                     properties: [
-                        new OA\Property(property: "status", type: "boolean", example: true),
+                        new OA\Property(property: "success", type: "boolean", example: true),
                         new OA\Property(property: "message", type: "string", example: "Feed retrieved successfully"),
                         new OA\Property(
                             property: "data",
-                            type: "array",
-                            items: new OA\Items(ref: "#/components/schemas/FeedSummary")
+                            type: "object",
+                            properties: [
+                                new OA\Property(
+                                    property: "feeds",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "object",
+                                        properties: [
+                                            new OA\Property(property: "id", type: "integer", example: 10),
+                                            new OA\Property(property: "type", type: "string", example: "event"),
+                                            new OA\Property(property: "title", type: "string", example: "Sample Event Title"),
+                                            new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
+                                            new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                            new OA\Property(
+                                                property: "ukm",
+                                                type: "object",
+                                                properties: [
+                                                    new OA\Property(property: "id", type: "integer", example: 2),
+                                                    new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                ]
+                                            )
+                                        ]
+                                    )
+                                ),
+                                new OA\Property(
+                                    property: "ukms",
+                                    type: "array",
+                                    items: new OA\Items(
+                                        type: "object",
+                                        properties: [
+                                            new OA\Property(property: "id", type: "integer", example: 1),
+                                            new OA\Property(property: "name", type: "string", example: "HMIF")
+                                        ]
+                                    )
+                                )
+                            ]
                         )
                     ]
                 )

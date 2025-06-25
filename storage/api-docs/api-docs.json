@@ -343,7 +343,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
+                                        "success": {
                                             "type": "boolean",
                                             "example": true
                                         },
@@ -352,10 +352,67 @@
                                             "example": "Feed retrieved successfully"
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/FeedSummary"
-                                            }
+                                            "properties": {
+                                                "feeds": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "type": {
+                                                                "type": "string",
+                                                                "example": "post"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sample Post Title"
+                                                            },
+                                                            "image_url": {
+                                                                "type": "string",
+                                                                "example": "http://localhost:8000/storage/feeds/sample.jpg",
+                                                                "nullable": true
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time"
+                                                            },
+                                                            "ukm": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 2
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "HMTE"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "ukms": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "HMIF"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -400,7 +457,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
+                                        "success": {
                                             "type": "boolean",
                                             "example": true
                                         },
@@ -457,7 +514,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
+                                        "success": {
                                             "type": "boolean",
                                             "example": true
                                         },
@@ -466,10 +523,67 @@
                                             "example": "Feed retrieved successfully"
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/FeedSummary"
-                                            }
+                                            "properties": {
+                                                "feeds": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "type": {
+                                                                "type": "string",
+                                                                "example": "post"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sample Post Title"
+                                                            },
+                                                            "image_url": {
+                                                                "type": "string",
+                                                                "example": "http://localhost:8000/storage/feeds/sample.jpg",
+                                                                "nullable": true
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time"
+                                                            },
+                                                            "ukm": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 2
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "HMTE"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "ukms": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "HMIF"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -514,7 +628,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "status": {
+                                        "success": {
                                             "type": "boolean",
                                             "example": true
                                         },
@@ -523,10 +637,67 @@
                                             "example": "Feed retrieved successfully"
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/FeedSummary"
-                                            }
+                                            "properties": {
+                                                "feeds": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "type": {
+                                                                "type": "string",
+                                                                "example": "event"
+                                                            },
+                                                            "title": {
+                                                                "type": "string",
+                                                                "example": "Sample Event Title"
+                                                            },
+                                                            "image_url": {
+                                                                "type": "string",
+                                                                "example": "http://localhost:8000/storage/feeds/sample.jpg",
+                                                                "nullable": true
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date-time"
+                                                            },
+                                                            "ukm": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 2
+                                                                    },
+                                                                    "name": {
+                                                                        "type": "string",
+                                                                        "example": "HMTE"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "ukms": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "HMIF"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
