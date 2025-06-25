@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth' => \App\Http\Middleware\Authenticate::class,
         ]);
+        $middleware->trustProxies(at: '*');
         
         // Ensure API routes don't redirect on authentication failure
         $middleware->api([
