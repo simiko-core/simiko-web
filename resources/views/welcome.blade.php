@@ -11,7 +11,7 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#f59e0b',
+                        primary: '#8b5cf6',
                         secondary: '#1f2937',
                     }
                 }
@@ -34,7 +34,7 @@
                     <a href="{{ url('/admin') }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition duration-300">
                         Admin Panel
                     </a>
-                    <a href="{{ url('/admin-panel') }}" class="bg-primary hover:bg-yellow-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300">
+                    <a href="{{ url('/admin-panel') }}" class="bg-primary hover:bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300">
                         UKM Panel
                     </a>
                 </div>
@@ -57,7 +57,7 @@
                         events, memberships, and activities. Streamline your campus life management.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ url('/api/documentation') }}" class="bg-primary hover:bg-yellow-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition duration-300 text-center">
+                        <a href="{{ url('/api/documentation') }}" class="bg-primary hover:bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition duration-300 text-center">
                             <i class="fas fa-code mr-2"></i>
                             API Documentation
                         </a>
@@ -248,12 +248,12 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-r from-primary to-yellow-500">
+    <section class="py-20 bg-gradient-to-r from-primary to-purple-500">
         <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
                 Ready to Streamline Your Student Activities?
             </h2>
-            <p class="text-xl text-yellow-100 mb-8">
+            <p class="text-xl text-purple-100 mb-8">
                 Join the modern way of managing student organizations with Simiko's powerful platform.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
