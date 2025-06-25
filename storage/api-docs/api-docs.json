@@ -354,46 +354,85 @@
                                         "data": {
                                             "properties": {
                                                 "feeds": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "properties": {
-                                                            "id": {
-                                                                "type": "integer",
-                                                                "example": 10
-                                                            },
-                                                            "type": {
-                                                                "type": "string",
-                                                                "example": "post"
-                                                            },
-                                                            "title": {
-                                                                "type": "string",
-                                                                "example": "Sample Post Title"
-                                                            },
-                                                            "image_url": {
-                                                                "type": "string",
-                                                                "example": "http://localhost:8000/storage/feeds/sample.jpg",
-                                                                "nullable": true
-                                                            },
-                                                            "created_at": {
-                                                                "type": "string",
-                                                                "format": "date-time"
-                                                            },
-                                                            "ukm": {
+                                                    "properties": {
+                                                        "post": {
+                                                            "type": "array",
+                                                            "items": {
                                                                 "properties": {
                                                                     "id": {
                                                                         "type": "integer",
-                                                                        "example": 2
+                                                                        "example": 10
                                                                     },
-                                                                    "name": {
+                                                                    "title": {
                                                                         "type": "string",
-                                                                        "example": "HMTE"
+                                                                        "example": "Sample Post Title"
+                                                                    },
+                                                                    "image_url": {
+                                                                        "type": "string",
+                                                                        "example": "http://localhost:8000/storage/feeds/sample.jpg",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "created_at": {
+                                                                        "type": "string",
+                                                                        "format": "date-time"
+                                                                    },
+                                                                    "ukm": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 2
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "HMTE"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
                                                                     }
                                                                 },
                                                                 "type": "object"
                                                             }
                                                         },
-                                                        "type": "object"
-                                                    }
+                                                        "event": {
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 11
+                                                                    },
+                                                                    "title": {
+                                                                        "type": "string",
+                                                                        "example": "Sample Event Title"
+                                                                    },
+                                                                    "image_url": {
+                                                                        "type": "string",
+                                                                        "example": "http://localhost:8000/storage/feeds/sample.jpg",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "created_at": {
+                                                                        "type": "string",
+                                                                        "format": "date-time"
+                                                                    },
+                                                                    "ukm": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 2
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "HMTE"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 },
                                                 "ukms": {
                                                     "type": "array",

@@ -45,25 +45,53 @@ class feedController extends Controller
                             properties: [
                                 new OA\Property(
                                     property: "feeds",
-                                    type: "array",
-                                    items: new OA\Items(
-                                        type: "object",
-                                        properties: [
-                                            new OA\Property(property: "id", type: "integer", example: 10),
-                                            new OA\Property(property: "type", type: "string", example: "post"),
-                                            new OA\Property(property: "title", type: "string", example: "Sample Post Title"),
-                                            new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
-                                            new OA\Property(property: "created_at", type: "string", format: "date-time"),
-                                            new OA\Property(
-                                                property: "ukm",
+                                    type: "object",
+                                    properties: [
+                                        new OA\Property(
+                                            property: "post",
+                                            type: "array",
+                                            items: new OA\Items(
                                                 type: "object",
                                                 properties: [
-                                                    new OA\Property(property: "id", type: "integer", example: 2),
-                                                    new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                    new OA\Property(property: "id", type: "integer", example: 10),
+                                                    new OA\Property(property: "type", type: "string", example: "post"),
+                                                    new OA\Property(property: "title", type: "string", example: "Sample Post Title"),
+                                                    new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
+                                                    new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                                    new OA\Property(
+                                                        property: "ukm",
+                                                        type: "object",
+                                                        properties: [
+                                                            new OA\Property(property: "id", type: "integer", example: 2),
+                                                            new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                        ]
+                                                    )
                                                 ]
                                             )
-                                        ]
-                                    )
+                                        ),
+                                        new OA\Property(
+                                            property: "event",
+                                            type: "array",
+                                            items: new OA\Items(
+                                                type: "object",
+                                                properties: [
+                                                    new OA\Property(property: "id", type: "integer", example: 11),
+                                                    new OA\Property(property: "type", type: "string", example: "event"),
+                                                    new OA\Property(property: "title", type: "string", example: "Sample Event Title"),
+                                                    new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
+                                                    new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                                    new OA\Property(
+                                                        property: "ukm",
+                                                        type: "object",
+                                                        properties: [
+                                                            new OA\Property(property: "id", type: "integer", example: 2),
+                                                            new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                        ]
+                                                    )
+                                                ]
+                                            )
+                                        )
+                                    ]
                                 ),
                                 new OA\Property(
                                     property: "ukms",
@@ -118,6 +146,13 @@ class feedController extends Controller
             ];
         });
 
+        // Group feeds by type
+        $groupedFeeds = [
+            'post' => $feedsData->where('type', 'post')->values()->toArray(),
+            'event' => $feedsData->where('type', 'event')->values()->toArray()
+        ];
+
+
         // Get all UKM with id and alias
         $ukms = \App\Models\UnitKegiatan::select('id', 'alias')
             ->whereNotNull('alias')
@@ -132,7 +167,7 @@ class feedController extends Controller
             ->toArray();
 
         $responseData = [
-            'feeds' => $feedsData,
+            'feeds' => $groupedFeeds,
             'ukms' => $ukms
         ];
 
