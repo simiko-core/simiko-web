@@ -121,7 +121,7 @@ class feedController extends Controller
         $feeds = Feed::select(
             'id', 'type', 'title', 'image', 'unit_kegiatan_id', 'created_at'
         )
-        ->with('unitKegiatan:id,alias')
+        ->with('unitKegiatan:id,alias,logo')
         ->when($type, function ($query, $type) {
             return $query->where('type', $type);
         })
@@ -142,6 +142,7 @@ class feedController extends Controller
                 'ukm' => [
                     'id' => $feed->unitKegiatan->id,
                     'name' => $feed->unitKegiatan->alias,
+                    'logo_url' => $feed->unitKegiatan->logo ? asset('storage/' . $feed->unitKegiatan->logo) : null,
                 ],
             ];
         });
