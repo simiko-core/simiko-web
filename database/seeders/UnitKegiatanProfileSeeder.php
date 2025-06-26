@@ -20,73 +20,204 @@ class UnitKegiatanProfileSeeder extends Seeder
 
         $profiles = [
             'HMIF' => [
-                'vision_mission' => 'Vision: Menjadi himpunan mahasiswa informatika yang unggul dalam pengembangan teknologi informasi dan komputer untuk kemajuan bangsa.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi himpunan mahasiswa informatika yang unggul dalam pengembangan teknologi informasi dan komputer untuk kemajuan bangsa.</p>
 
-Mission: Mengembangkan potensi mahasiswa informatika melalui kegiatan akademik, penelitian, dan pengabdian masyarakat di bidang teknologi informasi.',
-                'description' => 'Himpunan Mahasiswa Informatika (HMIF) adalah organisasi mahasiswa yang bergerak dalam bidang teknologi informasi dan komputer. Kami menyelenggarakan berbagai kegiatan seperti seminar teknologi, workshop pemrograman, kompetisi coding, dan pengembangan aplikasi untuk masyarakat.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan potensi mahasiswa informatika melalui kegiatan akademik, penelitian, dan pengabdian masyarakat di bidang teknologi informasi.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>Himpunan Mahasiswa Informatika (HMIF)</strong> adalah organisasi mahasiswa yang bergerak dalam bidang teknologi informasi dan komputer.</p>
+<p>Kami menyelenggarakan berbagai kegiatan seperti:</p>
+<ul>
+<li>💻 Seminar teknologi</li>
+<li>🛠️ Workshop pemrograman</li>
+<li>🏆 Kompetisi coding</li>
+<li>📱 Pengembangan aplikasi untuk masyarakat</li>
+</ul>
+</div>',
             ],
             'HMTE' => [
-                'vision_mission' => 'Vision: Menjadi himpunan mahasiswa teknik elektro yang terdepan dalam inovasi teknologi elektro dan elektronika.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi himpunan mahasiswa teknik elektro yang terdepan dalam inovasi teknologi elektro dan elektronika.</p>
 
-Mission: Memfasilitasi pengembangan kompetensi mahasiswa teknik elektro melalui kegiatan akademik, riset, dan aplikasi teknologi elektro.',
-                'description' => 'Himpunan Mahasiswa Teknik Elektro (HMTE) adalah wadah bagi mahasiswa teknik elektro untuk mengembangkan kemampuan di bidang kelistrikan, elektronika, dan sistem kontrol. Kami aktif dalam penelitian energi terbarukan dan teknologi otomasi.',
+<h3><strong>Mission:</strong></h3>
+<p>Memfasilitasi pengembangan kompetensi mahasiswa teknik elektro melalui kegiatan akademik, riset, dan aplikasi teknologi elektro.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>Himpunan Mahasiswa Teknik Elektro (HMTE)</strong> adalah wadah bagi mahasiswa teknik elektro untuk mengembangkan kemampuan di bidang:</p>
+<ul>
+<li>⚡ Kelistrikan</li>
+<li>🔌 Elektronika</li>
+<li>🎛️ Sistem kontrol</li>
+</ul>
+<p>Kami aktif dalam <em>penelitian energi terbarukan</em> dan <strong>teknologi otomasi</strong>.</p>
+</div>',
             ],
             'HMTM' => [
-                'vision_mission' => 'Vision: Menjadi himpunan mahasiswa teknik mesin yang berkualitas dalam pengembangan teknologi manufaktur dan industri.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi himpunan mahasiswa teknik mesin yang berkualitas dalam pengembangan teknologi manufaktur dan industri.</p>
 
-Mission: Meningkatkan kompetensi mahasiswa teknik mesin dalam perancangan, manufaktur, dan inovasi teknologi mesin.',
-                'description' => 'Himpunan Mahasiswa Teknik Mesin (HMTM) fokus pada pengembangan teknologi manufaktur, otomotif, dan industri. Kami menyelenggarakan workshop fabrikasi, kontes robot, dan pelatihan desain mesin.',
+<h3><strong>Mission:</strong></h3>
+<p>Meningkatkan kompetensi mahasiswa teknik mesin dalam perancangan, manufaktur, dan inovasi teknologi mesin.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>Himpunan Mahasiswa Teknik Mesin (HMTM)</strong> fokus pada pengembangan:</p>
+<ul>
+<li>🏭 Teknologi manufaktur</li>
+<li>🚗 Teknologi otomotif</li>
+<li>⚙️ Teknologi industri</li>
+</ul>
+<p>Kami menyelenggarakan <strong>workshop fabrikasi</strong>, <strong>kontes robot</strong>, dan <strong>pelatihan desain mesin</strong>.</p>
+</div>',
             ],
             'HMTS' => [
-                'vision_mission' => 'Vision: Menjadi himpunan mahasiswa teknik sipil yang berperan aktif dalam pembangunan infrastruktur berkelanjutan.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi himpunan mahasiswa teknik sipil yang berperan aktif dalam pembangunan infrastruktur berkelanjutan.</p>
 
-Mission: Mengembangkan kemampuan mahasiswa teknik sipil dalam perencanaan, desain, dan konstruksi infrastruktur yang ramah lingkungan.',
-                'description' => 'Himpunan Mahasiswa Teknik Sipil (HMTS) berkomitmen pada pembangunan infrastruktur yang berkelanjutan. Kami aktif dalam penelitian material konstruksi, manajemen proyek, dan teknologi bangunan hijau.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan kemampuan mahasiswa teknik sipil dalam perencanaan, desain, dan konstruksi infrastruktur yang ramah lingkungan.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>Himpunan Mahasiswa Teknik Sipil (HMTS)</strong> berkomitmen pada pembangunan infrastruktur yang berkelanjutan.</p>
+<p>Kami aktif dalam:</p>
+<ul>
+<li>🧱 Penelitian material konstruksi</li>
+<li>📊 Manajemen proyek</li>
+<li>🌿 Teknologi bangunan hijau</li>
+</ul>
+</div>',
             ],
             'UKM Foto' => [
-                'vision_mission' => 'Vision: Menjadi unit kegiatan mahasiswa fotografi yang kreatif dan inovatif dalam seni visual.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi unit kegiatan mahasiswa fotografi yang kreatif dan inovatif dalam seni visual.</p>
 
-Mission: Mengembangkan bakat fotografi mahasiswa dan mendokumentasikan kegiatan kampus serta masyarakat.',
-                'description' => 'UKM Fotografi adalah komunitas mahasiswa yang passionate dalam seni fotografi. Kami menyelenggarakan pameran foto, workshop teknik fotografi, dan dokumentasi berbagai kegiatan kampus.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan bakat fotografi mahasiswa dan mendokumentasikan kegiatan kampus serta masyarakat.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>UKM Fotografi</strong> adalah komunitas mahasiswa yang <em>passionate</em> dalam seni fotografi.</p>
+<p>Kegiatan kami meliputi:</p>
+<ul>
+<li>📷 Pameran foto</li>
+<li>📚 Workshop teknik fotografi</li>
+<li>📸 Dokumentasi berbagai kegiatan kampus</li>
+</ul>
+</div>',
             ],
             'UKM Musik' => [
-                'vision_mission' => 'Vision: Menjadi wadah kreativitas musik mahasiswa yang dapat menginspirasi dan menghibur masyarakat.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi wadah kreativitas musik mahasiswa yang dapat menginspirasi dan menghibur masyarakat.</p>
 
-Mission: Mengembangkan talenta musik mahasiswa melalui latihan, pertunjukan, dan apresiasi musik.',
-                'description' => 'UKM Musik adalah tempat berkumpulnya mahasiswa yang memiliki passion di bidang musik. Kami memiliki berbagai divisi seperti band, paduan suara, dan orkestra kampus.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan talenta musik mahasiswa melalui latihan, pertunjukan, dan apresiasi musik.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>UKM Musik</strong> adalah tempat berkumpulnya mahasiswa yang memiliki passion di bidang musik.</p>
+<p>Kami memiliki berbagai divisi:</p>
+<ul>
+<li>🎸 Band</li>
+<li>🎤 Paduan suara</li>
+<li>🎻 Orkestra kampus</li>
+</ul>
+</div>',
             ],
             'UKM Sport' => [
-                'vision_mission' => 'Vision: Menjadi unit kegiatan olahraga yang mencetak atlet-atlet berprestasi dan mempromosikan hidup sehat.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi unit kegiatan olahraga yang mencetak atlet-atlet berprestasi dan mempromosikan hidup sehat.</p>
 
-Mission: Membina bakat olahraga mahasiswa dan mempromosikan gaya hidup sehat di lingkungan kampus.',
-                'description' => 'UKM Olahraga adalah wadah bagi mahasiswa untuk mengembangkan bakat di berbagai cabang olahraga seperti basket, futsal, voli, badminton, dan atletik.',
+<h3><strong>Mission:</strong></h3>
+<p>Membina bakat olahraga mahasiswa dan mempromosikan gaya hidup sehat di lingkungan kampus.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>UKM Olahraga</strong> adalah wadah bagi mahasiswa untuk mengembangkan bakat di berbagai cabang olahraga.</p>
+<p>Cabang olahraga yang kami bina:</p>
+<ul>
+<li>🏀 Basket</li>
+<li>⚽ Futsal</li>
+<li>🏐 Voli</li>
+<li>🏸 Badminton</li>
+<li>🏃 Atletik</li>
+</ul>
+</div>',
             ],
             'UKM PA' => [
-                'vision_mission' => 'Vision: Menjadi komunitas pecinta alam yang peduli lingkungan dan mempromosikan ekowisata.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi komunitas pecinta alam yang peduli lingkungan dan mempromosikan ekowisata.</p>
 
-Mission: Mengembangkan kesadaran lingkungan mahasiswa melalui kegiatan alam bebas dan konservasi.',
-                'description' => 'UKM Pecinta Alam adalah komunitas yang fokus pada kegiatan outdoor, konservasi lingkungan, dan pendidikan ekowisata. Kami rutin mengadakan pendakian, camping, dan aksi bersih lingkungan.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan kesadaran lingkungan mahasiswa melalui kegiatan alam bebas dan konservasi.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>UKM Pecinta Alam</strong> adalah komunitas yang fokus pada kegiatan outdoor, konservasi lingkungan, dan pendidikan ekowisata.</p>
+<p>Kegiatan rutin kami:</p>
+<ul>
+<li>🏔️ Pendakian gunung</li>
+<li>🏕️ Camping</li>
+<li>🌱 Aksi bersih lingkungan</li>
+<li>📚 Edukasi konservasi</li>
+</ul>
+</div>',
             ],
             'UKM Robot' => [
-                'vision_mission' => 'Vision: Menjadi pusat pengembangan robotika dan otomasi yang inovatif dan berdaya saing.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi pusat pengembangan robotika dan otomasi yang inovatif dan berdaya saing.</p>
 
-Mission: Mengembangkan kemampuan mahasiswa dalam perancangan, pembuatan, dan pemrograman robot.',
-                'description' => 'UKM Robotika adalah tempat mahasiswa mengembangkan kemampuan dalam bidang robotika, AI, dan otomasi. Kami aktif dalam kompetisi robot nasional dan internasional.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan kemampuan mahasiswa dalam perancangan, pembuatan, dan pemrograman robot.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>UKM Robotika</strong> adalah tempat mahasiswa mengembangkan kemampuan dalam bidang:</p>
+<ul>
+<li>🤖 Robotika</li>
+<li>🧠 Artificial Intelligence (AI)</li>
+<li>⚙️ Sistem otomasi</li>
+</ul>
+<p>Kami <em>aktif dalam kompetisi robot</em> tingkat <strong>nasional dan internasional</strong>.</p>
+</div>',
             ],
             'UKM Debat' => [
-                'vision_mission' => 'Vision: Menjadi wadah pengembangan kemampuan berbicara dan berpikir kritis mahasiswa.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi wadah pengembangan kemampuan berbicara dan berpikir kritis mahasiswa.</p>
 
-Mission: Melatih kemampuan argumentasi, public speaking, dan analisis kritis mahasiswa.',
-                'description' => 'UKM Debat adalah komunitas mahasiswa yang fokus pada pengembangan kemampuan berbicara di depan umum, argumentasi, dan analisis isu-isu terkini.',
+<h3><strong>Mission:</strong></h3>
+<p>Melatih kemampuan argumentasi, public speaking, dan analisis kritis mahasiswa.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>UKM Debat</strong> adalah komunitas mahasiswa yang fokus pada pengembangan:</p>
+<ul>
+<li>🎤 Kemampuan berbicara di depan umum</li>
+<li>💬 Argumentasi yang kuat</li>
+<li>🧐 Analisis isu-isu terkini</li>
+<li>🏆 Kompetisi debat</li>
+</ul>
+</div>',
             ],
         ];
 
         foreach ($units as $unit) {
             $profileData = $profiles[$unit->alias] ?? [
-                'vision_mission' => 'Vision: Menjadi unit kegiatan mahasiswa yang unggul dan berprestasi.
+                'vision_mission' => '<div class="vision-mission">
+<h3><strong>Vision:</strong></h3>
+<p>Menjadi unit kegiatan mahasiswa yang unggul dan berprestasi.</p>
 
-Mission: Mengembangkan potensi mahasiswa melalui berbagai kegiatan positif.',
-                'description' => 'Unit kegiatan mahasiswa yang aktif dalam mengembangkan bakat dan minat mahasiswa.',
+<h3><strong>Mission:</strong></h3>
+<p>Mengembangkan potensi mahasiswa melalui berbagai kegiatan positif.</p>
+</div>',
+                'description' => '<div class="description">
+<p><strong>Unit kegiatan mahasiswa</strong> yang aktif dalam mengembangkan <em>bakat dan minat mahasiswa</em>.</p>
+<p>Bergabunglah dengan kami untuk mengembangkan potensi diri!</p>
+</div>',
             ];
 
             // Create profiles for different periods

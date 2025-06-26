@@ -85,31 +85,31 @@ class AchievementSeeder extends Seeder
             'Himpunan' => [
                 [
                     'title' => 'Juara 1 Kompetisi Programming Nasional 2024',
-                    'description' => "Tim {$alias} berhasil meraih juara pertama dalam kompetisi programming tingkat nasional dengan mengalahkan 150+ tim dari seluruh Indonesia. Prestasi ini membuktikan keunggulan kemampuan coding dan problem solving anggota.",
+                    'description' => "<div class='achievement-desc'><p><strong>Tim {$alias} berhasil meraih juara pertama</strong> dalam kompetisi programming tingkat nasional dengan mengalahkan <strong>150+ tim</strong> dari seluruh Indonesia.</p><p>🏆 Prestasi ini membuktikan keunggulan kemampuan <em>coding</em> dan <em>problem solving</em> anggota.</p></div>",
                     'type' => 'competition',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Best Innovation Award - Tech Startup Competition',
-                    'description' => "Ide inovasi dari {$alias} berhasil meraih penghargaan Best Innovation Award dalam kompetisi startup teknologi. Solusi yang dikembangkan mendapat apresiasi tinggi dari panel juri yang terdiri dari praktisi industri.",
+                    'description' => "<div class='achievement-desc'><p><strong>Ide inovasi dari {$alias} berhasil meraih</strong> penghargaan <em>Best Innovation Award</em> dalam kompetisi startup teknologi.</p><p>💡 Solusi yang dikembangkan mendapat apresiasi tinggi dari panel juri yang terdiri dari praktisi industri.</p></div>",
                     'type' => 'innovation',
                     'level' => 'regional'
                 ],
                 [
                     'title' => 'Sertifikasi ISO 9001:2015 untuk Program Studi',
-                    'description' => "Kontribusi aktif {$alias} dalam membantu program studi meraih sertifikasi ISO 9001:2015 untuk sistem manajemen mutu. Pencapaian ini meningkatkan kredibilitas dan standar pendidikan.",
+                    'description' => "<div class='achievement-desc'><p><strong>Kontribusi aktif {$alias}</strong> dalam membantu program studi meraih sertifikasi <strong>ISO 9001:2015</strong> untuk sistem manajemen mutu.</p><p>📈 Pencapaian ini meningkatkan kredibilitas dan standar pendidikan.</p></div>",
                     'type' => 'certification',
                     'level' => 'institutional'
                 ],
                 [
                     'title' => 'Hackathon Champion - Smart City Solutions',
-                    'description' => "Tim {$alias} menjadi juara dalam hackathon Smart City Solutions dengan mengembangkan aplikasi inovatif untuk mengatasi permasalahan transportasi urban. Solusi ini telah diimplementasikan di beberapa kota.",
+                    'description' => "<div class='achievement-desc'><p><strong>Tim {$alias} menjadi juara</strong> dalam hackathon <em>Smart City Solutions</em> dengan mengembangkan aplikasi inovatif untuk mengatasi permasalahan transportasi urban.</p><p>🏙️ Solusi ini telah diimplementasikan di beberapa kota.</p></div>",
                     'type' => 'competition',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Outstanding Academic Achievement 2024',
-                    'description' => "{$alias} meraih penghargaan Outstanding Academic Achievement karena IPK rata-rata anggota yang konsisten di atas 3.5 dan tingkat kelulusan tepat waktu mencapai 95%.",
+                    'description' => "<div class='achievement-desc'><p><strong>{$alias} meraih penghargaan</strong> <em>Outstanding Academic Achievement</em> karena:</p><ul><li>📚 IPK rata-rata anggota konsisten di atas 3.5</li><li>🎓 Tingkat kelulusan tepat waktu mencapai 95%</li></ul></div>",
                     'type' => 'academic',
                     'level' => 'university'
                 ]
@@ -117,31 +117,31 @@ class AchievementSeeder extends Seeder
             'UKM Seni' => [
                 [
                     'title' => 'Juara 1 Festival Fotografi Nasional "Indonesia Heritage"',
-                    'description' => "Karya fotografi anggota {$alias} meraih juara pertama dalam kategori Heritage Photography di festival tingkat nasional. Foto yang menampilkan keindahan budaya lokal mendapat apresiasi tinggi dari juri internasional.",
+                    'description' => "<div class='achievement-desc'><p><strong>Karya fotografi anggota {$alias} meraih juara pertama</strong> dalam kategori <em>Heritage Photography</em> di festival tingkat nasional.</p><p>📷 Foto yang menampilkan keindahan budaya lokal mendapat apresiasi tinggi dari juri internasional.</p></div>",
                     'type' => 'competition',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Pameran Tunggal di Galeri Nasional Indonesia',
-                    'description' => "{$alias} mendapat kehormatan menggelar pameran tunggal di Galeri Nasional Indonesia dengan tema 'Youth Expression'. Pameran ini menampilkan 50+ karya terbaik dari anggota selama 3 tahun terakhir.",
+                    'description' => "<div class='achievement-desc'><p><strong>{$alias} mendapat kehormatan</strong> menggelar pameran tunggal di <em>Galeri Nasional Indonesia</em> dengan tema 'Youth Expression'.</p><p>🎨 Pameran ini menampilkan <strong>50+ karya terbaik</strong> dari anggota selama 3 tahun terakhir.</p></div>",
                     'type' => 'exhibition',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Best Performance Award - Festival Seni Mahasiswa',
-                    'description' => "Pertunjukan musik dan tari kolaboratif {$alias} meraih Best Performance Award di Festival Seni Mahasiswa tingkat Jawa. Penampilan yang memadukan seni tradisional dan kontemporer mendapat standing ovation.",
+                    'description' => "<div class='achievement-desc'><p><strong>Pertunjukan musik dan tari kolaboratif {$alias}</strong> meraih <em>Best Performance Award</em> di Festival Seni Mahasiswa tingkat Jawa.</p><p>🎭 Penampilan yang memadukan seni tradisional dan kontemporer mendapat <strong>standing ovation</strong>.</p></div>",
                     'type' => 'performance',
                     'level' => 'regional'
                 ],
                 [
                     'title' => 'Artist Residency Program - Cultural Exchange',
-                    'description' => "Tiga anggota {$alias} terpilih mengikuti Artist Residency Program di Malaysia dalam program pertukaran budaya ASEAN. Program ini membuka wawasan dan jaringan internasional.",
+                    'description' => "<div class='achievement-desc'><p><strong>Tiga anggota {$alias} terpilih</strong> mengikuti <em>Artist Residency Program</em> di Malaysia dalam program pertukaran budaya ASEAN.</p><p>🌏 Program ini membuka wawasan dan jaringan internasional.</p></div>",
                     'type' => 'exchange',
                     'level' => 'international'
                 ],
                 [
                     'title' => 'Community Art Project Recognition',
-                    'description' => "Proyek seni komunitas {$alias} mendapat pengakuan dari Kementerian Pendidikan dan Kebudayaan karena berhasil merevitalisasi seni tradisional di 5 desa melalui workshop dan pemberdayaan.",
+                    'description' => "<div class='achievement-desc'><p><strong>Proyek seni komunitas {$alias}</strong> mendapat pengakuan dari <em>Kementerian Pendidikan dan Kebudayaan</em>.</p><p>🏛️ Berhasil merevitalisasi seni tradisional di <strong>5 desa</strong> melalui workshop dan pemberdayaan.</p></div>",
                     'type' => 'community',
                     'level' => 'national'
                 ]
@@ -149,31 +149,31 @@ class AchievementSeeder extends Seeder
             'UKM Olahraga' => [
                 [
                     'title' => 'Juara 1 LIMA Basketball Divisi Utama 2024',
-                    'description' => "Tim basket {$alias} berhasil meraih juara pertama di Liga Mahasiswa (LIMA) Basketball Divisi Utama 2024. Perjalanan menuju juara tidaklah mudah dengan mengalahkan 32 tim terbaik se-Indonesia.",
+                    'description' => "<div class='achievement-desc'><p><strong>Tim basket {$alias} berhasil meraih juara pertama</strong> di <em>Liga Mahasiswa (LIMA) Basketball Divisi Utama 2024</em>.</p><p>🏀 Perjalanan menuju juara tidaklah mudah dengan mengalahkan <strong>32 tim terbaik</strong> se-Indonesia.</p></div>",
                     'type' => 'competition',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Atlet Terbaik Pekan Olahraga Mahasiswa Nasional',
-                    'description' => "Salah satu anggota {$alias} meraih predikat Atlet Terbaik dalam Pekan Olahraga Mahasiswa Nasional cabang atletik. Prestasi ini sekaligus membukakan jalan menuju seleksi tim nasional.",
+                    'description' => "<div class='achievement-desc'><p><strong>Salah satu anggota {$alias} meraih predikat</strong> <em>Atlet Terbaik</em> dalam Pekan Olahraga Mahasiswa Nasional cabang atletik.</p><p>🥇 Prestasi ini sekaligus membukakan jalan menuju seleksi tim nasional.</p></div>",
                     'type' => 'individual',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Fair Play Award - Turnamen Futsal Regional',
-                    'description' => "Tim futsal {$alias} meraih Fair Play Award dalam turnamen regional karena sportivitas tinggi dan tidak pernah mendapat kartu merah selama kompetisi. Prestasi yang membanggakan di luar aspek teknis.",
+                    'description' => "<div class='achievement-desc'><p><strong>Tim futsal {$alias} meraih</strong> <em>Fair Play Award</em> dalam turnamen regional karena sportivitas tinggi.</p><p>⚽ Tidak pernah mendapat kartu merah selama kompetisi - prestasi yang membanggakan di luar aspek teknis!</p></div>",
                     'type' => 'sportsmanship',
                     'level' => 'regional'
                 ],
                 [
                     'title' => 'Sports Development Program Excellence',
-                    'description' => "Program pembinaan olahraga {$alias} untuk anak-anak di sekitar kampus mendapat apresiasi dari KONI Daerah. Program ini telah melahirkan 10+ atlet muda berbakat.",
+                    'description' => "<div class='achievement-desc'><p><strong>Program pembinaan olahraga {$alias}</strong> untuk anak-anak di sekitar kampus mendapat apresiasi dari <em>KONI Daerah</em>.</p><p>👶 Program ini telah melahirkan <strong>10+ atlet muda berbakat</strong>.</p></div>",
                     'type' => 'development',
                     'level' => 'regional'
                 ],
                 [
                     'title' => 'Marathon Finisher Achievement',
-                    'description' => "100% anggota {$alias} berhasil menyelesaikan Jakarta Marathon 2024. Pencapaian kolektif ini menunjukkan dedikasi tinggi terhadap kebugaran dan disiplin latihan yang konsisten.",
+                    'description' => "<div class='achievement-desc'><p><strong>100% anggota {$alias}</strong> berhasil menyelesaikan <em>Jakarta Marathon 2024</em>.</p><p>🏃‍♂️ Pencapaian kolektif ini menunjukkan dedikasi tinggi terhadap kebugaran dan disiplin latihan yang konsisten.</p></div>",
                     'type' => 'endurance',
                     'level' => 'national'
                 ]
@@ -181,31 +181,31 @@ class AchievementSeeder extends Seeder
             'UKM Teknologi' => [
                 [
                     'title' => 'Winner Robot Competition International 2024',
-                    'description' => "Robot buatan {$alias} meraih juara pertama dalam kompetisi robotika internasional dengan kategori autonomous navigation. Robot ini mampu menyelesaikan misi kompleks dengan akurasi 98%.",
+                    'description' => "<div class='achievement-desc'><p><strong>Robot buatan {$alias} meraih juara pertama</strong> dalam kompetisi robotika internasional dengan kategori <em>autonomous navigation</em>.</p><p>🤖 Robot ini mampu menyelesaikan misi kompleks dengan akurasi <strong>98%</strong>!</p></div>",
                     'type' => 'competition',
                     'level' => 'international'
                 ],
                 [
                     'title' => 'Patent Granted - Smart Irrigation System',
-                    'description' => "Inovasi Smart Irrigation System yang dikembangkan {$alias} berhasil mendapat paten dari Direktorat Jenderal Kekayaan Intelektual. Sistem ini telah diimplementasikan di 20+ lahan pertanian.",
+                    'description' => "<div class='achievement-desc'><p><strong>Inovasi Smart Irrigation System</strong> yang dikembangkan {$alias} berhasil mendapat paten dari <em>Direktorat Jenderal Kekayaan Intelektual</em>.</p><p>🌱 Sistem ini telah diimplementasikan di <strong>20+ lahan pertanian</strong>.</p></div>",
                     'type' => 'patent',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Startup Incubation Program Graduate',
-                    'description' => "Startup yang dibentuk anggota {$alias} berhasil lulus dari program inkubasi Techstars dan mendapat pendanaan seed round senilai $100K untuk pengembangan aplikasi AI-powered.",
+                    'description' => "<div class='achievement-desc'><p><strong>Startup yang dibentuk anggota {$alias}</strong> berhasil lulus dari program inkubasi <em>Techstars</em>.</p><p>💰 Mendapat pendanaan seed round senilai <strong>$100K</strong> untuk pengembangan aplikasi AI-powered.</p></div>",
                     'type' => 'startup',
                     'level' => 'international'
                 ],
                 [
                     'title' => 'IoT Innovation Challenge Champion',
-                    'description' => "Solusi IoT untuk smart home yang dikembangkan {$alias} memenangkan IoT Innovation Challenge tingkat ASEAN. Produk ini telah dikomersialkan dan dijual di 3 negara.",
+                    'description' => "<div class='achievement-desc'><p><strong>Solusi IoT untuk smart home</strong> yang dikembangkan {$alias} memenangkan <em>IoT Innovation Challenge</em> tingkat ASEAN.</p><p>🏠 Produk ini telah dikomersialkan dan dijual di <strong>3 negara</strong>.</p></div>",
                     'type' => 'innovation',
                     'level' => 'international'
                 ],
                 [
                     'title' => 'Open Source Contributor Recognition',
-                    'description' => "Anggota {$alias} diakui sebagai contributor aktif dalam proyek open source Linux kernel dan mendapat undangan khusus ke Linux Foundation Conference 2024.",
+                    'description' => "<div class='achievement-desc'><p><strong>Anggota {$alias} diakui</strong> sebagai contributor aktif dalam proyek open source <em>Linux kernel</em>.</p><p>🐧 Mendapat undangan khusus ke <strong>Linux Foundation Conference 2024</strong>.</p></div>",
                     'type' => 'contribution',
                     'level' => 'international'
                 ]
@@ -213,25 +213,25 @@ class AchievementSeeder extends Seeder
             'UKM Kemasyarakatan' => [
                 [
                     'title' => 'Outstanding Community Service Award 2024',
-                    'description' => "Program pemberdayaan masyarakat {$alias} di 5 desa terpencil mendapat penghargaan Outstanding Community Service Award dari Kemendesa. Program ini telah meningkatkan kesejahteraan 500+ keluarga.",
+                    'description' => "<div class='achievement-desc'><p><strong>Program pemberdayaan masyarakat {$alias}</strong> di 5 desa terpencil mendapat penghargaan <em>Outstanding Community Service Award</em> dari Kemendesa.</p><p>👥 Program ini telah meningkatkan kesejahteraan <strong>500+ keluarga</strong>.</p></div>",
                     'type' => 'service',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Environmental Conservation Recognition',
-                    'description' => "Inisiatif konservasi lingkungan {$alias} berhasil menanam 10,000 pohon dan membersihkan 50+ sungai mendapat pengakuan dari Kementerian Lingkungan Hidup dan Kehutanan.",
+                    'description' => "<div class='achievement-desc'><p><strong>Inisiatif konservasi lingkungan {$alias}</strong> berhasil menanam <strong>10,000 pohon</strong> dan membersihkan <strong>50+ sungai</strong>.</p><p>🌳 Mendapat pengakuan dari <em>Kementerian Lingkungan Hidup dan Kehutanan</em>.</p></div>",
                     'type' => 'environment',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Education for All Program Excellence',
-                    'description' => "Program 'Education for All' {$alias} berhasil memberikan pendidikan gratis kepada 200+ anak kurang mampu dan mendapat dukungan funding dari UNICEF Indonesia.",
+                    'description' => "<div class='achievement-desc'><p><strong>Program 'Education for All' {$alias}</strong> berhasil memberikan pendidikan gratis kepada <strong>200+ anak kurang mampu</strong>.</p><p>📚 Mendapat dukungan funding dari <em>UNICEF Indonesia</em>.</p></div>",
                     'type' => 'education',
                     'level' => 'national'
                 ],
                 [
                     'title' => 'Disaster Relief Volunteer Recognition',
-                    'description' => "Tim relawan {$alias} mendapat apresiasi khusus dari BNPB karena respons cepat dan bantuan efektif saat bencana banjir di Jawa Tengah, membantu evakuasi 1000+ warga.",
+                    'description' => "<div class='achievement-desc'><p><strong>Tim relawan {$alias}</strong> mendapat apresiasi khusus dari <em>BNPB</em> karena respons cepat dan bantuan efektif.</p><p>🚨 Membantu evakuasi <strong>1000+ warga</strong> saat bencana banjir di Jawa Tengah.</p></div>",
                     'type' => 'disaster_relief',
                     'level' => 'national'
                 ]
@@ -241,13 +241,13 @@ class AchievementSeeder extends Seeder
         return $achievements[$category] ?? [
             [
                 'title' => 'Excellence in Student Leadership 2024',
-                'description' => "Anggota {$alias} menunjukkan kepemimpinan luar biasa dalam berbagai kegiatan kemahasiswaan dan mendapat pengakuan dari universitas.",
+                'description' => "<div class='achievement-desc'><p><strong>Anggota {$alias} menunjukkan kepemimpinan luar biasa</strong> dalam berbagai kegiatan kemahasiswaan.</p><p>👑 Mendapat pengakuan dari universitas atas dedikasi dan kontribusinya.</p></div>",
                 'type' => 'leadership',
                 'level' => 'university'
             ],
             [
                 'title' => 'Active Participation Award',
-                'description' => "{$alias} mendapat penghargaan Active Participation Award karena konsistensi tinggi dalam mengikuti kegiatan kemahasiswaan selama 2 tahun berturut-turut.",
+                'description' => "<div class='achievement-desc'><p><strong>{$alias} mendapat penghargaan</strong> <em>Active Participation Award</em> karena konsistensi tinggi.</p><p>⭐ Mengikuti kegiatan kemahasiswaan selama <strong>2 tahun berturut-turut</strong>.</p></div>",
                 'type' => 'participation',
                 'level' => 'university'
             ]
@@ -292,17 +292,17 @@ class AchievementSeeder extends Seeder
         $collaborativeAchievements = [
             [
                 'title' => 'Inter-UKM Collaboration Project Success',
-                'description' => "Proyek kolaborasi antar UKM yang dipimpin {$ukm->alias} berhasil menghasilkan inovasi terobosan dan mendapat funding dari Kemristek/BRIN untuk pengembangan lanjutan.",
+                'description' => "<div class='achievement-desc'><p><strong>Proyek kolaborasi antar UKM</strong> yang dipimpin {$ukm->alias} berhasil menghasilkan inovasi terobosan.</p><p>💰 Mendapat funding dari <em>Kemristek/BRIN</em> untuk pengembangan lanjutan.</p></div>",
                 'type' => 'collaboration'
             ],
             [
                 'title' => 'Cross-Faculty Innovation Award',
-                'description' => "Tim gabungan yang melibatkan {$ukm->alias} berhasil meraih Cross-Faculty Innovation Award dengan mengembangkan solusi interdisipliner untuk smart campus.",
+                'description' => "<div class='achievement-desc'><p><strong>Tim gabungan yang melibatkan {$ukm->alias}</strong> berhasil meraih <em>Cross-Faculty Innovation Award</em>.</p><p>🎓 Mengembangkan solusi interdisipliner untuk smart campus.</p></div>",
                 'type' => 'cross_faculty'
             ],
             [
                 'title' => 'Student Exchange Program Leadership',
-                'description' => "{$ukm->alias} berperan sebagai koordinator utama program pertukaran mahasiswa dengan 5 universitas di Asia Tenggara, memfasilitasi 50+ mahasiswa.",
+                'description' => "<div class='achievement-desc'><p><strong>{$ukm->alias} berperan sebagai koordinator utama</strong> program pertukaran mahasiswa dengan <strong>5 universitas</strong> di Asia Tenggara.</p><p>🌏 Memfasilitasi <strong>50+ mahasiswa</strong>.</p></div>",
                 'type' => 'exchange_leadership'
             ]
         ];
@@ -325,17 +325,17 @@ class AchievementSeeder extends Seeder
         $universityAchievements = [
             [
                 'title' => 'University Excellence in Student Activities 2024',
-                'description' => 'Universitas meraih penghargaan Excellence in Student Activities dari Kemendikbudristek berkat kontribusi luar biasa dari seluruh UKM dalam mengembangkan soft skills mahasiswa.',
+                'description' => '<div class="achievement-desc"><p><strong>Universitas meraih penghargaan</strong> <em>Excellence in Student Activities</em> dari Kemendikbudristek.</p><p>🎯 Berkat kontribusi luar biasa dari seluruh UKM dalam mengembangkan soft skills mahasiswa.</p></div>',
                 'ukm' => $ukms->random()
             ],
             [
                 'title' => 'Accreditation A for Student Development Programs',
-                'description' => 'Program pengembangan mahasiswa universitas meraih akreditasi A dari BAN-PT, dengan apresiasi khusus untuk ekosistem UKM yang dinamis dan berprestasi.',
+                'description' => '<div class="achievement-desc"><p><strong>Program pengembangan mahasiswa universitas</strong> meraih <em>akreditasi A</em> dari BAN-PT.</p><p>🏆 Dengan apresiasi khusus untuk ekosistem UKM yang dinamis dan berprestasi.</p></div>',
                 'ukm' => $ukms->random()
             ],
             [
                 'title' => 'Top 10 Most Active Student Organizations Indonesia',
-                'description' => 'Ekosistem UKM universitas masuk dalam top 10 Most Active Student Organizations di Indonesia versi Kemendikbudristek, dengan 200+ kegiatan berkualitas per tahun.',
+                'description' => '<div class="achievement-desc"><p><strong>Ekosistem UKM universitas</strong> masuk dalam <em>top 10 Most Active Student Organizations</em> di Indonesia versi Kemendikbudristek.</p><p>📊 Dengan <strong>200+ kegiatan berkualitas</strong> per tahun.</p></div>',
                 'ukm' => $ukms->random()
             ]
         ];

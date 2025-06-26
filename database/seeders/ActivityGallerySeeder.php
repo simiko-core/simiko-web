@@ -75,78 +75,78 @@ class ActivityGallerySeeder extends Seeder
     {
         $baseCaptions = [
             'Himpunan' => [
-                'Workshop Pengembangan Software - Sesi hands-on coding dengan mentor senior',
-                'Seminar Teknologi Terkini - Diskusi mendalam dengan praktisi industri',
-                'Study Group Intensif - Persiapan menghadapi ujian komprehensif',
-                'Kompetisi Programming - Tim {alias} menunjukkan kemampuan terbaiknya',
-                'Tech Talk Series - Sharing knowledge dari alumni yang sukses',
-                'Bootcamp Development - Intensive training selama 3 hari berturut-turut',
-                'Industry Visit - Kunjungan ke startup dan perusahaan teknologi terkemuka',
-                'Code Review Session - Peer learning untuk meningkatkan kualitas kode',
-                'Hackathon 48 Jam - Marathon coding untuk menyelesaikan challenge',
-                'Final Project Exhibition - Showcase karya terbaik mahasiswa semester ini'
+                '<div class="caption-content"><h4>Workshop Pengembangan Software</h4><p>Sesi hands-on coding dengan mentor senior 💻</p></div>',
+                '<div class="caption-content"><h4>Seminar Teknologi Terkini</h4><p>Diskusi mendalam dengan praktisi industri 🚀</p></div>',
+                '<div class="caption-content"><h4>Study Group Intensif</h4><p>Persiapan menghadapi ujian komprehensif 📚</p></div>',
+                '<div class="caption-content"><h4>Kompetisi Programming</h4><p>Tim {alias} menunjukkan kemampuan terbaiknya 🏆</p></div>',
+                '<div class="caption-content"><h4>Tech Talk Series</h4><p>Sharing knowledge dari alumni yang sukses ⭐</p></div>',
+                '<div class="caption-content"><h4>Bootcamp Development</h4><p>Intensive training selama 3 hari berturut-turut 🛠️</p></div>',
+                '<div class="caption-content"><h4>Industry Visit</h4><p>Kunjungan ke startup dan perusahaan teknologi terkemuka 🏢</p></div>',
+                '<div class="caption-content"><h4>Code Review Session</h4><p>Peer learning untuk meningkatkan kualitas kode 🔍</p></div>',
+                '<div class="caption-content"><h4>Hackathon 48 Jam</h4><p>Marathon coding untuk menyelesaikan challenge ⚡</p></div>',
+                '<div class="caption-content"><h4>Final Project Exhibition</h4><p>Showcase karya terbaik mahasiswa semester ini 🎯</p></div>'
             ],
             'UKM Seni' => [
-                'Pameran Fotografi Tahunan - "Jejak Nusantara" karya anggota terbaik',
-                'Konser Musik Akustik - Malam apresiasi seni dengan berbagai genre',
-                'Workshop Fotografi Portrait - Teknik pencahayaan dan komposisi profesional',
-                'Pertunjukan Teater - Drama musikal yang menginspirasi audience',
-                'Art & Craft Exhibition - Karya seni rupa dari berbagai medium',
-                'Open Stage Performance - Kesempatan emas untuk showcase bakat',
-                'Behind The Scene Shooting - Proses kreatif pembuatan film pendek',
-                'Digital Art Workshop - Menguasai tools design dengan Adobe Creative Suite',
-                'Cultural Night - Kolaborasi seni tradisional dan kontemporer',
-                'Photo Walk Session - Hunting foto di lokasi-lokasi ikonik kota'
+                '<div class="caption-content"><h4>Pameran Fotografi Tahunan</h4><p>"Jejak Nusantara" karya anggota terbaik 📷</p></div>',
+                '<div class="caption-content"><h4>Konser Musik Akustik</h4><p>Malam apresiasi seni dengan berbagai genre 🎸</p></div>',
+                '<div class="caption-content"><h4>Workshop Fotografi Portrait</h4><p>Teknik pencahayaan dan komposisi profesional 💡</p></div>',
+                '<div class="caption-content"><h4>Pertunjukan Teater</h4><p>Drama musikal yang menginspirasi audience 🎭</p></div>',
+                '<div class="caption-content"><h4>Art & Craft Exhibition</h4><p>Karya seni rupa dari berbagai medium 🎨</p></div>',
+                '<div class="caption-content"><h4>Open Stage Performance</h4><p>Kesempatan emas untuk showcase bakat ⭐</p></div>',
+                '<div class="caption-content"><h4>Behind The Scene Shooting</h4><p>Proses kreatif pembuatan film pendek 🎬</p></div>',
+                '<div class="caption-content"><h4>Digital Art Workshop</h4><p>Menguasai tools design dengan Adobe Creative Suite 🖥️</p></div>',
+                '<div class="caption-content"><h4>Cultural Night</h4><p>Kolaborasi seni tradisional dan kontemporer 🌟</p></div>',
+                '<div class="caption-content"><h4>Photo Walk Session</h4><p>Hunting foto di lokasi-lokasi ikonik kota 📸</p></div>'
             ],
             'UKM Olahraga' => [
-                'Final Turnamen Futsal - Pertandingan sengit antar fakultas',
-                'Training Camp Intensif - Persiapan fisik dan mental atlet terbaik',
-                'Marathon 10K Campus Run - Event lari untuk mempromosikan hidup sehat',
-                'Pelatihan Teknik Dasar - Fundamental skills untuk member baru',
-                'Friendly Match - Uji coba kemampuan tim dengan klub luar',
-                'Sports Festival - Kompetisi multi-cabang olahraga tingkat universitas',
-                'Coaching Clinic - Sesi khusus dengan pelatih nasional berpengalaman',
-                'Team Building - Membangun chemistry dan koordinasi tim yang solid',
-                'Championship Victory - Merayakan pencapaian juara regional',
-                'Conditioning Training - Latihan fisik untuk meningkatkan stamina'
+                '<div class="caption-content"><h4>Final Turnamen Futsal</h4><p>Pertandingan sengit antar fakultas ⚽</p></div>',
+                '<div class="caption-content"><h4>Training Camp Intensif</h4><p>Persiapan fisik dan mental atlet terbaik 💪</p></div>',
+                '<div class="caption-content"><h4>Marathon 10K Campus Run</h4><p>Event lari untuk mempromosikan hidup sehat 🏃‍♂️</p></div>',
+                '<div class="caption-content"><h4>Pelatihan Teknik Dasar</h4><p>Fundamental skills untuk member baru 🎯</p></div>',
+                '<div class="caption-content"><h4>Friendly Match</h4><p>Uji coba kemampuan tim dengan klub luar 🤝</p></div>',
+                '<div class="caption-content"><h4>Sports Festival</h4><p>Kompetisi multi-cabang olahraga tingkat universitas 🏆</p></div>',
+                '<div class="caption-content"><h4>Coaching Clinic</h4><p>Sesi khusus dengan pelatih nasional berpengalaman 👨‍🏫</p></div>',
+                '<div class="caption-content"><h4>Team Building</h4><p>Membangun chemistry dan koordinasi tim yang solid 🤜🤛</p></div>',
+                '<div class="caption-content"><h4>Championship Victory</h4><p>Merayakan pencapaian juara regional 🥇</p></div>',
+                '<div class="caption-content"><h4>Conditioning Training</h4><p>Latihan fisik untuk meningkatkan stamina ⚡</p></div>'
             ],
             'UKM Teknologi' => [
-                'Robot Competition - Demonstrasi robot terbaik hasil karya mahasiswa',
-                'Innovation Lab - R&D project untuk solusi teknologi masa depan',
-                'Arduino Workshop - Pembelajaran IoT dan embedded systems',
-                'AI/ML Bootcamp - Deep learning dengan TensorFlow dan PyTorch',
-                'Prototype Testing - Uji coba produk inovasi di environment nyata',
-                'Tech Expo Participation - Showcase inovasi di pameran teknologi',
-                'Drone Racing Championship - Kompetisi menerbangkan drone custom-built',
-                '3D Printing Workshop - Rapid prototyping untuk product development',
-                'Robotics Assembly - Proses pembuatan robot dari komponen awal',
-                'Smart City Project - Implementasi IoT untuk solusi kota pintar'
+                '<div class="caption-content"><h4>Robot Competition</h4><p>Demonstrasi robot terbaik hasil karya mahasiswa 🤖</p></div>',
+                '<div class="caption-content"><h4>Innovation Lab</h4><p>R&D project untuk solusi teknologi masa depan 🔬</p></div>',
+                '<div class="caption-content"><h4>Arduino Workshop</h4><p>Pembelajaran IoT dan embedded systems 🔧</p></div>',
+                '<div class="caption-content"><h4>AI/ML Bootcamp</h4><p>Deep learning dengan TensorFlow dan PyTorch 🧠</p></div>',
+                '<div class="caption-content"><h4>Prototype Testing</h4><p>Uji coba produk inovasi di environment nyata ⚗️</p></div>',
+                '<div class="caption-content"><h4>Tech Expo Participation</h4><p>Showcase inovasi di pameran teknologi 🚀</p></div>',
+                '<div class="caption-content"><h4>Drone Racing Championship</h4><p>Kompetisi menerbangkan drone custom-built 🚁</p></div>',
+                '<div class="caption-content"><h4>3D Printing Workshop</h4><p>Rapid prototyping untuk product development 🖨️</p></div>',
+                '<div class="caption-content"><h4>Robotics Assembly</h4><p>Proses pembuatan robot dari komponen awal ⚙️</p></div>',
+                '<div class="caption-content"><h4>Smart City Project</h4><p>Implementasi IoT untuk solusi kota pintar 🏙️</p></div>'
             ],
             'UKM Kemasyarakatan' => [
-                'Bakti Sosial di Panti Asuhan - Berbagi kebahagiaan dengan anak-anak',
-                'Program Belajar Mengajar - Volunteer teaching di daerah terpencil',
-                'Bersih-Bersih Lingkungan - Aksi peduli lingkungan bersama masyarakat',
-                'Santunan Anak Yatim - Program rutin setiap bulan Ramadan',
-                'Donor Darah Massal - Kerjasama dengan PMI untuk kemanusiaan',
-                'Pemberdayaan UMKM - Training digital marketing untuk pelaku usaha',
-                'Posyandu Balita - Pemeriksaan kesehatan gratis di desa binaan',
-                'Festival Kampung - Apresiasi budaya lokal dan ekonomi kreatif',
-                'Rehabilitasi Rumah - Gotong royong memperbaiki rumah warga',
-                'Edukasi Lingkungan - Sosialisasi pengelolaan sampah yang baik'
+                '<div class="caption-content"><h4>Bakti Sosial di Panti Asuhan</h4><p>Berbagi kebahagiaan dengan anak-anak ❤️</p></div>',
+                '<div class="caption-content"><h4>Program Belajar Mengajar</h4><p>Volunteer teaching di daerah terpencil 📚</p></div>',
+                '<div class="caption-content"><h4>Bersih-Bersih Lingkungan</h4><p>Aksi peduli lingkungan bersama masyarakat 🌍</p></div>',
+                '<div class="caption-content"><h4>Santunan Anak Yatim</h4><p>Program rutin setiap bulan Ramadan 🤲</p></div>',
+                '<div class="caption-content"><h4>Donor Darah Massal</h4><p>Kerjasama dengan PMI untuk kemanusiaan 🩸</p></div>',
+                '<div class="caption-content"><h4>Pemberdayaan UMKM</h4><p>Training digital marketing untuk pelaku usaha 💼</p></div>',
+                '<div class="caption-content"><h4>Posyandu Balita</h4><p>Pemeriksaan kesehatan gratis di desa binaan 👶</p></div>',
+                '<div class="caption-content"><h4>Festival Kampung</h4><p>Apresiasi budaya lokal dan ekonomi kreatif 🎪</p></div>',
+                '<div class="caption-content"><h4>Rehabilitasi Rumah</h4><p>Gotong royong memperbaiki rumah warga 🏠</p></div>',
+                '<div class="caption-content"><h4>Edukasi Lingkungan</h4><p>Sosialisasi pengelolaan sampah yang baik ♻️</p></div>'
             ]
         ];
 
         return $baseCaptions[$category] ?? [
-            'Kegiatan Rutin Mingguan - Pertemuan regular untuk koordinasi program',
-            'Workshop Skill Development - Pelatihan soft skills dan hard skills',
-            'Seminar Motivasi - Sesi inspiratif dengan pembicara berpengalaman',
-            'Team Building Activity - Mempererat hubungan antar anggota',
-            'Community Service - Kontribusi nyata untuk masyarakat sekitar',
-            'Study Tour Educational - Perjalanan edukatif ke tempat bersejarah',
-            'Leadership Training - Pengembangan kemampuan kepemimpinan',
-            'Cultural Exchange - Program pertukaran budaya dan pengetahuan',
-            'Innovation Workshop - Brainstorming ide-ide kreatif dan inovatif',
-            'Achievement Celebration - Perayaan pencapaian dan prestasi terbaik'
+            '<div class="caption-content"><h4>Kegiatan Rutin Mingguan</h4><p>Pertemuan regular untuk koordinasi program 📅</p></div>',
+            '<div class="caption-content"><h4>Workshop Skill Development</h4><p>Pelatihan soft skills dan hard skills 💪</p></div>',
+            '<div class="caption-content"><h4>Seminar Motivasi</h4><p>Sesi inspiratif dengan pembicara berpengalaman ✨</p></div>',
+            '<div class="caption-content"><h4>Team Building Activity</h4><p>Mempererat hubungan antar anggota 🤝</p></div>',
+            '<div class="caption-content"><h4>Community Service</h4><p>Kontribusi nyata untuk masyarakat sekitar ❤️</p></div>',
+            '<div class="caption-content"><h4>Study Tour Educational</h4><p>Perjalanan edukatif ke tempat bersejarah 🏛️</p></div>',
+            '<div class="caption-content"><h4>Leadership Training</h4><p>Pengembangan kemampuan kepemimpinan 👑</p></div>',
+            '<div class="caption-content"><h4>Cultural Exchange</h4><p>Program pertukaran budaya dan pengetahuan 🌍</p></div>',
+            '<div class="caption-content"><h4>Innovation Workshop</h4><p>Brainstorming ide-ide kreatif dan inovatif 💡</p></div>',
+            '<div class="caption-content"><h4>Achievement Celebration</h4><p>Perayaan pencapaian dan prestasi terbaik 🏆</p></div>'
         ];
     }
 
@@ -230,17 +230,17 @@ class ActivityGallerySeeder extends Seeder
         $specialItems = [
             [
                 'type' => 'group_photo',
-                'caption' => "Foto bersama keluarga besar {$ukm->alias} - Bonding yang tak terlupakan!",
+                'caption' => "<div class='caption-content'><h4>Foto Bersama Keluarga Besar {$ukm->alias}</h4><p>Bonding yang tak terlupakan! 🤗</p></div>",
                 'days_ago' => rand(30, 90)
             ],
             [
                 'type' => 'achievement',
-                'caption' => "Moment bersejarah - {$ukm->alias} meraih prestasi membanggakan di tingkat nasional",
+                'caption' => "<div class='caption-content'><h4>Moment Bersejarah</h4><p>{$ukm->alias} meraih prestasi membanggakan di tingkat nasional 🏆</p></div>",
                 'days_ago' => rand(60, 180)
             ],
             [
                 'type' => 'behind_scenes',
-                'caption' => "Behind the scenes persiapan event besar - Kerja keras yang membuahkan hasil manis",
+                'caption' => "<div class='caption-content'><h4>Behind The Scenes</h4><p>Persiapan event besar - Kerja keras yang membuahkan hasil manis 💪</p></div>",
                 'days_ago' => rand(15, 45)
             ]
         ];
