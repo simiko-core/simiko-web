@@ -147,24 +147,6 @@ class feedController extends Controller
                 ]
             ];
 
-            // Add event-specific data for events
-            if ($feed->type === 'event') {
-                $feedData['event_date'] = $feed->event_date;
-                $feedData['is_paid'] = $feed->is_paid;
-                
-                // Add payment configuration details for paid events
-                if ($feed->is_paid && $feed->paymentConfiguration) {
-                    $feedData['payment_configuration'] = [
-                        'id' => $feed->paymentConfiguration->id,
-                        'name' => $feed->paymentConfiguration->name,
-                        'description' => $feed->paymentConfiguration->description,
-                        'amount' => $feed->paymentConfiguration->amount,
-                        'currency' => $feed->paymentConfiguration->currency,
-                        'payment_methods' => $feed->paymentConfiguration->payment_methods,
-                        'custom_fields' => $feed->paymentConfiguration->custom_fields,
-                    ];
-                }
-            }
 
             return $feedData;
         });
@@ -232,12 +214,21 @@ class feedController extends Controller
     {
         try {
             $feed = Feed::select(
-                'id', 'type', 'title', 'content', 'image', 'event_date', 
-                'event_type', 'location', 'is_paid', 
-                'unit_kegiatan_id', 'payment_configuration_id', 'created_at'
+                'id',
+                'type',
+                'title',
+                'content',
+                'image',
+                'event_date',
+                'event_type',
+                'location',
+                'is_paid',
+                'unit_kegiatan_id',
+                'payment_configuration_id',
+                'created_at'
             )
-            ->with(['unitKegiatan:id,name,logo,alias', 'paymentConfiguration'])
-            ->findOrFail($id);
+                ->with(['unitKegiatan:id,name,logo,alias', 'paymentConfiguration'])
+                ->findOrFail($id);
 
             $data = [
                 'id' => $feed->id,
@@ -260,7 +251,7 @@ class feedController extends Controller
                 $data['event_type'] = $feed->event_type;
                 $data['location'] = $feed->location;
                 $data['is_paid'] = $feed->is_paid;
-                
+
                 // Add payment configuration details for paid events
                 if ($feed->is_paid && $feed->paymentConfiguration) {
                     $data['payment_configuration'] = [
