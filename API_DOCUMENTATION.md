@@ -275,6 +275,102 @@ curl -X GET "http://localhost:8000/api/ukms/search?q=Informatika" \
   -H "Authorization: Bearer {your_token}"
 ```
 
+### 8. Create Payment Transaction (Event-linked)
+
+```bash
+# Create a payment transaction for an event
+curl -X POST http://localhost:8000/api/payment/create-transaction \
+  -H "Authorization: Bearer {your_token}" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "payment_configuration_id": 1,
+    "feed_id": 5,
+    "custom_data": {
+      "student_id": "2021001",
+      "phone": "08123456789"
+    }
+  }'
+```
+
+**Response:**
+```json
+{
+  "status": true,
+  "message": "Transaction created successfully",
+  "data": {
+    "transaction": {
+      "id": 1,
+      "transaction_id": "TXN-HMIF-1732627200-1234",
+      "amount": 50000,
+      "currency": "IDR",
+      "status": "pending",
+      "expires_at": "2024-12-02T10:30:00.000000Z",
+      "payment_configuration": {
+        "name": "Workshop Registration Fee",
+        "description": "Registration fee for tech workshop",
+        "payment_methods": [
+          {
+            "method": "Bank Transfer BCA",
+            "account_number": "1234567890",
+            "account_name": "HMIF UNS"
+          }
+        ]
+      },
+      "event": {
+        "id": 5,
+        "title": "Tech Workshop 2024",
+        "event_date": "2024-12-25"
+      }
+    }
+  }
+}
+```
+
+### Feed Detail (Event)
+```json
+{
+  "id": 1,
+  "type": "event",
+  "title": "Tech Workshop 2024",
+  "content": "Join us for an exciting tech workshop...",
+  "image_url": "https://example.com/image.jpg",
+  "event_date": "2024-12-25",
+  "event_type": "offline", // or "online"
+  "location": "Building A, 3rd Floor",
+  "is_paid": true,
+  "payment_configuration": {
+    "id": 1,
+    "name": "Workshop Registration Fee",
+    "description": "Registration fee for tech workshop",
+    "amount": 50000,
+    "currency": "IDR",
+    "payment_methods": [
+      {
+        "method": "Bank Transfer BCA",
+        "account_number": "1234567890",
+        "account_name": "HMIF UNS",
+        "bank_name": "Bank Central Asia"
+      }
+    ],
+    "custom_fields": [
+      {
+        "label": "Student ID",
+        "name": "student_id",
+        "type": "text",
+        "required": true
+      }
+    ]
+  },
+  "ukm": {
+    "id": 1,
+    "name": "Himpunan Mahasiswa Informatika",
+    "alias": "HMIF",
+    "logo_url": "https://example.com/logo.jpg"
+  },
+  "created_at": "2024-06-25T10:30:00.000000Z"
+}
+```
+
 ---
 
 ## 📊 Response Format
@@ -344,14 +440,29 @@ All API responses follow a consistent format:
   "event_type": "offline", // or "online"
   "location": "Building A, 3rd Floor",
   "is_paid": true,
-  "price": 50000,
-  "payment_methods": [
-    {
-      "method": "Bank Transfer",
-      "account_number": "1234567890",
-      "account_name": "HMIF UNS"
-    }
-  ],
+  "payment_configuration": {
+    "id": 1,
+    "name": "Workshop Registration Fee",
+    "description": "Registration fee for tech workshop",
+    "amount": 50000,
+    "currency": "IDR",
+    "payment_methods": [
+      {
+        "method": "Bank Transfer BCA",
+        "account_number": "1234567890",
+        "account_name": "HMIF UNS",
+        "bank_name": "Bank Central Asia"
+      }
+    ],
+    "custom_fields": [
+      {
+        "label": "Student ID",
+        "name": "student_id",
+        "type": "text",
+        "required": true
+      }
+    ]
+  },
   "ukm": {
     "id": 1,
     "name": "Himpunan Mahasiswa Informatika",

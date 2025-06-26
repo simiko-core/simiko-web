@@ -121,22 +121,20 @@ class feedController extends Controller
         $type = $request->get('type'); // Optional filter by type
         $unitKegiatanId = $request->get('ukm_id'); // Optional filter by UKM
 
-        $feeds = Feed::select(
-            'id', 'type', 'title', 'image', 'unit_kegiatan_id', 'created_at'
-        )
-        ->with('unitKegiatan:id,alias,logo')
-        ->when($type, function ($query, $type) {
-            return $query->where('type', $type);
-        })
-        ->when($unitKegiatanId, function ($query, $unitKegiatanId) {
-            return $query->where('unit_kegiatan_id', $unitKegiatanId);
-        })
-        ->orderBy('created_at', 'desc')
-        ->limit(50)
-        ->get();
+        $feeds = Feed::with(['unitKegiatan', 'paymentConfiguration'])
+            ->select('id', 'unit_kegiatan_id', 'payment_configuration_id', 'type', 'title', 'image', 'created_at', 'event_date', 'is_paid')
+            ->when($type, function ($query, $type) {
+                return $query->where('type', $type);
+            })
+            ->when($unitKegiatanId, function ($query, $ukmId) {
+                return $query->where('unit_kegiatan_id', $ukmId);
+            })
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get();
 
         $feedsData = $feeds->map(function ($feed) {
-            return [
+            $feedData = [
                 'id' => $feed->id,
                 'type' => $feed->type,
                 'title' => $feed->title,
@@ -144,10 +142,31 @@ class feedController extends Controller
                 'created_at' => $feed->created_at,
                 'ukm' => [
                     'id' => $feed->unitKegiatan->id,
-                    'name' => $feed->unitKegiatan->alias,
+                    'name' => $feed->unitKegiatan->name,
                     'logo_url' => $feed->unitKegiatan->logo ? asset('storage/' . $feed->unitKegiatan->logo) : null,
-                ],
+                ]
             ];
+
+            // Add event-specific data for events
+            if ($feed->type === 'event') {
+                $feedData['event_date'] = $feed->event_date;
+                $feedData['is_paid'] = $feed->is_paid;
+                
+                // Add payment configuration details for paid events
+                if ($feed->is_paid && $feed->paymentConfiguration) {
+                    $feedData['payment_configuration'] = [
+                        'id' => $feed->paymentConfiguration->id,
+                        'name' => $feed->paymentConfiguration->name,
+                        'description' => $feed->paymentConfiguration->description,
+                        'amount' => $feed->paymentConfiguration->amount,
+                        'currency' => $feed->paymentConfiguration->currency,
+                        'payment_methods' => $feed->paymentConfiguration->payment_methods,
+                        'custom_fields' => $feed->paymentConfiguration->custom_fields,
+                    ];
+                }
+            }
+
+            return $feedData;
         });
 
         // Group feeds by type
@@ -214,10 +233,10 @@ class feedController extends Controller
         try {
             $feed = Feed::select(
                 'id', 'type', 'title', 'content', 'image', 'event_date', 
-                'event_type', 'location', 'is_paid', 'price', 'payment_methods', 
-                'unit_kegiatan_id', 'created_at'
+                'event_type', 'location', 'is_paid', 
+                'unit_kegiatan_id', 'payment_configuration_id', 'created_at'
             )
-            ->with('unitKegiatan:id,name,logo,alias')
+            ->with(['unitKegiatan:id,name,logo,alias', 'paymentConfiguration'])
             ->findOrFail($id);
 
             $data = [
@@ -226,12 +245,6 @@ class feedController extends Controller
                 'title' => $feed->title,
                 'content' => $feed->content,
                 'image_url' => $feed->image ? asset('storage/' . $feed->image) : null,
-                'event_date' => $feed->event_date,
-                'event_type' => $feed->event_type,
-                'location' => $feed->location,
-                'is_paid' => $feed->is_paid,
-                'price' => $feed->price,
-                'payment_methods' => $feed->payment_methods,
                 'ukm' => [
                     'id' => $feed->unitKegiatan->id,
                     'name' => $feed->unitKegiatan->name,
@@ -240,6 +253,27 @@ class feedController extends Controller
                 ],
                 'created_at' => $feed->created_at,
             ];
+
+            // Add event-specific data for events
+            if ($feed->type === 'event') {
+                $data['event_date'] = $feed->event_date;
+                $data['event_type'] = $feed->event_type;
+                $data['location'] = $feed->location;
+                $data['is_paid'] = $feed->is_paid;
+                
+                // Add payment configuration details for paid events
+                if ($feed->is_paid && $feed->paymentConfiguration) {
+                    $data['payment_configuration'] = [
+                        'id' => $feed->paymentConfiguration->id,
+                        'name' => $feed->paymentConfiguration->name,
+                        'description' => $feed->paymentConfiguration->description,
+                        'amount' => $feed->paymentConfiguration->amount,
+                        'currency' => $feed->paymentConfiguration->currency,
+                        'payment_methods' => $feed->paymentConfiguration->payment_methods,
+                        'custom_fields' => $feed->paymentConfiguration->custom_fields,
+                    ];
+                }
+            }
 
             return ApiResponse::success($data, 'Feed item retrieved successfully');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {

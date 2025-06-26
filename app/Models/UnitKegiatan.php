@@ -68,4 +68,14 @@ class UnitKegiatan extends Model
     {
         return $this->hasMany(Feed::class);
     }
+
+    public function paymentConfigurations()
+    {
+        return $this->hasMany(PaymentConfiguration::class);
+    }
+
+    public function paymentTransactions()
+    {
+        return $this->hasMany(PaymentTransaction::class);
+    }
 }

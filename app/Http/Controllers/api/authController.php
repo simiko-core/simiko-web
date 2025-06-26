@@ -275,17 +275,40 @@ class SwaggerSchemas {}
         new OA\Property(property: "event_type", type: "string", enum: ["online", "offline"], example: "offline"),
         new OA\Property(property: "location", type: "string", example: "Building A, 3rd Floor"),
         new OA\Property(property: "is_paid", type: "boolean", example: true),
-        new OA\Property(property: "price", type: "number", example: 50000),
         new OA\Property(
-            property: "payment_methods",
-            type: "array",
-            items: new OA\Items(
-                properties: [
-                    new OA\Property(property: "method", type: "string", example: "Bank Transfer"),
-                    new OA\Property(property: "account_number", type: "string", example: "1234567890"),
-                    new OA\Property(property: "account_name", type: "string", example: "HMIF UNS")
-                ]
-            )
+            property: "payment_configuration",
+            type: "object",
+            properties: [
+                new OA\Property(property: "id", type: "integer", example: 1),
+                new OA\Property(property: "name", type: "string", example: "Workshop Registration Fee"),
+                new OA\Property(property: "description", type: "string", example: "Registration fee for tech workshop"),
+                new OA\Property(property: "amount", type: "number", example: 50000),
+                new OA\Property(property: "currency", type: "string", example: "IDR"),
+                new OA\Property(
+                    property: "payment_methods",
+                    type: "array",
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: "method", type: "string", example: "Bank Transfer BCA"),
+                            new OA\Property(property: "account_number", type: "string", example: "1234567890"),
+                            new OA\Property(property: "account_name", type: "string", example: "HMIF UNS"),
+                            new OA\Property(property: "bank_name", type: "string", example: "Bank Central Asia")
+                        ]
+                    )
+                ),
+                new OA\Property(
+                    property: "custom_fields",
+                    type: "array",
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: "label", type: "string", example: "Student ID"),
+                            new OA\Property(property: "name", type: "string", example: "student_id"),
+                            new OA\Property(property: "type", type: "string", example: "text"),
+                            new OA\Property(property: "required", type: "boolean", example: true)
+                        ]
+                    )
+                )
+            ]
         ),
         new OA\Property(
             property: "ukm",

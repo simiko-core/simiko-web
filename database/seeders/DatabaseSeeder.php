@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             UnitKegiatanProfileSeeder::class, // Create UKM profiles
             PendaftaranAnggotaSeeder::class,  // Create registrations
             FeedSeeder::class,             // Create feeds (posts and events)
+            PaymentSeeder::class,          // Create payment configurations and transactions
             AchievementSeeder::class,      // Create achievements
             ActivityGallerySeeder::class,  // Create activity galleries
             BannerSeeder::class,           // Create banners (depends on feeds)
@@ -32,6 +33,8 @@ class DatabaseSeeder extends Seeder
         $this->command->info('- Users: ' . User::count());
         $this->command->info('- UKMs: ' . \App\Models\UnitKegiatan::count());
         $this->command->info('- Feeds: ' . \App\Models\Feed::count());
+        $this->command->info('- Payment Configurations: ' . \App\Models\PaymentConfiguration::count());
+        $this->command->info('- Payment Transactions: ' . \App\Models\PaymentTransaction::count());
         $this->command->info('- Achievements: ' . \App\Models\Achievement::count());
         $this->command->info('- Activity Galleries: ' . \App\Models\ActivityGallery::count());
         $this->command->info('- Registrations: ' . \App\Models\PendaftaranAnggota::count());

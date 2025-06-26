@@ -12,12 +12,11 @@ class Feed extends Model
     use HasFactory;
 
     protected $fillable = [
-        'unit_kegiatan_id', 'type', 'title', 'content', 'image',
-        'event_date', 'event_type', 'location', 'is_paid', 'price', 'payment_methods'
+        'unit_kegiatan_id', 'payment_configuration_id', 'type', 'title', 'content', 'image',
+        'event_date', 'event_type', 'location', 'is_paid'
     ];
 
     protected $casts = [
-        'payment_methods' => 'array',
         'event_date' => 'date',
         'is_paid' => 'boolean',
     ];
@@ -40,6 +39,10 @@ class Feed extends Model
         return $this->belongsTo(UnitKegiatan::class);
     }
 
+    public function paymentConfiguration()
+    {
+        return $this->belongsTo(PaymentConfiguration::class);
+    }
 
     public function banner()
     {

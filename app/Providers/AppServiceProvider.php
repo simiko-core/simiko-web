@@ -9,6 +9,8 @@ use App\Models\ActivityGallery;
 use App\Models\Feed;
 use App\Models\Admin;
 use App\Observers\UnitKegiatanProfileObserver;
+use App\Observers\PaymentConfigurationsObserver;
+use App\Models\PaymentConfiguration;
 use App\Observers\AchievementObserver;
 use App\Observers\ActivityGalleryObserver;
 use App\Observers\FeedObserver;
@@ -39,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
         UnitKegiatanProfile::observe(UnitKegiatanProfileObserver::class);
         Achievement::observe(AchievementObserver::class);
         ActivityGallery::observe(ActivityGalleryObserver::class);
+        PaymentConfiguration::observe(PaymentConfigurationsObserver::class);
         Feed::observe(FeedObserver::class);
         Admin::observe(AdminObserver::class);
     }

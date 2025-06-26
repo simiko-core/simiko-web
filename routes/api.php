@@ -4,6 +4,7 @@ use App\Http\Controllers\api\authController;
 use App\Http\Controllers\api\ukmController;
 use App\Http\Controllers\api\bannerController;
 use App\Http\Controllers\api\feedController;
+use App\Http\Controllers\api\paymentController;
 
 Route::post("/login", [authController::class, "login"]);
 Route::post("/register", [authController::class, "register"]);
@@ -37,4 +38,10 @@ Route::middleware("auth:sanctum")->group(function () {
     Route::get("/feed/{id}", [feedController::class, "show"]);
     Route::get("/posts", [feedController::class, "posts"]);
     Route::get("/events", [feedController::class, "events"]);
+
+    // Payment endpoints
+    Route::get("/payment/configurations", [paymentController::class, "getConfigurations"]);
+    Route::post("/payment/create-transaction", [paymentController::class, "createTransaction"]);
+    Route::get("/payment/transactions", [paymentController::class, "getUserTransactions"]);
+    Route::post("/payment/transactions/{transactionId}/upload-proof", [paymentController::class, "uploadProof"]);
 });
