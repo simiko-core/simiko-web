@@ -63,7 +63,8 @@ class feedController extends Controller
                                                         type: "object",
                                                         properties: [
                                                             new OA\Property(property: "id", type: "integer", example: 2),
-                                                            new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                            new OA\Property(property: "name", type: "string", example: "HMTE"),
+                                                            new OA\Property(property: "logo_url", type: "string", nullable: true, example: "http://localhost:8000/storage/ukms/logo.jpg")
                                                         ]
                                                     )
                                                 ]
@@ -85,7 +86,8 @@ class feedController extends Controller
                                                         type: "object",
                                                         properties: [
                                                             new OA\Property(property: "id", type: "integer", example: 2),
-                                                            new OA\Property(property: "name", type: "string", example: "HMTE")
+                                                            new OA\Property(property: "name", type: "string", example: "HMTE"),
+                                                            new OA\Property(property: "logo_url", type: "string", nullable: true, example: "http://localhost:8000/storage/ukms/logo.jpg")
                                                         ]
                                                     )
                                                 ]
@@ -100,7 +102,8 @@ class feedController extends Controller
                                         type: "object",
                                         properties: [
                                             new OA\Property(property: "id", type: "integer", example: 1),
-                                            new OA\Property(property: "name", type: "string", example: "HMIF")
+                                            new OA\Property(property: "name", type: "string", example: "HMIF"),
+                                            new OA\Property(property: "logo_url", type: "string", nullable: true, example: "http://localhost:8000/storage/ukms/logo.jpg")
                                         ]
                                     )
                                 )
