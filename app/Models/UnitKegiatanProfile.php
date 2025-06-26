@@ -11,6 +11,14 @@ class UnitKegiatanProfile extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'unit_kegiatan_id',
+        'vision_mission',
+        'description',
+        'period',
+        'background_photo',
+    ];
+
     protected $hidden = [
         'created_at',
         'updated_at',

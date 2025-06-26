@@ -28,20 +28,23 @@ class ListUnitKegiatanProfile extends Component implements HasForms, HasTable
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('vision')
-                    ->label('Visi')
+                TextColumn::make('vision_mission')
+                    ->label('Vision & Mission')
                     ->sortable()
-                    ->searchable(),
-
-                TextColumn::make('mission')
-                    ->label('Misi')
-                    ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(50)
+                    ->wrap()
+                    ->html(),
 
                 TextColumn::make('description')
                     ->label('Deskripsi')
                     ->sortable()
                     ->searchable(),
+
+                \Filament\Tables\Columns\ImageColumn::make('background_photo')
+                    ->label('Background Photo')
+                    ->square()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 // ...
@@ -67,24 +70,24 @@ class ListUnitKegiatanProfile extends Component implements HasForms, HasTable
                             ->required()
                             ->helperText('Masukkan periode kegiatan (misalnya: 2023).'),
 
-                        \Filament\Forms\Components\Grid::make(2)
-                            ->schema([
-                                \Filament\Forms\Components\RichEditor::make('vision')
-                                    ->label('Visi')
-                                    ->required()
-                                    ->helperText('Masukkan visi untuk unit kegiatan ini.'),
-
-                                \Filament\Forms\Components\RichEditor::make('mission')
-                                    ->label('Misi')
-                                    ->required()
-                                    ->helperText('Masukkan misi untuk unit kegiatan ini.'),
-
-                            ]),
+                        \Filament\Forms\Components\RichEditor::make('vision_mission')
+                            ->label('Vision & Mission')
+                            ->required()
+                            ->helperText('Masukkan visi dan misi untuk unit kegiatan ini.')
+                            ->columnSpanFull(),
 
                         \Filament\Forms\Components\RichEditor::make('description')
                             ->label('Deskripsi')
                             ->required()
                             ->helperText('Deskripsi unit kegiatan yang lebih detail.')
+                            ->columnSpanFull(),
+
+                        \Filament\Forms\Components\FileUpload::make('background_photo')
+                            ->label('Background Photo')
+                            ->image()
+                            ->directory('unit_kegiatan_profiles/backgrounds')
+                            ->visibility('public')
+                            ->helperText('Upload a background image for the organization profile')
                             ->columnSpanFull(),
                     ])
                     ->action(function (array $data, UnitKegiatanProfile $record) {
@@ -107,24 +110,24 @@ class ListUnitKegiatanProfile extends Component implements HasForms, HasTable
                             ->required()
                             ->helperText('Masukkan periode kegiatan (misalnya: 2023).'),
 
-                        \Filament\Forms\Components\Grid::make(2)
-                            ->schema([
-                                \Filament\Forms\Components\RichEditor::make('vision')
-                                    ->label('Visi')
-                                    ->required()
-                                    ->helperText('Masukkan visi untuk unit kegiatan ini.'),
-
-                                \Filament\Forms\Components\RichEditor::make('mission')
-                                    ->label('Misi')
-                                    ->required()
-                                    ->helperText('Masukkan misi untuk unit kegiatan ini.'),
-
-                            ]),
+                        \Filament\Forms\Components\RichEditor::make('vision_mission')
+                            ->label('Vision & Mission')
+                            ->required()
+                            ->helperText('Masukkan visi dan misi untuk unit kegiatan ini.')
+                            ->columnSpanFull(),
 
                         \Filament\Forms\Components\RichEditor::make('description')
                             ->label('Deskripsi')
                             ->required()
                             ->helperText('Deskripsi unit kegiatan yang lebih detail.')
+                            ->columnSpanFull(),
+
+                        \Filament\Forms\Components\FileUpload::make('background_photo')
+                            ->label('Background Photo')
+                            ->image()
+                            ->directory('unit_kegiatan_profiles/backgrounds')
+                            ->visibility('public')
+                            ->helperText('Upload a background image for the organization profile')
                             ->columnSpanFull(),
                     ])
                     ->action(function (array $data) {

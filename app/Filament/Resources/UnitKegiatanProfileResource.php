@@ -60,18 +60,20 @@ class UnitKegiatanProfileResource extends Resource
                             ->helperText('Detailed description of the organization')
                             ->columnSpanFull(),
 
-                        Forms\Components\RichEditor::make('vision')
-                            ->label('Vision')
-                            ->required()
-                            ->placeholder('Enter the organization\'s vision statement...')
-                            ->helperText('What the organization aspires to achieve')
+                        Forms\Components\FileUpload::make('background_photo')
+                            ->label('Background Photo')
+                            ->image()
+                            ->directory('unit_kegiatan_profiles/backgrounds')
+                            ->visibility('public')
+                            ->placeholder('Upload a background photo for the organization profile')
+                            ->helperText('Upload a high-quality background image (recommended: 1920x1080 or similar aspect ratio)')
                             ->columnSpanFull(),
 
-                        Forms\Components\RichEditor::make('mission')
-                            ->label('Mission')
+                        Forms\Components\RichEditor::make('vision_mission')
+                            ->label('Vision & Mission')
                             ->required()
-                            ->placeholder('Enter the organization\'s mission statement...')
-                            ->helperText('How the organization plans to achieve its vision')
+                            ->placeholder('Enter the organization\'s vision and mission...')
+                            ->helperText('Describe the organization\'s vision and mission statements')
                             ->columnSpanFull(),
                     ])
                     ->columns(2)
@@ -107,6 +109,11 @@ class UnitKegiatanProfileResource extends Resource
                     ->limit(50)
                     ->wrap()
                     ->html(),
+
+                Tables\Columns\ImageColumn::make('background_photo')
+                    ->label('Background Photo')
+                    ->square()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
@@ -154,4 +161,4 @@ class UnitKegiatanProfileResource extends Resource
             'edit' => Pages\EditUnitKegiatanProfile::route('/{record}/edit'),
         ];
     }
-} 
+}

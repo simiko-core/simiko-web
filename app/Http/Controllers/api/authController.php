@@ -131,8 +131,8 @@ class authController extends Controller
                         new OA\Property(property: "password", type: "string", example: "password123"),
                         new OA\Property(property: "phone", type: "string", example: "08123456789"),
                         new OA\Property(
-                            property: "img_photo", 
-                            type: "string", 
+                            property: "img_photo",
+                            type: "string",
                             format: "binary",
                             description: "Profile photo (JPG, PNG, GIF, SVG max 2MB)"
                         )
@@ -217,7 +217,8 @@ class authController extends Controller
         ],
         tags: ["User"]
     )]
-    public function profile(Request $request) {
+    public function profile(Request $request)
+    {
         return ApiResponse::success([
             "id" => $request->user()->id,
             "name" => $request->user()->name,
@@ -330,7 +331,9 @@ class SwaggerSchemas {}
         new OA\Property(property: "alias", type: "string", example: "HMIF"),
         new OA\Property(property: "category", type: "string", example: "Himpunan"),
         new OA\Property(property: "logo", type: "string", example: "logo_unit_kegiatan/hmif-logo.png"),
-        new OA\Property(property: "description", type: "string", example: "Student organization for computer science students")
+        new OA\Property(property: "profile_image_url", type: "string", example: "https://example.com/logo.jpg"),
+        new OA\Property(property: "description", type: "string", example: "Student organization for computer science students"),
+        new OA\Property(property: "background_photo_url", type: "string", example: "https://example.com/background.jpg")
     ]
 )]
 #[OA\Schema(
@@ -341,6 +344,7 @@ class SwaggerSchemas {}
         new OA\Property(property: "alias", type: "string", example: "HMIF"),
         new OA\Property(property: "category", type: "string", example: "Himpunan"),
         new OA\Property(property: "logo", type: "string", example: "logo_unit_kegiatan/hmif-logo.png"),
+        new OA\Property(property: "profile_image_url", type: "string", example: "https://example.com/logo.jpg"),
         new OA\Property(
             property: "unit_kegiatan_profile",
             type: "array",
@@ -348,7 +352,8 @@ class SwaggerSchemas {}
                 properties: [
                     new OA\Property(property: "id", type: "integer", example: 1),
                     new OA\Property(property: "unit_kegiatan_id", type: "integer", example: 1),
-                    new OA\Property(property: "description", type: "string", example: "Detailed description of the UKM")
+                    new OA\Property(property: "description", type: "string", example: "Detailed description of the UKM"),
+                    new OA\Property(property: "background_photo", type: "string", example: "unit_kegiatan_profiles/backgrounds/background.jpg")
                 ]
             )
         )
@@ -357,9 +362,14 @@ class SwaggerSchemas {}
 #[OA\Schema(
     schema: "UkmFullProfile",
     properties: [
+        new OA\Property(property: "id", type: "integer", example: 1),
+        new OA\Property(property: "name", type: "string", example: "Himpunan Mahasiswa Informatika"),
+        new OA\Property(property: "alias", type: "string", example: "HMIF"),
+        new OA\Property(property: "category", type: "string", example: "Himpunan"),
+        new OA\Property(property: "profile_image_url", type: "string", example: "https://example.com/logo.jpg"),
         new OA\Property(property: "description", type: "string", example: "Comprehensive description of the UKM"),
-        new OA\Property(property: "vision", type: "string", example: "Our vision statement"),
-        new OA\Property(property: "mission", type: "string", example: "Our mission statement"),
+        new OA\Property(property: "vision_mission", type: "string", example: "Vision: To be the leading organization. Mission: To develop student potential."),
+        new OA\Property(property: "background_photo_url", type: "string", example: "https://example.com/background.jpg"),
         new OA\Property(
             property: "achievements",
             type: "array",

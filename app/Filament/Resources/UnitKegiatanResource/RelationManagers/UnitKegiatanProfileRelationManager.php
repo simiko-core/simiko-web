@@ -29,25 +29,24 @@ class UnitKegiatanProfileRelationManager extends RelationManager
                     ->helperText('Masukkan periode kegiatan (misalnya: 2023).')
                     ->columnSpan(2),
 
-                Forms\Components\Grid::make(2)
-                    ->schema([
-                        Forms\Components\RichEditor::make('vision')
-                            ->label('Vision')
-                            ->required()
-                            ->helperText('Masukkan visi untuk unit kegiatan ini.')
-                            ->columnSpan(1),
-
-                        Forms\Components\RichEditor::make('mission')
-                            ->label('Mission')
-                            ->required()
-                            ->helperText('Masukkan misi untuk unit kegiatan ini.')
-                            ->columnSpan(1),
-                    ]),
+                Forms\Components\RichEditor::make('vision_mission')
+                    ->label('Vision & Mission')
+                    ->required()
+                    ->helperText('Masukkan visi dan misi untuk unit kegiatan ini.')
+                    ->columnSpanFull(),
 
                 Forms\Components\RichEditor::make('description')
                     ->label('Description')
                     ->required()
                     ->helperText('Deskripsi unit kegiatan yang lebih detail.')
+                    ->columnSpanFull(),
+
+                Forms\Components\FileUpload::make('background_photo')
+                    ->label('Background Photo')
+                    ->image()
+                    ->directory('unit_kegiatan_profiles/backgrounds')
+                    ->visibility('public')
+                    ->helperText('Upload a background image for the organization profile')
                     ->columnSpanFull(),
             ]);
     }

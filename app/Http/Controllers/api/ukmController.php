@@ -42,7 +42,7 @@ class ukmController extends Controller
             ->with([
                 "unitKegiatanProfile" => function ($query) {
                     $query
-                        ->select("id", "unit_kegiatan_id", "description")
+                        ->select("id", "unit_kegiatan_id", "description", "background_photo")
                         ->latest()
                         ->take(1);
                 },
@@ -55,7 +55,9 @@ class ukmController extends Controller
                     'alias' => $ukm->alias,
                     'category' => $ukm->category,
                     'logo' => url(Storage::url($ukm->logo)),
+                    'profile_image_url' => $ukm->logo ? url(Storage::url($ukm->logo)) : null,
                     'description' => $ukm->unitKegiatanProfile->first()?->description ?? null,
+                    'background_photo_url' => $ukm->unitKegiatanProfile->first()?->background_photo ? url(Storage::url($ukm->unitKegiatanProfile->first()->background_photo)) : null,
                 ];
             });
 
@@ -107,17 +109,28 @@ class ukmController extends Controller
         $ukm = UnitKegiatan::select("id", "name", "alias", "category", "logo")
             ->with([
                 "unitKegiatanProfile" => function ($query) {
-                    $query->select("id", "unit_kegiatan_id", "description");
+                    $query->select("id", "unit_kegiatan_id", "description", "background_photo");
                 },
             ])
             ->findOrFail($id);
+
+        // Format the response data
+        $responseData = [
+            'id' => $ukm->id,
+            'name' => $ukm->name,
+            'alias' => $ukm->alias,
+            'category' => $ukm->category,
+            'logo' => $ukm->logo,
+            'profile_image_url' => $ukm->logo ? url(Storage::url($ukm->logo)) : null,
+            'unit_kegiatan_profile' => $ukm->unitKegiatanProfile,
+        ];
 
         // Return the UKM profile as a JSON response
         return response()->json(
             [
                 "status" => true,
                 "message" => "UKM profile retrieved successfully",
-                "data" => $ukm,
+                "data" => $responseData,
             ],
             200
         );
@@ -254,15 +267,15 @@ class ukmController extends Controller
         $query = $request->input('q');
         $ukmData = UnitKegiatan::select('id', 'name', 'alias', 'category', 'logo')
             ->when($query, function ($q) use ($query) {
-                $q->where(function($subQuery) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
                     $subQuery->where('name', 'like', "%$query%")
-                             ->orWhere('alias', 'like', "%$query%")
-                             ->orWhere('category', 'like', "%$query%");
+                        ->orWhere('alias', 'like', "%$query%")
+                        ->orWhere('category', 'like', "%$query%");
                 });
             })
             ->with([
                 'unitKegiatanProfile' => function ($query) {
-                    $query->select('id', 'unit_kegiatan_id', 'description')->latest()->take(1);
+                    $query->select('id', 'unit_kegiatan_id', 'description', 'background_photo')->latest()->take(1);
                 },
             ])
             ->get()
@@ -273,7 +286,9 @@ class ukmController extends Controller
                     'alias' => $ukm->alias,
                     'category' => $ukm->category,
                     'logo' => $ukm->logo,
+                    'profile_image_url' => $ukm->logo ? url(Storage::url($ukm->logo)) : null,
                     'description' => $ukm->unitKegiatanProfile->first()?->description ?? null,
+                    'background_photo_url' => $ukm->unitKegiatanProfile->first()?->background_photo ? asset('storage/' . $ukm->unitKegiatanProfile->first()->background_photo) : null,
                 ];
             });
 
@@ -323,7 +338,7 @@ class ukmController extends Controller
             },
             'achievements:id,unit_kegiatan_id,title,image,description',
             'feeds' => function ($query) {
-                $query->orderByDesc('created_at')->limit(5)->select('id','unit_kegiatan_id','title','image','content','type');
+                $query->orderByDesc('created_at')->limit(5)->select('id', 'unit_kegiatan_id', 'title', 'image', 'content', 'type');
             },
             'activityGalleries:id,unit_kegiatan_id,image'
         ])->findOrFail($id);
@@ -334,24 +349,29 @@ class ukmController extends Controller
             'status' => true,
             'message' => 'UKM full profile retrieved successfully',
             'data' => [
+                'id' => $ukm->id,
+                'name' => $ukm->name,
+                'alias' => $ukm->alias,
+                'category' => $ukm->category,
+                'profile_image_url' => $ukm->logo ? asset('storage/' . $ukm->logo) : null,
                 'description' => $profile?->description,
-                'vision' => $profile?->vision,
-                'mission' => $profile?->mission,
-                'achievements' => $ukm->achievements->map(function($a) {
+                'vision_mission' => $profile?->vision_mission,
+                'background_photo_url' => $profile?->background_photo ? asset('storage/' . $profile->background_photo) : null,
+                'achievements' => $ukm->achievements->map(function ($a) {
                     return [
                         'title' => $a->title,
                         'description' => $a->description,
                         'image_url' => asset('storage/' . $a->image),
                     ];
                 }),
-                'recent_posts' => $ukm->feeds->map(function($f) {
+                'recent_posts' => $ukm->feeds->map(function ($f) {
                     return [
                         'title' => $f->title,
                         'type' => $f->type,
                         'image_url' => asset('storage/' . $f->image),
                     ];
                 }),
-                'activity_gallery' => $ukm->activityGalleries->map(function($g) {
+                'activity_gallery' => $ukm->activityGalleries->map(function ($g) {
                     return [
                         'image_url' => asset('storage/' . $g->image),
                     ];

@@ -1212,29 +1212,78 @@
                         "type": "boolean",
                         "example": true
                     },
-                    "price": {
-                        "type": "number",
-                        "example": 50000
-                    },
-                    "payment_methods": {
-                        "type": "array",
-                        "items": {
-                            "properties": {
-                                "method": {
-                                    "type": "string",
-                                    "example": "Bank Transfer"
-                                },
-                                "account_number": {
-                                    "type": "string",
-                                    "example": "1234567890"
-                                },
-                                "account_name": {
-                                    "type": "string",
-                                    "example": "HMIF UNS"
+                    "payment_configuration": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 1
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Workshop Registration Fee"
+                            },
+                            "description": {
+                                "type": "string",
+                                "example": "Registration fee for tech workshop"
+                            },
+                            "amount": {
+                                "type": "number",
+                                "example": 50000
+                            },
+                            "currency": {
+                                "type": "string",
+                                "example": "IDR"
+                            },
+                            "payment_methods": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "method": {
+                                            "type": "string",
+                                            "example": "Bank Transfer BCA"
+                                        },
+                                        "account_number": {
+                                            "type": "string",
+                                            "example": "1234567890"
+                                        },
+                                        "account_name": {
+                                            "type": "string",
+                                            "example": "HMIF UNS"
+                                        },
+                                        "bank_name": {
+                                            "type": "string",
+                                            "example": "Bank Central Asia"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             },
-                            "type": "object"
-                        }
+                            "custom_fields": {
+                                "type": "array",
+                                "items": {
+                                    "properties": {
+                                        "label": {
+                                            "type": "string",
+                                            "example": "Student ID"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "student_id"
+                                        },
+                                        "type": {
+                                            "type": "string",
+                                            "example": "text"
+                                        },
+                                        "required": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "type": "object"
                     },
                     "ukm": {
                         "properties": {
@@ -1286,9 +1335,17 @@
                         "type": "string",
                         "example": "logo_unit_kegiatan/hmif-logo.png"
                     },
+                    "profile_image_url": {
+                        "type": "string",
+                        "example": "https://example.com/logo.jpg"
+                    },
                     "description": {
                         "type": "string",
                         "example": "Student organization for computer science students"
+                    },
+                    "background_photo_url": {
+                        "type": "string",
+                        "example": "https://example.com/background.jpg"
                     }
                 },
                 "type": "object"
@@ -1315,6 +1372,10 @@
                         "type": "string",
                         "example": "logo_unit_kegiatan/hmif-logo.png"
                     },
+                    "profile_image_url": {
+                        "type": "string",
+                        "example": "https://example.com/logo.jpg"
+                    },
                     "unit_kegiatan_profile": {
                         "type": "array",
                         "items": {
@@ -1330,6 +1391,10 @@
                                 "description": {
                                     "type": "string",
                                     "example": "Detailed description of the UKM"
+                                },
+                                "background_photo": {
+                                    "type": "string",
+                                    "example": "unit_kegiatan_profiles/backgrounds/background.jpg"
                                 }
                             },
                             "type": "object"
@@ -1340,17 +1405,37 @@
             },
             "UkmFullProfile": {
                 "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Himpunan Mahasiswa Informatika"
+                    },
+                    "alias": {
+                        "type": "string",
+                        "example": "HMIF"
+                    },
+                    "category": {
+                        "type": "string",
+                        "example": "Himpunan"
+                    },
+                    "profile_image_url": {
+                        "type": "string",
+                        "example": "https://example.com/logo.jpg"
+                    },
                     "description": {
                         "type": "string",
                         "example": "Comprehensive description of the UKM"
                     },
-                    "vision": {
+                    "vision_mission": {
                         "type": "string",
-                        "example": "Our vision statement"
+                        "example": "Vision: To be the leading organization. Mission: To develop student potential."
                     },
-                    "mission": {
+                    "background_photo_url": {
                         "type": "string",
-                        "example": "Our mission statement"
+                        "example": "https://example.com/background.jpg"
                     },
                     "achievements": {
                         "type": "array",
