@@ -11,7 +11,7 @@
             "description": "Local development server"
         },
         {
-            "url": "https://simiko.rizkirmdhn.web.id/api",
+            "url": "https://simiko.software/api",
             "description": "Production server"
         }
     ],

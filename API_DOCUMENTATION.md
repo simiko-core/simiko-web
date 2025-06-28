@@ -6,10 +6,10 @@ Complete REST API documentation for Simiko - Student Activity Management System.
 
 -   **Swagger UI**:
     -   Local: `http://localhost:8000/api/documentation`
-    -   Production: `https://simiko.rizkirmdhn.web.id/api/documentation`
+    -   Production: `https://simiko.software/api/documentation`
 -   **Base URL**:
     -   Local: `http://localhost:8000/api`
-    -   Production: `https://simiko.rizkirmdhn.web.id/api`
+    -   Production: `https://simiko.software/api`
 -   **API Version**: `1.0.0`
 
 ---
@@ -86,7 +86,7 @@ curl -X POST http://localhost:8000/api/register \
 **Production:**
 
 ```bash
-curl -X POST https://simiko.rizkirmdhn.web.id/api/register \
+curl -X POST https://simiko.software/api/register \
   -F "name=John Doe" \
   -F "email=john@example.com" \
   -F "password=password123" \
@@ -149,7 +149,7 @@ curl -X POST http://localhost:8000/api/login \
 **Production:**
 
 ```bash
-curl -X POST https://simiko.rizkirmdhn.web.id/api/login \
+curl -X POST https://simiko.software/api/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "john@example.com",
@@ -532,7 +532,7 @@ php artisan l5-swagger:generate
 ### Access Swagger UI
 
 -   **Local**: `http://localhost:8000/api/documentation`
--   **Production**: `https://simiko.rizkirmdhn.web.id/api/documentation`
+-   **Production**: `https://simiko.software/api/documentation`
 
 ---
 

@@ -21,7 +21,7 @@ use OpenApi\Attributes as OA;
     description: "Local development server"
 )]
 #[OA\Server(
-    url: "https://simiko.rizkirmdhn.web.id/api",
+    url: "https://simiko.software/api",
     description: "Production server"
 )]
 class authController extends Controller
