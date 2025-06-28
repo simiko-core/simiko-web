@@ -286,7 +286,8 @@ class SwaggerSchemas {}
         new OA\Property(property: "event_type", type: "string", enum: ["online", "offline"], example: "online"),
         new OA\Property(property: "location", type: "string", example: "Zoom Meeting"),
         new OA\Property(property: "is_paid", type: "boolean", example: true),
-        new OA\Property(property: "amount", type: "string", example: "25000.00")
+        new OA\Property(property: "amount", type: "string", example: "25000.00"),
+        new OA\Property(property: "link", type: "string", example: "https://payment.example.com/pay/80", description: "Payment link for paid events")
     ]
 )]
 #[OA\Schema(

@@ -257,9 +257,10 @@ class feedController extends Controller
                 $data['location'] = $feed->location;
                 $data['is_paid'] = $feed->is_paid;
 
-                // Add amount directly to data if paid event has payment configuration
+                // Add amount and payment link if paid event has payment configuration
                 if ($feed->is_paid && $feed->paymentConfiguration) {
                     $data['amount'] = $feed->paymentConfiguration->amount;
+                    $data['link'] = 'https://payment.example.com/pay/' . $feed->id;
                 }
             }
 

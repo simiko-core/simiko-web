@@ -1251,6 +1251,11 @@
                     "amount": {
                         "type": "string",
                         "example": "25000.00"
+                    },
+                    "link": {
+                        "description": "Payment link for paid events",
+                        "type": "string",
+                        "example": "https://payment.example.com/pay/80"
                     }
                 },
                 "type": "object"
