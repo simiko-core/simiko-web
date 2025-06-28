@@ -175,14 +175,7 @@ class FeedResource extends Resource
                                     ->placeholder('50000')
                                     ->helperText('Enter the payment amount in Indonesian Rupiah'),
 
-                                Forms\Components\Select::make('new_payment_config.currency')
-                                    ->label('Currency')
-                                    ->options([
-                                        'IDR' => 'Indonesian Rupiah (IDR)',
-                                        'USD' => 'US Dollar (USD)',
-                                    ])
-                                    ->default('IDR')
-                                    ->helperText('Select the currency'),
+
 
                                 Forms\Components\Repeater::make('new_payment_config.payment_methods')
                                     ->label('Payment Methods')
@@ -328,15 +321,7 @@ class FeedResource extends Resource
                                     ->helperText('Enter the payment amount in Indonesian Rupiah')
                                     ->required(),
 
-                                Forms\Components\Select::make('payment_configuration.currency')
-                                    ->label('Currency')
-                                    ->options([
-                                        'IDR' => 'Indonesian Rupiah (IDR)',
-                                        'USD' => 'US Dollar (USD)',
-                                    ])
-                                    ->default('IDR')
-                                    ->helperText('Select the currency')
-                                    ->required(),
+
 
                                 Forms\Components\Toggle::make('payment_configuration.is_active')
                                     ->label('Active')

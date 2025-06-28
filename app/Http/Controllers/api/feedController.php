@@ -81,6 +81,7 @@ class feedController extends Controller
                                                     new OA\Property(property: "title", type: "string", example: "Sample Event Title"),
                                                     new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
                                                     new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                                    new OA\Property(property: "is_paid", type: "boolean", example: true, description: "Only present for paid events"),
                                                     new OA\Property(
                                                         property: "ukm",
                                                         type: "object",
@@ -147,6 +148,10 @@ class feedController extends Controller
                 ]
             ];
 
+            // Add is_paid field for events that are paid
+            if ($feed->type === 'event' && $feed->is_paid) {
+                $feedData['is_paid'] = $feed->is_paid;
+            }
 
             return $feedData;
         });
@@ -252,17 +257,9 @@ class feedController extends Controller
                 $data['location'] = $feed->location;
                 $data['is_paid'] = $feed->is_paid;
 
-                // Add payment configuration details for paid events
+                // Add amount directly to data if paid event has payment configuration
                 if ($feed->is_paid && $feed->paymentConfiguration) {
-                    $data['payment_configuration'] = [
-                        'id' => $feed->paymentConfiguration->id,
-                        'name' => $feed->paymentConfiguration->name,
-                        'description' => $feed->paymentConfiguration->description,
-                        'amount' => $feed->paymentConfiguration->amount,
-                        'currency' => $feed->paymentConfiguration->currency,
-                        'payment_methods' => $feed->paymentConfiguration->payment_methods,
-                        'custom_fields' => $feed->paymentConfiguration->custom_fields,
-                    ];
+                    $data['amount'] = $feed->paymentConfiguration->amount;
                 }
             }
 
@@ -383,6 +380,7 @@ class feedController extends Controller
                                             new OA\Property(property: "title", type: "string", example: "Sample Event Title"),
                                             new OA\Property(property: "image_url", type: "string", nullable: true, example: "http://localhost:8000/storage/feeds/sample.jpg"),
                                             new OA\Property(property: "created_at", type: "string", format: "date-time"),
+                                            new OA\Property(property: "is_paid", type: "boolean", example: true, description: "Only present for paid events"),
                                             new OA\Property(
                                                 property: "ukm",
                                                 type: "object",

@@ -71,14 +71,7 @@ class PaymentTransactionResource extends Resource
                             ->prefix('Rp')
                             ->placeholder('50000'),
 
-                        Forms\Components\Select::make('currency')
-                            ->label('Currency')
-                            ->options([
-                                'IDR' => 'Indonesian Rupiah (IDR)',
-                                'USD' => 'US Dollar (USD)',
-                            ])
-                            ->default('IDR')
-                            ->required(),
+
                     ])
                     ->columns(2)
                     ->collapsible(),
@@ -205,7 +198,7 @@ class PaymentTransactionResource extends Resource
                         'gray' => 'cancelled',
                         'gray' => 'expired',
                     ])
-                    ->formatStateUsing(fn (string $state): string => match($state) {
+                    ->formatStateUsing(fn(string $state): string => match ($state) {
                         'pending' => 'Pending',
                         'paid' => 'Paid',
                         'failed' => 'Failed',
@@ -274,11 +267,11 @@ class PaymentTransactionResource extends Resource
 
                 Tables\Filters\Filter::make('recent')
                     ->label('Recent Transactions')
-                    ->query(fn (Builder $query): Builder => $query->where('created_at', '>=', now()->subDays(7))),
+                    ->query(fn(Builder $query): Builder => $query->where('created_at', '>=', now()->subDays(7))),
 
                 Tables\Filters\Filter::make('paid_today')
                     ->label('Paid Today')
-                    ->query(fn (Builder $query): Builder => $query->whereDate('paid_at', today())),
+                    ->query(fn(Builder $query): Builder => $query->whereDate('paid_at', today())),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
@@ -292,7 +285,7 @@ class PaymentTransactionResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading('Mark as Paid?')
                     ->modalDescription('This will mark the transaction as paid.')
-                    ->visible(fn (PaymentTransaction $record): bool => $record->status === 'pending')
+                    ->visible(fn(PaymentTransaction $record): bool => $record->status === 'pending')
                     ->action(function (PaymentTransaction $record) {
                         $record->markAsPaid();
                     }),
@@ -303,7 +296,7 @@ class PaymentTransactionResource extends Resource
                     ->requiresConfirmation()
                     ->modalHeading('Mark as Failed?')
                     ->modalDescription('This will mark the transaction as failed.')
-                    ->visible(fn (PaymentTransaction $record): bool => $record->status === 'pending')
+                    ->visible(fn(PaymentTransaction $record): bool => $record->status === 'pending')
                     ->action(function (PaymentTransaction $record) {
                         $record->markAsFailed();
                     }),
@@ -349,4 +342,4 @@ class PaymentTransactionResource extends Resource
             'edit' => Pages\EditPaymentTransaction::route('/{record}/edit'),
         ];
     }
-} 
+}

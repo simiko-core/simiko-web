@@ -126,8 +126,8 @@ class authController extends Controller
                 schema: new OA\Schema(
                     required: ["name", "email", "password"],
                     properties: [
-                        new OA\Property(property: "name", type: "string", example: "John Doe"),
-                        new OA\Property(property: "email", type: "string", format: "email", example: "john@example.com"),
+                        new OA\Property(property: "name", type: "string", example: "Test User"),
+                        new OA\Property(property: "email", type: "string", format: "email", example: "user@example.com"),
                         new OA\Property(property: "password", type: "string", example: "password123"),
                         new OA\Property(property: "phone", type: "string", example: "08123456789"),
                         new OA\Property(
@@ -267,60 +267,26 @@ class SwaggerSchemas {}
 #[OA\Schema(
     schema: "FeedDetail",
     properties: [
-        new OA\Property(property: "id", type: "integer", example: 1),
+        new OA\Property(property: "id", type: "integer", example: 80),
         new OA\Property(property: "type", type: "string", enum: ["post", "event"], example: "event"),
-        new OA\Property(property: "title", type: "string", example: "Tech Workshop 2024"),
-        new OA\Property(property: "content", type: "string", example: "Join us for an exciting tech workshop..."),
-        new OA\Property(property: "image_url", type: "string", example: "https://example.com/image.jpg"),
-        new OA\Property(property: "event_date", type: "string", format: "date", example: "2024-12-25"),
-        new OA\Property(property: "event_type", type: "string", enum: ["online", "offline"], example: "offline"),
-        new OA\Property(property: "location", type: "string", example: "Building A, 3rd Floor"),
-        new OA\Property(property: "is_paid", type: "boolean", example: true),
-        new OA\Property(
-            property: "payment_configuration",
-            type: "object",
-            properties: [
-                new OA\Property(property: "id", type: "integer", example: 1),
-                new OA\Property(property: "name", type: "string", example: "Workshop Registration Fee"),
-                new OA\Property(property: "description", type: "string", example: "Registration fee for tech workshop"),
-                new OA\Property(property: "amount", type: "number", example: 50000),
-                new OA\Property(property: "currency", type: "string", example: "IDR"),
-                new OA\Property(
-                    property: "payment_methods",
-                    type: "array",
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property(property: "method", type: "string", example: "Bank Transfer BCA"),
-                            new OA\Property(property: "account_number", type: "string", example: "1234567890"),
-                            new OA\Property(property: "account_name", type: "string", example: "HMIF UNS"),
-                            new OA\Property(property: "bank_name", type: "string", example: "Bank Central Asia")
-                        ]
-                    )
-                ),
-                new OA\Property(
-                    property: "custom_fields",
-                    type: "array",
-                    items: new OA\Items(
-                        properties: [
-                            new OA\Property(property: "label", type: "string", example: "Student ID"),
-                            new OA\Property(property: "name", type: "string", example: "student_id"),
-                            new OA\Property(property: "type", type: "string", example: "text"),
-                            new OA\Property(property: "required", type: "boolean", example: true)
-                        ]
-                    )
-                )
-            ]
-        ),
+        new OA\Property(property: "title", type: "string", example: "xxx"),
+        new OA\Property(property: "content", type: "string", example: "xxx"),
+        new OA\Property(property: "image_url", type: "string", example: "http://localhost:8000/storage/feeds/event-workshop-1.jpg"),
         new OA\Property(
             property: "ukm",
             properties: [
-                new OA\Property(property: "id", type: "integer", example: 1),
-                new OA\Property(property: "name", type: "string", example: "Himpunan Mahasiswa Informatika"),
-                new OA\Property(property: "alias", type: "string", example: "HMIF"),
-                new OA\Property(property: "logo_url", type: "string", example: "https://example.com/logo.jpg")
+                new OA\Property(property: "id", type: "integer", example: 7),
+                new OA\Property(property: "name", type: "string", example: "Unit Kegiatan Mahasiswa Olahraga"),
+                new OA\Property(property: "alias", type: "string", example: "UKM Sport"),
+                new OA\Property(property: "logo_url", type: "string", example: "http://localhost:8000/storage/logo_unit_kegiatan/ukm-sport-logo.png")
             ]
         ),
-        new OA\Property(property: "created_at", type: "string", format: "date-time")
+        new OA\Property(property: "created_at", type: "string", format: "date-time", example: "2025-06-25T14:42:19.000000Z"),
+        new OA\Property(property: "event_date", type: "string", format: "date-time", example: "2025-07-14T00:00:00.000000Z"),
+        new OA\Property(property: "event_type", type: "string", enum: ["online", "offline"], example: "online"),
+        new OA\Property(property: "location", type: "string", example: "Zoom Meeting"),
+        new OA\Property(property: "is_paid", type: "boolean", example: true),
+        new OA\Property(property: "amount", type: "string", example: "25000.00")
     ]
 )]
 #[OA\Schema(

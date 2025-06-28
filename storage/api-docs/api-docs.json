@@ -152,12 +152,12 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "Test User"
                                     },
                                     "email": {
                                         "type": "string",
                                         "format": "email",
-                                        "example": "john@example.com"
+                                        "example": "user@example.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -426,6 +426,11 @@
                                                                     "created_at": {
                                                                         "type": "string",
                                                                         "format": "date-time"
+                                                                    },
+                                                                    "is_paid": {
+                                                                        "description": "Only present for paid events",
+                                                                        "type": "boolean",
+                                                                        "example": true
                                                                     },
                                                                     "ukm": {
                                                                         "properties": {
@@ -724,6 +729,11 @@
                                                             "created_at": {
                                                                 "type": "string",
                                                                 "format": "date-time"
+                                                            },
+                                                            "is_paid": {
+                                                                "description": "Only present for paid events",
+                                                                "type": "boolean",
+                                                                "example": true
                                                             },
                                                             "ukm": {
                                                                 "properties": {
@@ -1169,7 +1179,7 @@
                 "properties": {
                     "id": {
                         "type": "integer",
-                        "example": 1
+                        "example": 80
                     },
                     "type": {
                         "type": "string",
@@ -1181,20 +1191,46 @@
                     },
                     "title": {
                         "type": "string",
-                        "example": "Tech Workshop 2024"
+                        "example": "xxx"
                     },
                     "content": {
                         "type": "string",
-                        "example": "Join us for an exciting tech workshop..."
+                        "example": "xxx"
                     },
                     "image_url": {
                         "type": "string",
-                        "example": "https://example.com/image.jpg"
+                        "example": "http://localhost:8000/storage/feeds/event-workshop-1.jpg"
+                    },
+                    "ukm": {
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "example": 7
+                            },
+                            "name": {
+                                "type": "string",
+                                "example": "Unit Kegiatan Mahasiswa Olahraga"
+                            },
+                            "alias": {
+                                "type": "string",
+                                "example": "UKM Sport"
+                            },
+                            "logo_url": {
+                                "type": "string",
+                                "example": "http://localhost:8000/storage/logo_unit_kegiatan/ukm-sport-logo.png"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2025-06-25T14:42:19.000000Z"
                     },
                     "event_date": {
                         "type": "string",
-                        "format": "date",
-                        "example": "2024-12-25"
+                        "format": "date-time",
+                        "example": "2025-07-14T00:00:00.000000Z"
                     },
                     "event_type": {
                         "type": "string",
@@ -1202,113 +1238,19 @@
                             "online",
                             "offline"
                         ],
-                        "example": "offline"
+                        "example": "online"
                     },
                     "location": {
                         "type": "string",
-                        "example": "Building A, 3rd Floor"
+                        "example": "Zoom Meeting"
                     },
                     "is_paid": {
                         "type": "boolean",
                         "example": true
                     },
-                    "payment_configuration": {
-                        "properties": {
-                            "id": {
-                                "type": "integer",
-                                "example": 1
-                            },
-                            "name": {
-                                "type": "string",
-                                "example": "Workshop Registration Fee"
-                            },
-                            "description": {
-                                "type": "string",
-                                "example": "Registration fee for tech workshop"
-                            },
-                            "amount": {
-                                "type": "number",
-                                "example": 50000
-                            },
-                            "currency": {
-                                "type": "string",
-                                "example": "IDR"
-                            },
-                            "payment_methods": {
-                                "type": "array",
-                                "items": {
-                                    "properties": {
-                                        "method": {
-                                            "type": "string",
-                                            "example": "Bank Transfer BCA"
-                                        },
-                                        "account_number": {
-                                            "type": "string",
-                                            "example": "1234567890"
-                                        },
-                                        "account_name": {
-                                            "type": "string",
-                                            "example": "HMIF UNS"
-                                        },
-                                        "bank_name": {
-                                            "type": "string",
-                                            "example": "Bank Central Asia"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            },
-                            "custom_fields": {
-                                "type": "array",
-                                "items": {
-                                    "properties": {
-                                        "label": {
-                                            "type": "string",
-                                            "example": "Student ID"
-                                        },
-                                        "name": {
-                                            "type": "string",
-                                            "example": "student_id"
-                                        },
-                                        "type": {
-                                            "type": "string",
-                                            "example": "text"
-                                        },
-                                        "required": {
-                                            "type": "boolean",
-                                            "example": true
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "ukm": {
-                        "properties": {
-                            "id": {
-                                "type": "integer",
-                                "example": 1
-                            },
-                            "name": {
-                                "type": "string",
-                                "example": "Himpunan Mahasiswa Informatika"
-                            },
-                            "alias": {
-                                "type": "string",
-                                "example": "HMIF"
-                            },
-                            "logo_url": {
-                                "type": "string",
-                                "example": "https://example.com/logo.jpg"
-                            }
-                        },
-                        "type": "object"
-                    },
-                    "created_at": {
+                    "amount": {
                         "type": "string",
-                        "format": "date-time"
+                        "example": "25000.00"
                     }
                 },
                 "type": "object"

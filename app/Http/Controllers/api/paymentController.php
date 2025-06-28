@@ -20,15 +20,15 @@ class paymentController extends Controller
     {
         try {
             $ukmId = $request->input('ukm_id');
-            
+
             if (!$ukmId) {
                 return ApiResponse::error('UKM ID is required', 400);
             }
-            
+
             $configurations = PaymentConfiguration::where('unit_kegiatan_id', $ukmId)
                 ->where('is_active', true)
                 ->get();
-            
+
             return ApiResponse::success($configurations, 'Payment configurations retrieved successfully');
         } catch (\Exception $e) {
             return ApiResponse::serverError('Failed to retrieve payment configurations');
@@ -55,12 +55,12 @@ class paymentController extends Controller
 
             $user = $request->user();
             $configuration = PaymentConfiguration::findOrFail($request->payment_configuration_id);
-            
+
             // Check if this is an event-linked transaction
             $feed = null;
             if ($request->feed_id) {
                 $feed = Feed::findOrFail($request->feed_id);
-                
+
                 // Verify the feed is a paid event and has the correct payment configuration
                 if (!$feed->is_paid || $feed->payment_configuration_id !== $configuration->id) {
                     return ApiResponse::error('Invalid event or payment configuration', 400);
@@ -103,7 +103,6 @@ class paymentController extends Controller
                     'id' => $transaction->id,
                     'transaction_id' => $transaction->transaction_id,
                     'amount' => $transaction->amount,
-                    'currency' => $transaction->currency,
                     'status' => $transaction->status,
                     'expires_at' => $transaction->expires_at,
                     'payment_configuration' => [
@@ -118,7 +117,6 @@ class paymentController extends Controller
                     ] : null,
                 ]
             ], 'Transaction created successfully', 201);
-
         } catch (\Exception $e) {
             return ApiResponse::serverError('Failed to create transaction: ' . $e->getMessage());
         }
@@ -133,7 +131,31 @@ class paymentController extends Controller
             $transactions = PaymentTransaction::where('user_id', auth()->id())
                 ->with(['paymentConfiguration', 'unitKegiatan'])
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->get()
+                ->map(function ($transaction) {
+                    return [
+                        'id' => $transaction->id,
+                        'transaction_id' => $transaction->transaction_id,
+                        'amount' => $transaction->amount,
+                        'status' => $transaction->status,
+                        'payment_method' => $transaction->payment_method,
+                        'notes' => $transaction->notes,
+                        'paid_at' => $transaction->paid_at,
+                        'expires_at' => $transaction->expires_at,
+                        'created_at' => $transaction->created_at,
+                        'payment_configuration' => [
+                            'id' => $transaction->paymentConfiguration->id,
+                            'name' => $transaction->paymentConfiguration->name,
+                            'description' => $transaction->paymentConfiguration->description,
+                            'amount' => $transaction->paymentConfiguration->amount,
+                        ],
+                        'unit_kegiatan' => [
+                            'id' => $transaction->unitKegiatan->id,
+                            'name' => $transaction->unitKegiatan->name,
+                            'alias' => $transaction->unitKegiatan->alias,
+                        ]
+                    ];
+                });
 
             return ApiResponse::success($transactions, 'User transactions retrieved successfully');
         } catch (\Exception $e) {
@@ -213,4 +235,4 @@ class paymentController extends Controller
 
         return $uploadedFiles;
     }
-} 
+}

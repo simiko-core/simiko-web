@@ -31,12 +31,17 @@ class PaymentConfiguration extends Model
         'settings' => 'array',
     ];
 
+    protected $attributes = [
+        'currency' => 'IDR',
+        'is_active' => true,
+    ];
+
     protected static function booted(): void
     {
         static::addGlobalScope('unitKegiatan', function (Builder $query) {
             $user = Filament::auth()?->user();
             $panel = Filament::getCurrentPanel();
-            
+
             // Only apply scope if user is in UKM panel and has admin_ukm role
             if ($user && $user->hasRole('admin_ukm') && $panel && $panel->getId() === 'ukmPanel') {
                 $query->where('unit_kegiatan_id', $user->admin->unit_kegiatan_id);
@@ -99,7 +104,7 @@ class PaymentConfiguration extends Model
     public function getFileFields()
     {
         if (!$this->custom_fields) return [];
-        
+
         return collect($this->custom_fields)
             ->filter(fn($field) => $field['type'] === 'file')
             ->mapWithKeys(fn($field) => [$field['name'] => $field])
@@ -109,14 +114,14 @@ class PaymentConfiguration extends Model
     public function validateFileUpload($fieldName, $file)
     {
         $fileFields = $this->getFileFields();
-        
+
         if (!isset($fileFields[$fieldName])) {
             return ['error' => 'Invalid file field'];
         }
-        
+
         $field = $fileFields[$fieldName];
         $errors = [];
-        
+
         // Only allow image extensions
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
         $fileExtension = strtolower($file->getClientOriginalExtension());
@@ -136,24 +141,24 @@ class PaymentConfiguration extends Model
     public function getFileUploadRules($fieldName)
     {
         $fileFields = $this->getFileFields();
-        
+
         if (!isset($fileFields[$fieldName])) {
             return ['file'];
         }
-        
+
         $field = $fileFields[$fieldName];
         $rules = ['file'];
-        
+
         if (isset($field['max_file_size'])) {
             $rules[] = "max:{$field['max_file_size']}";
         }
-        
+
         if (isset($field['file_types'])) {
             $allowedTypes = array_map('trim', explode(',', $field['file_types']));
             $mimeTypes = $this->getMimeTypesFromExtensions($allowedTypes);
             $rules[] = "mimes:" . implode(',', $allowedTypes);
         }
-        
+
         return $rules;
     }
 
@@ -172,10 +177,10 @@ class PaymentConfiguration extends Model
             'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             'xls' => 'application/vnd.ms-excel',
         ];
-        
+
         return collect($extensions)
             ->map(fn($ext) => $mimeTypes[$ext] ?? null)
             ->filter()
             ->toArray();
     }
-} 
+}

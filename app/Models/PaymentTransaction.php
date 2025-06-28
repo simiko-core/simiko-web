@@ -39,12 +39,17 @@ class PaymentTransaction extends Model
         'expires_at' => 'datetime',
     ];
 
+    protected $attributes = [
+        'currency' => 'IDR',
+        'status' => 'pending',
+    ];
+
     protected static function booted(): void
     {
         static::addGlobalScope('unitKegiatan', function (Builder $query) {
             $user = Filament::auth()?->user();
             $panel = Filament::getCurrentPanel();
-            
+
             // Only apply scope if user is in UKM panel and has admin_ukm role
             if ($user && $user->hasRole('admin_ukm') && $panel && $panel->getId() === 'ukmPanel') {
                 $query->where('unit_kegiatan_id', $user->admin->unit_kegiatan_id);
@@ -111,7 +116,7 @@ class PaymentTransaction extends Model
 
     public function getStatusColorAttribute()
     {
-        return match($this->status) {
+        return match ($this->status) {
             'pending' => 'warning',
             'paid' => 'success',
             'failed' => 'danger',
@@ -123,7 +128,7 @@ class PaymentTransaction extends Model
 
     public function getStatusLabelAttribute()
     {
-        return match($this->status) {
+        return match ($this->status) {
             'pending' => 'Pending',
             'paid' => 'Paid',
             'failed' => 'Failed',
@@ -180,13 +185,13 @@ class PaymentTransaction extends Model
     public function addCustomFile($filePath, $fieldName = null)
     {
         $customFiles = $this->custom_files ?? [];
-        
+
         if ($fieldName) {
             $customFiles[$fieldName] = $filePath;
         } else {
             $customFiles[] = $filePath;
         }
-        
+
         $this->update(['custom_files' => $customFiles]);
     }
 
@@ -206,4 +211,4 @@ class PaymentTransaction extends Model
     {
         $this->attributes['custom_files'] = is_array($value) ? json_encode($value) : $value;
     }
-} 
+}

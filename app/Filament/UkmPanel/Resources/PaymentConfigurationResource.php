@@ -57,15 +57,7 @@ class PaymentConfigurationResource extends Resource
                             ->placeholder('50000')
                             ->helperText('Enter the payment amount in Indonesian Rupiah'),
 
-                        Forms\Components\Select::make('currency')
-                            ->label('Currency')
-                            ->options([
-                                'IDR' => 'Indonesian Rupiah (IDR)',
-                                'USD' => 'US Dollar (USD)',
-                            ])
-                            ->default('IDR')
-                            ->required()
-                            ->helperText('Select the currency for this payment'),
+
 
                         Forms\Components\Toggle::make('is_active')
                             ->label('Active')
@@ -114,7 +106,7 @@ class PaymentConfigurationResource extends Resource
                                     ->label('Bank Name')
                                     ->placeholder('Bank Central Asia (BCA)')
                                     ->helperText('Full bank name (for bank transfers)')
-                                    ->visible(fn (callable $get) => Str::contains($get('method'), 'Bank Transfer')),
+                                    ->visible(fn(callable $get) => Str::contains($get('method'), 'Bank Transfer')),
 
                                 Forms\Components\Textarea::make('instructions')
                                     ->label('Payment Instructions')
@@ -126,7 +118,7 @@ class PaymentConfigurationResource extends Resource
                             ->addActionLabel('Add Payment Method')
                             ->reorderable(false)
                             ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['method'] ?? null),
+                            ->itemLabel(fn(array $state): ?string => $state['method'] ?? null),
                     ])
                     ->collapsible(),
 
@@ -195,13 +187,13 @@ class PaymentConfigurationResource extends Resource
                                     ->rows(3)
                                     ->placeholder('Option 1, Option 2, Option 3')
                                     ->helperText('For dropdown/radio fields, enter options separated by commas')
-                                    ->visible(fn (callable $get) => in_array($get('type'), ['select', 'radio'])),
+                                    ->visible(fn(callable $get) => in_array($get('type'), ['select', 'radio'])),
                             ])
                             ->columns(2)
                             ->addActionLabel('Add Custom Field')
                             ->reorderable(false)
                             ->collapsible()
-                            ->itemLabel(fn (array $state): ?string => $state['label'] ?? null),
+                            ->itemLabel(fn(array $state): ?string => $state['label'] ?? null),
                     ])
                     ->collapsible(),
 
@@ -284,7 +276,7 @@ class PaymentConfigurationResource extends Resource
                 Tables\Columns\TextColumn::make('total_revenue')
                     ->label('Revenue')
                     ->money('IDR')
-                    ->getStateUsing(fn (PaymentConfiguration $record) => $record->total_revenue)
+                    ->getStateUsing(fn(PaymentConfiguration $record) => $record->total_revenue)
                     ->sortable(),
 
                 Tables\Columns\TextColumn::make('created_at')
@@ -331,4 +323,4 @@ class PaymentConfigurationResource extends Resource
             'edit' => Pages\EditPaymentConfiguration::route('/{record}/edit'),
         ];
     }
-} 
+}
