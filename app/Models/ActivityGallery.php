@@ -23,9 +23,11 @@ class ActivityGallery extends Model
         });
     }
 
-    
+
     protected $fillable = [
-        'unit_kegiatan_id', 'image', 'caption'
+        'unit_kegiatan_id',
+        'image',
+        'caption'
     ];
 
     public function unitKegiatan()

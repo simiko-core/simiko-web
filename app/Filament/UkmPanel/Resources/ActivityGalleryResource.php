@@ -49,11 +49,10 @@ class ActivityGalleryResource extends Resource
                             ->helperText('Upload high-quality photos from your activities (Max 2MB)')
                             ->columnSpanFull(),
 
-                        Forms\Components\TextInput::make('caption')
+                        Forms\Components\RichEditor::make('caption')
                             ->label('Photo Caption')
-                            ->maxLength(255)
                             ->placeholder('e.g., Annual Tech Workshop 2024 - Group Photo')
-                            ->helperText('Add a descriptive caption to give context to the photo')
+                            ->helperText('Add a descriptive caption to give context to the photo. You can use formatting for better presentation.')
                             ->columnSpanFull(),
                     ])
                     ->columns(1)
@@ -77,7 +76,9 @@ class ActivityGalleryResource extends Resource
                     ->sortable()
                     ->wrap()
                     ->limit(60)
-                    ->placeholder('No caption'),
+                    ->placeholder('No caption')
+                    ->html()
+                    ->formatStateUsing(fn(?string $state): string => $state ? strip_tags($state) : ''),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Uploaded')

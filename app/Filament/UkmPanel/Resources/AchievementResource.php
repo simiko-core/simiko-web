@@ -55,12 +55,10 @@ class AchievementResource extends Resource
                             ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/gif'])
                             ->helperText('Upload a photo of the certificate, trophy, or award ceremony (Max 2MB)'),
 
-                        Forms\Components\Textarea::make('description')
+                        Forms\Components\RichEditor::make('description')
                             ->label('Description')
-                            ->maxLength(1000)
-                            ->rows(4)
                             ->placeholder('Describe the achievement, competition details, and significance...')
-                            ->helperText('Provide context about this achievement (max 1000 characters)')
+                            ->helperText('Provide detailed context about this achievement. You can use formatting, lists, and links.')
                             ->columnSpanFull(),
                     ])
                     ->columns(2)
@@ -91,7 +89,9 @@ class AchievementResource extends Resource
                     ->searchable()
                     ->limit(80)
                     ->wrap()
-                    ->placeholder('No description'),
+                    ->placeholder('No description')
+                    ->html()
+                    ->formatStateUsing(fn(?string $state): string => $state ? strip_tags($state) : ''),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Added')
