@@ -3,39 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simiko - Student Activity Management System</title>
+    <title>Simiko - Platform Manajemen Kegiatan Mahasiswa</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#8b5cf6',
-                        secondary: '#1f2937',
+                        background: '#111827', // dark blue-gray
+                        primary: '#facc15', // yellow
+                        secondary: '#f9fafb', // off-white
+                        accent: '#000000', // black
+                    },
+                    boxShadow: {
+                      'neo': '4px 4px 0px #000000',
+                    },
+                    fontFamily: {
+                        'sans': ['ui-sans-serif', 'system-ui'],
+                        'mono': ['"Space Mono"', 'monospace'],
                     }
                 }
             }
         }
     </script>
+    <style>
+        .hard-shadow {
+            box-shadow: 4px 4px 0px #000;
+        }
+        .hard-shadow-hover:hover {
+            box-shadow: 6px 6px 0px #000;
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-background text-secondary font-sans">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg fixed w-full z-50">
+    <nav class="bg-background fixed w-full z-50 border-b-4 border-black">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
                         <i class="fas fa-graduation-cap text-primary text-2xl mr-2"></i>
-                        <span class="text-2xl font-bold text-secondary">Simiko</span>
+                        <span class="text-2xl font-bold text-secondary font-mono">Simiko</span>
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="{{ url('/admin') }}" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition duration-300">
-                        Admin Panel
+                    <a href="{{ url('/admin') }}" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition duration-150 border-2 border-transparent hover:border-primary">
+                        Panel Admin
                     </a>
-                    <a href="{{ url('/admin-panel') }}" class="bg-primary hover:bg-purple-600 text-white px-4 py-2 rounded-md text-sm font-medium transition duration-300">
-                        UKM Panel
+                    <a href="{{ url('/admin-panel') }}" class="bg-primary text-black px-4 py-2 text-sm font-bold transition duration-150 border-2 border-black hard-shadow hover:bg-yellow-400">
+                        Panel UKM
                     </a>
                 </div>
             </div>
@@ -43,56 +63,56 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-16 bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center">
+    <section class="pt-16 bg-background min-h-screen flex items-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h1 class="text-4xl lg:text-6xl font-bold text-secondary mb-6">
-                        Manage Student 
-                        <span class="text-primary">Activities</span>
-                        with Ease
+                    <h1 class="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-mono">
+                        Sistem Manajemen 
+                        <span class="text-primary">Unit Kegiatan</span>
+                        Mahasiswa
                     </h1>
-                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
-                        Simiko is a comprehensive platform for managing student organizations (UKM), 
-                        events, memberships, and activities. Streamline your campus life management.
+                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+                        Platform lengkap untuk mengelola UKM dari member hingga seluruh mahasiswa. 
+                        Admin posting berita, pengumuman, event, hingga payment—semua dalam satu sistem terintegrasi.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ url('/api/documentation') }}" class="bg-primary hover:bg-purple-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition duration-300 text-center">
-                            <i class="fas fa-code mr-2"></i>
-                            API Documentation
+                        <a href="{{ url('/admin') }}" class="bg-primary text-black px-8 py-3 text-lg font-bold transition duration-150 border-2 border-black hard-shadow hover:bg-yellow-400 text-center">
+                            <i class="fas fa-users-cog mr-2"></i>
+                            Kelola UKM Sekarang
                         </a>
-                        <a href="#features" class="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-3 rounded-lg text-lg font-semibold transition duration-300 text-center">
-                            Learn More
+                        <a href="#features" class="border-2 border-primary text-primary hover:bg-primary hover:text-black px-8 py-3 text-lg font-bold transition duration-150 text-center">
+                            Lihat Fitur Lengkap
                         </a>
                     </div>
                 </div>
                 <div class="flex justify-center">
                     <div class="relative">
-                        <div class="bg-white rounded-2xl shadow-2xl p-8 transform rotate-3 hover:rotate-0 transition duration-500">
+                        <div class="bg-gray-800 p-8 border-4 border-black hard-shadow">
                             <div class="grid grid-cols-3 gap-4">
-                                <div class="bg-blue-100 rounded-lg p-4 text-center">
-                                    <i class="fas fa-users text-blue-600 text-2xl mb-2"></i>
-                                    <p class="text-sm font-semibold text-blue-800">UKM Management</p>
+                                <div class="bg-blue-900 border-2 border-black p-4 text-center">
+                                    <i class="fas fa-users text-blue-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-semibold text-blue-200">Manajemen UKM</p>
                                 </div>
-                                <div class="bg-green-100 rounded-lg p-4 text-center">
-                                    <i class="fas fa-calendar text-green-600 text-2xl mb-2"></i>
-                                    <p class="text-sm font-semibold text-green-800">Events</p>
+                                <div class="bg-green-900 border-2 border-black p-4 text-center">
+                                    <i class="fas fa-calendar text-green-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-semibold text-green-200">Acara</p>
                                 </div>
-                                <div class="bg-purple-100 rounded-lg p-4 text-center">
-                                    <i class="fas fa-trophy text-purple-600 text-2xl mb-2"></i>
-                                    <p class="text-sm font-semibold text-purple-800">Achievements</p>
+                                <div class="bg-purple-900 border-2 border-black p-4 text-center">
+                                    <i class="fas fa-trophy text-purple-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-semibold text-purple-200">Prestasi</p>
                                 </div>
-                                <div class="bg-yellow-100 rounded-lg p-4 text-center">
-                                    <i class="fas fa-user-plus text-yellow-600 text-2xl mb-2"></i>
-                                    <p class="text-sm font-semibold text-yellow-800">Registration</p>
+                                <div class="bg-yellow-900 border-2 border-black p-4 text-center">
+                                    <i class="fas fa-user-plus text-yellow-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-semibold text-yellow-200">Pendaftaran</p>
                                 </div>
-                                <div class="bg-red-100 rounded-lg p-4 text-center">
-                                    <i class="fas fa-rss text-red-600 text-2xl mb-2"></i>
-                                    <p class="text-sm font-semibold text-red-800">Content</p>
+                                <div class="bg-red-900 border-2 border-black p-4 text-center">
+                                    <i class="fas fa-rss text-red-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-semibold text-red-200">Konten</p>
                                 </div>
-                                <div class="bg-indigo-100 rounded-lg p-4 text-center">
-                                    <i class="fas fa-chart-bar text-indigo-600 text-2xl mb-2"></i>
-                                    <p class="text-sm font-semibold text-indigo-800">Analytics</p>
+                                <div class="bg-indigo-900 border-2 border-black p-4 text-center">
+                                    <i class="fas fa-chart-bar text-indigo-400 text-2xl mb-2"></i>
+                                    <p class="text-sm font-semibold text-indigo-200">Analitik</p>
                                 </div>
                             </div>
                         </div>
@@ -103,111 +123,112 @@
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-white">
+    <section id="features" class="py-20 bg-accent">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl lg:text-4xl font-bold text-secondary mb-4">
-                    Powerful Features for Student Organizations
+                <h2 class="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-mono">
+                    Fitur Lengkap Manajemen UKM
                 </h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Everything you need to manage student activities, from organization profiles to event management and member registration.
+                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+                    Dari manajemen member, posting berita & pengumuman, hingga event management dengan payment gateway. 
+                    Semua kebutuhan UKM dalam satu platform yang powerful dan terintegrasi.
                 </p>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- UKM Management -->
-                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition duration-300">
-                    <div class="bg-blue-100 rounded-lg w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-building text-blue-600 text-2xl"></i>
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                    <div class="bg-blue-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-building text-blue-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-secondary mb-4">UKM Management</h3>
-                    <p class="text-gray-600 mb-4">
-                        Comprehensive organization management with profiles, categories, and administrative controls.
+                    <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Manajemen Member UKM</h3>
+                    <p class="text-gray-400 mb-4">
+                        Kelola member dari pendaftaran hingga kelulusan. Data lengkap setiap member, status keanggotaan, hingga histori aktivitas dalam UKM.
                     </p>
                     <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• Organization profiles & categories</li>
-                        <li>• Admin role management</li>
-                        <li>• Registration controls</li>
+                        <li>• Database member yang lengkap</li>
+                        <li>• Status keanggotaan real-time</li>
+                        <li>• Histori aktivitas member</li>
                     </ul>
                 </div>
 
                 <!-- Event Management -->
-                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition duration-300">
-                    <div class="bg-green-100 rounded-lg w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-calendar-alt text-green-600 text-2xl"></i>
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                    <div class="bg-green-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-calendar-alt text-green-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-secondary mb-4">Event Management</h3>
-                    <p class="text-gray-600 mb-4">
-                        Create and manage events with detailed information, pricing, and payment methods.
+                    <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Event & Payment System</h3>
+                    <p class="text-gray-400 mb-4">
+                        Buat event dengan sistem pembayaran terintegrasi. Kelola pendaftaran, track pembayaran, dan monitor kehadiran peserta dalam satu dashboard.
                     </p>
                     <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• Online & offline events</li>
-                        <li>• Payment integration</li>
-                        <li>• Event categories</li>
+                        <li>• Event creation & management</li>
+                        <li>• Payment gateway integration</li>
+                        <li>• Registration & attendance tracking</li>
                     </ul>
                 </div>
 
                 <!-- Member Registration -->
-                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition duration-300">
-                    <div class="bg-purple-100 rounded-lg w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-user-plus text-purple-600 text-2xl"></i>
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                    <div class="bg-purple-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-user-plus text-purple-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-secondary mb-4">Member Registration</h3>
-                    <p class="text-gray-600 mb-4">
-                        Streamlined membership application process with approval workflows.
+                    <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Recruitment Management</h3>
+                    <p class="text-gray-400 mb-4">
+                        Sistem recruitment dari opening hingga penerimaan member baru. Kelola formulir pendaftaran, seleksi, hingga proses onboarding member baru.
                     </p>
                     <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• Application management</li>
-                        <li>• Approval workflows</li>
-                        <li>• Member tracking</li>
+                        <li>• Form pendaftaran yang customizable</li>
+                        <li>• Sistem seleksi & scoring</li>
+                        <li>• Onboarding member baru</li>
                     </ul>
                 </div>
 
                 <!-- Content Management -->
-                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition duration-300">
-                    <div class="bg-yellow-100 rounded-lg w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-rss text-yellow-600 text-2xl"></i>
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                    <div class="bg-yellow-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-rss text-yellow-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-secondary mb-4">Content Management</h3>
-                    <p class="text-gray-600 mb-4">
-                        Publish posts, announcements, and manage promotional banners effectively.
+                    <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Berita & Pengumuman</h3>
+                    <p class="text-gray-400 mb-4">
+                        Posting berita, pengumuman, dan informasi penting untuk seluruh mahasiswa. Kelola konten dengan editor yang powerful dan rich media support.
                     </p>
                     <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• Posts & announcements</li>
-                        <li>• Banner management</li>
-                        <li>• Media galleries</li>
+                        <li>• News & announcement posting</li>
+                        <li>• Rich text editor & media upload</li>
+                        <li>• Targeting & scheduling posts</li>
                     </ul>
                 </div>
 
                 <!-- Achievement Tracking -->
-                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition duration-300">
-                    <div class="bg-red-100 rounded-lg w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-trophy text-red-600 text-2xl"></i>
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                    <div class="bg-red-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-trophy text-red-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-secondary mb-4">Achievement Tracking</h3>
-                    <p class="text-gray-600 mb-4">
-                        Showcase organization achievements, awards, and recognition.
+                    <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Galeri & Achievement</h3>
+                    <p class="text-gray-400 mb-4">
+                        Dokumentasi kegiatan UKM dan showcase prestasi yang diraih. Album foto kegiatan, video dokumenter, hingga galeri penghargaan.
                     </p>
                     <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• Achievement galleries</li>
-                        <li>• Award documentation</li>
-                        <li>• Success stories</li>
+                        <li>• Album kegiatan & dokumentasi</li>
+                        <li>• Achievement & awards gallery</li>
+                        <li>• Video & multimedia content</li>
                     </ul>
                 </div>
 
                 <!-- API Integration -->
-                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition duration-300">
-                    <div class="bg-indigo-100 rounded-lg w-16 h-16 flex items-center justify-center mb-6">
-                        <i class="fas fa-code text-indigo-600 text-2xl"></i>
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                    <div class="bg-indigo-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
+                        <i class="fas fa-code text-indigo-400 text-2xl"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-secondary mb-4">API Integration</h3>
-                    <p class="text-gray-600 mb-4">
-                        Complete REST API with comprehensive documentation for mobile app integration.
+                    <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Reporting & Analytics</h3>
+                    <p class="text-gray-400 mb-4">
+                        Dashboard analytics untuk monitor performa UKM. Data member, engagement rate, financial report, hingga growth metrics dalam satu tempat.
                     </p>
                     <ul class="text-sm text-gray-500 space-y-1">
-                        <li>• RESTful API endpoints</li>
-                        <li>• Swagger documentation</li>
-                        <li>• Mobile app ready</li>
+                        <li>• Member analytics & statistics</li>
+                        <li>• Financial & payment reports</li>
+                        <li>• Event performance metrics</li>
                     </ul>
                 </div>
             </div>
@@ -215,71 +236,72 @@
     </section>
 
     <!-- Statistics Section -->
-    <section class="py-20 bg-secondary text-white">
+    <section class="py-20 bg-background text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl lg:text-4xl font-bold mb-4">
-                    Trusted by Student Organizations
+                <h2 class="text-3xl lg:text-4xl font-bold mb-4 font-mono">
+                    Terbukti Efektif & Terintegrasi
                 </h2>
                 <p class="text-xl text-gray-300">
-                    Powering campus life management across institutions
+                    Dari manajemen member hingga payment system, semua berjalan smooth dalam satu platform yang reliable.
                 </p>
             </div>
             
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="text-center">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">10+</div>
-                    <div class="text-gray-300">Student Organizations</div>
+                    <div class="text-gray-300">Organisasi Mahasiswa</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">95+</div>
-                    <div class="text-gray-300">Published Events</div>
+                    <div class="text-gray-300">Event Terpublikasi</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">33+</div>
-                    <div class="text-gray-300">Achievements Tracked</div>
+                    <div class="text-gray-300">Prestasi Tercatat</div>
                 </div>
                 <div class="text-center">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">100%</div>
-                    <div class="text-gray-300">API Coverage</div>
+                    <div class="text-gray-300">Cakupan API</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-gradient-to-r from-primary to-purple-500">
+    <section class="py-20 bg-primary">
         <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-6">
-                Ready to Streamline Your Student Activities?
+            <h2 class="text-3xl lg:text-4xl font-bold text-black mb-6 font-mono">
+                Siap Upgrade Manajemen UKM?
             </h2>
-            <p class="text-xl text-purple-100 mb-8">
-                Join the modern way of managing student organizations with Simiko's powerful platform.
+            <p class="text-xl text-gray-800 mb-8">
+                Mulai kelola member, posting berita, buat event, hingga terima pembayaran dalam satu platform. 
+                Semua kebutuhan UKM, satu solusi lengkap.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ url('/admin') }}" class="bg-white text-primary hover:bg-gray-100 px-8 py-3 rounded-lg text-lg font-semibold transition duration-300 inline-flex items-center justify-center">
-                    <i class="fas fa-cog mr-2"></i>
-                    Admin Dashboard
+                <a href="{{ url('/admin') }}" class="bg-accent text-primary hover:bg-gray-800 px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center border-2 border-black hard-shadow">
+                    <i class="fas fa-tachometer-alt mr-2"></i>
+                    Mulai Kelola UKM
                 </a>
-                <a href="{{ url('/api/documentation') }}" class="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-3 rounded-lg text-lg font-semibold transition duration-300 inline-flex items-center justify-center">
+                <a href="{{ url('/api/documentation') }}" class="border-2 border-black text-black hover:bg-accent hover:text-primary px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center">
                     <i class="fas fa-book mr-2"></i>
-                    API Docs
+                    Dokumentasi Lengkap
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-secondary text-white py-12">
+    <footer class="bg-accent text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div class="md:col-span-2">
                     <div class="flex items-center mb-4">
                         <i class="fas fa-graduation-cap text-primary text-2xl mr-2"></i>
-                        <span class="text-2xl font-bold">Simiko</span>
+                        <span class="text-2xl font-bold font-mono">Simiko</span>
                     </div>
                     <p class="text-gray-300 mb-4 max-w-md">
-                        Student Activity Management System - Empowering campus life through technology.
+                        Platform lengkap untuk manajemen Unit Kegiatan Mahasiswa dengan fitur berita, event, payment, dan member management.
                     </p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-primary transition duration-300">
@@ -295,28 +317,28 @@
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
+                    <h3 class="text-lg font-semibold mb-4 font-mono">Link Cepat</h3>
                     <ul class="space-y-2">
-                        <li><a href="{{ url('/admin') }}" class="text-gray-300 hover:text-primary transition duration-300">Admin Panel</a></li>
-                        <li><a href="{{ url('/admin-panel') }}" class="text-gray-300 hover:text-primary transition duration-300">UKM Panel</a></li>
-                        <li><a href="{{ url('/api/documentation') }}" class="text-gray-300 hover:text-primary transition duration-300">API Documentation</a></li>
+                        <li><a href="{{ url('/admin') }}" class="text-gray-300 hover:text-primary transition duration-300">Panel Admin</a></li>
+                        <li><a href="{{ url('/admin-panel') }}" class="text-gray-300 hover:text-primary transition duration-300">Panel UKM</a></li>
+                        <li><a href="{{ url('/api/documentation') }}" class="text-gray-300 hover:text-primary transition duration-300">Dokumentasi API</a></li>
                     </ul>
                 </div>
                 
                 <div>
-                    <h3 class="text-lg font-semibold mb-4">Features</h3>
+                    <h3 class="text-lg font-semibold mb-4 font-mono">Fitur</h3>
                     <ul class="space-y-2">
-                        <li><span class="text-gray-300">UKM Management</span></li>
-                        <li><span class="text-gray-300">Event Management</span></li>
-                        <li><span class="text-gray-300">Member Registration</span></li>
-                        <li><span class="text-gray-300">Content Management</span></li>
+                        <li><span class="text-gray-300">Manajemen UKM</span></li>
+                        <li><span class="text-gray-300">Manajemen Event</span></li>
+                        <li><span class="text-gray-300">Pendaftaran Member</span></li>
+                        <li><span class="text-gray-300">Manajemen Konten</span></li>
                     </ul>
                 </div>
             </div>
             
             <div class="border-t border-gray-700 mt-8 pt-8 text-center">
                 <p class="text-gray-400">
-                    © {{ date('Y') }} Simiko. Built with Laravel & Filament. All rights reserved.
+                    © {{ date('Y') }} Simiko. Dibangun dengan Laravel & Filament. Hak cipta dilindungi.
                 </p>
             </div>
         </div>
@@ -332,16 +354,6 @@
                     behavior: 'smooth'
                 });
             });
-        });
-
-        // Add scroll effect to navigation
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-opacity-95', 'backdrop-blur-sm');
-            } else {
-                nav.classList.remove('bg-opacity-95', 'backdrop-blur-sm');
-            }
         });
     </script>
 </body>
