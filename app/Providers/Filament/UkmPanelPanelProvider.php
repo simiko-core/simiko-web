@@ -28,7 +28,7 @@ class UkmPanelPanelProvider extends PanelProvider
             ->login()
             ->brandName('Simiko')
             ->colors([
-                'primary' => Color::Purple,
+                'primary' => Color::Yellow,
             ])
             ->discoverResources(in: app_path('Filament/UkmPanel/Resources'), for: 'App\\Filament\\UkmPanel\\Resources')
             ->discoverPages(in: app_path('Filament/UkmPanel/Pages'), for: 'App\\Filament\\UkmPanel\\Pages')
