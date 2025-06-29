@@ -37,4 +37,9 @@ class UnitKegiatanProfile extends Model
     {
         return $this->belongsTo(UnitKegiatan::class);
     }
+
+    public function getVisionMissionTextAttribute()
+    {
+        return strip_tags($this->vision_mission);
+    }
 }

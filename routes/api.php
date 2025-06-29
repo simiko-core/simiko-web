@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\api\authController;
 use App\Http\Controllers\api\ukmController;
 use App\Http\Controllers\api\bannerController;

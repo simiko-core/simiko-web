@@ -28,18 +28,20 @@ class ListUnitKegiatanProfile extends Component implements HasForms, HasTable
                     ->sortable()
                     ->searchable(),
 
-                TextColumn::make('vision_mission')
+                TextColumn::make('vision_mission_text')
                     ->label('Vision & Mission')
                     ->sortable()
                     ->searchable()
-                    ->limit(50)
-                    ->wrap()
-                    ->html(),
+                    ->limit(100)
+                    ->wrap(),
 
                 TextColumn::make('description')
                     ->label('Deskripsi')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(200)
+                    ->wrap()
+                    ->html(),
 
                 \Filament\Tables\Columns\ImageColumn::make('background_photo')
                     ->label('Background Photo')
