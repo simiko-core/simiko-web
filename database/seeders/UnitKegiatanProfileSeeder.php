@@ -228,6 +228,7 @@ class UnitKegiatanProfileSeeder extends Seeder
                     'period' => $period,
                     'vision_mission' => $profileData['vision_mission'],
                     'description' => $profileData['description'],
+                    'background_photo' => $this->getBackgroundPhoto($unit->category, $unit->alias),
                     'created_at' => Carbon::create($period, 1, 1),
                     'updated_at' => Carbon::create($period, 12, 31),
                 ]);
@@ -236,5 +237,47 @@ class UnitKegiatanProfileSeeder extends Seeder
 
         $this->command->info('UnitKegiatanProfile seeder completed successfully!');
         $this->command->info('Created profiles for ' . $units->count() . ' units across 3 periods');
+    }
+
+    /**
+     * Get background photo based on UKM category and alias
+     */
+    private function getBackgroundPhoto($category, $alias)
+    {
+        $backgroundPhotos = [
+            'Himpunan' => [
+                'backgrounds/tech-campus-1.jpg',
+                'backgrounds/computer-lab-1.jpg',
+                'backgrounds/engineering-1.jpg',
+                'backgrounds/innovation-center-1.jpg'
+            ],
+            'UKM Seni' => [
+                'backgrounds/art-gallery-1.jpg',
+                'backgrounds/music-studio-1.jpg',
+                'backgrounds/creative-space-1.jpg',
+                'backgrounds/performance-hall-1.jpg'
+            ],
+            'UKM Olahraga' => [
+                'backgrounds/sports-field-1.jpg',
+                'backgrounds/gymnasium-1.jpg',
+                'backgrounds/fitness-center-1.jpg',
+                'backgrounds/athletics-track-1.jpg'
+            ],
+            'default' => [
+                'backgrounds/campus-view-1.jpg',
+                'backgrounds/student-center-1.jpg',
+                'backgrounds/university-hall-1.jpg',
+                'backgrounds/campus-garden-1.jpg'
+            ]
+        ];
+
+        $categoryPhotos = $backgroundPhotos[$category] ?? $backgroundPhotos['default'];
+
+        // Return null 30% of the time to simulate some profiles without background photos
+        if (rand(0, 9) < 3) {
+            return null;
+        }
+
+        return $categoryPhotos[array_rand($categoryPhotos)];
     }
 }

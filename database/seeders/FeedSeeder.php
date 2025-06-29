@@ -120,6 +120,7 @@ class FeedSeeder extends Seeder
                 'event_type' => $isOnline ? 'online' : 'offline',
                 'location' => $this->getEventLocation($isOnline, $eventType),
                 'is_paid' => $isPaid,
+                'max_participants' => $this->getMaxParticipants($eventType),
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt->copy()->addHours(rand(1, 72)),
             ];
@@ -209,6 +210,7 @@ class FeedSeeder extends Seeder
                 'event_type' => 'offline',
                 'location' => 'Auditorium Utama Kampus',
                 'is_paid' => $schedule['paid_probability'] > 50,
+                'max_participants' => $this->getMaxParticipants($eventData['type']),
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt->copy()->addDays(rand(1, 10)),
             ]);
@@ -258,7 +260,6 @@ class FeedSeeder extends Seeder
             'description' => "Biaya pendaftaran untuk mengikuti {$eventTitle}",
             'amount' => $amount,
             'currency' => 'IDR',
-            'is_active' => true,
             'payment_methods' => $this->getPaymentMethods($ukm),
             'custom_fields' => $this->getEventCustomFields($eventType),
             'settings' => [
