@@ -35,7 +35,6 @@ class CreateFeed extends CreateRecord
                     'description' => $newPaymentConfig['description'] ?? null,
                     'amount' => $newPaymentConfig['amount'],
                     'currency' => 'IDR',
-                    'is_active' => true,
                     'payment_methods' => $newPaymentConfig['payment_methods'] ?? [],
                     'custom_fields' => $newPaymentConfig['custom_fields'] ?? [],
                     'settings' => [],

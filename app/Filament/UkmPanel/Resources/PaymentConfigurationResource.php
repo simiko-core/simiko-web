@@ -20,11 +20,11 @@ class PaymentConfigurationResource extends Resource
 
     protected static ?string $navigationGroup = 'Payment Management';
 
-    protected static ?string $navigationLabel = 'Payment Configurations';
+    protected static ?string $navigationLabel = 'Payment Methods';
 
-    protected static ?string $modelLabel = 'Payment Configuration';
+    protected static ?string $modelLabel = 'Payment Method';
 
-    protected static ?string $pluralModelLabel = 'Payment Configurations';
+    protected static ?string $pluralModelLabel = 'Payment Methods';
 
     protected static ?int $navigationSort = 1;
 
@@ -59,10 +59,7 @@ class PaymentConfigurationResource extends Resource
 
 
 
-                        Forms\Components\Toggle::make('is_active')
-                            ->label('Active')
-                            ->helperText('Enable to make this payment configuration available')
-                            ->default(true),
+
                     ])
                     ->columns(2)
                     ->collapsible(),
@@ -230,9 +227,12 @@ class PaymentConfigurationResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->query(
+                PaymentConfiguration::query()->with(['feeds'])
+            )
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Configuration Name')
+                    ->label('Event Name')
                     ->searchable()
                     ->sortable()
                     ->weight('semibold')
@@ -245,6 +245,31 @@ class PaymentConfigurationResource extends Resource
                     ->sortable()
                     ->color('success'),
 
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Status')
+                    ->boolean()
+                    ->trueIcon('heroicon-o-check-circle')
+                    ->falseIcon('heroicon-o-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->getStateUsing(fn(PaymentConfiguration $record): bool => $record->is_active)
+                    ->tooltip(function (PaymentConfiguration $record): string {
+                        $feed = $record->feeds()->first();
+                        if (!$feed) {
+                            return $record->is_active ? 'Available for registration' : 'Not available';
+                        }
+
+                        if ($record->is_active) {
+                            if (!$feed->max_participants) {
+                                return 'Available - Unlimited capacity';
+                            }
+                            $available = $feed->max_participants - $feed->getTotalRegistrationsCount();
+                            return "Available - {$available} slots remaining";
+                        } else {
+                            return 'Event is full - Registration closed';
+                        }
+                    }),
+
                 Tables\Columns\TextColumn::make('description')
                     ->label('Description')
                     ->limit(50)
@@ -254,30 +279,131 @@ class PaymentConfigurationResource extends Resource
                 Tables\Columns\TextColumn::make('payment_methods')
                     ->label('Payment Methods')
                     ->formatStateUsing(function ($state) {
-                        if (!$state) return 'None';
-                        return collect($state)->pluck('method')->implode(', ');
+                        if (!$state || !is_array($state) || empty($state)) {
+                            return 'None';
+                        }
+
+                        $methods = collect($state)
+                            ->filter() // Remove null/empty items
+                            ->map(function ($method) {
+                                if (is_array($method) && isset($method['method'])) {
+                                    return $method['method'];
+                                }
+                                return null;
+                            })
+                            ->filter() // Remove null values
+                            ->unique()
+                            ->values();
+
+                        return $methods->isEmpty() ? 'None' : $methods->implode(', ');
                     })
                     ->limit(30)
                     ->wrap(),
-
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Status')
-                    ->boolean()
-                    ->trueIcon('heroicon-o-check-circle')
-                    ->falseIcon('heroicon-o-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('danger'),
-
-                Tables\Columns\TextColumn::make('total_transactions')
-                    ->label('Transactions')
-                    ->counts('transactions')
-                    ->sortable(),
 
                 Tables\Columns\TextColumn::make('total_revenue')
                     ->label('Revenue')
                     ->money('IDR')
                     ->getStateUsing(fn(PaymentConfiguration $record) => $record->total_revenue)
                     ->sortable(),
+
+                Tables\Columns\TextColumn::make('current_registrations')
+                    ->label('Current Registrations')
+                    ->getStateUsing(function (PaymentConfiguration $record) {
+                        $feed = $record->feeds()->first();
+                        return $feed ? $feed->getTotalRegistrationsCount() : 0;
+                    })
+                    ->badge()
+                    ->color('info')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('max_participants')
+                    ->label('Max Participants')
+                    ->getStateUsing(function (PaymentConfiguration $record) {
+                        $feed = $record->feeds()->first();
+                        return $feed && $feed->max_participants ? number_format($feed->max_participants) : 'Unlimited';
+                    })
+                    ->badge()
+                    ->color(fn($state) => $state === 'Unlimited' ? 'success' : 'primary')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('available_slots')
+                    ->label('Available Slots')
+                    ->getStateUsing(function (PaymentConfiguration $record) {
+                        $feed = $record->feeds()->first();
+                        if (!$feed || !$feed->max_participants) {
+                            return 'Unlimited';
+                        }
+                        $current = $feed->getTotalRegistrationsCount();
+                        $available = max(0, $feed->max_participants - $current);
+                        return number_format($available);
+                    })
+                    ->badge()
+                    ->color(function ($state, PaymentConfiguration $record) {
+                        if ($state === 'Unlimited') return 'success';
+
+                        $feed = $record->feeds()->first();
+                        if (!$feed || !$feed->max_participants) return 'success';
+
+                        $available = (int) str_replace(',', '', $state);
+                        $maxParticipants = $feed->max_participants;
+                        $percentage = $available / $maxParticipants;
+
+                        if ($percentage <= 0) return 'danger';
+                        if ($percentage <= 0.2) return 'warning';
+                        return 'success';
+                    })
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
+
+                Tables\Columns\TextColumn::make('capacity_usage')
+                    ->label('Capacity')
+                    ->getStateUsing(function (PaymentConfiguration $record) {
+                        $feed = $record->feeds()->first();
+                        if (!$feed || !$feed->max_participants) {
+                            return 'No limit';
+                        }
+                        $current = $feed->getTotalRegistrationsCount();
+                        $max = $feed->max_participants;
+                        $percentage = $max > 0 ? round(($current / $max) * 100) : 0;
+                        return "{$current}/{$max} ({$percentage}%)";
+                    })
+                    ->html()
+                    ->formatStateUsing(function ($state, PaymentConfiguration $record) {
+                        $feed = $record->feeds()->first();
+                        if (!$feed || !$feed->max_participants || $state === 'No limit') {
+                            return '<span class="text-green-600 font-medium">No limit</span>';
+                        }
+
+                        $current = $feed->getTotalRegistrationsCount();
+                        $max = $feed->max_participants;
+                        $percentage = $max > 0 ? ($current / $max) * 100 : 0;
+
+                        $color = 'bg-green-500';
+                        $textColor = 'text-green-700';
+                        if ($percentage >= 100) {
+                            $color = 'bg-red-500';
+                            $textColor = 'text-red-700';
+                        } elseif ($percentage >= 80) {
+                            $color = 'bg-yellow-500';
+                            $textColor = 'text-yellow-700';
+                        }
+
+                        return '
+                            <div class="w-full">
+                                <div class="flex justify-between text-xs ' . $textColor . ' mb-1">
+                                    <span>' . $current . '/' . $max . '</span>
+                                    <span>' . round($percentage) . '%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="' . $color . ' h-2 rounded-full" style="width: ' . min(100, $percentage) . '%"></div>
+                                </div>
+                            </div>
+                        ';
+                    })
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: false),
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created')
@@ -287,22 +413,34 @@ class PaymentConfigurationResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
-                Tables\Filters\TernaryFilter::make('is_active')
-                    ->label('Status')
+                Tables\Filters\TernaryFilter::make('availability')
+                    ->label('Availability Status')
                     ->placeholder('All configurations')
-                    ->trueLabel('Active configurations')
-                    ->falseLabel('Inactive configurations'),
+                    ->trueLabel('Available for registration')
+                    ->falseLabel('Full or unavailable')
+                    ->queries(
+                        true: fn(Builder $query) => $query->whereHas('feeds', function ($feedQuery) {
+                            $feedQuery->where(function ($q) {
+                                $q->whereNull('max_participants')
+                                    ->orWhereRaw('max_participants > (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+                            });
+                        }),
+                        false: fn(Builder $query) => $query->whereHas('feeds', function ($feedQuery) {
+                            $feedQuery->whereNotNull('max_participants')
+                                ->whereRaw('max_participants <= (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+                        }),
+                        blank: fn(Builder $query) => $query,
+                    ),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit Configuration'),
+                Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make()
-                        ->label('Delete Selected'),
+                    //
                 ]),
             ])
+
             ->emptyStateHeading('No Payment Configurations')
             ->emptyStateDescription('Create your first payment configuration to start accepting payments.')
             ->emptyStateIcon('heroicon-o-credit-card');

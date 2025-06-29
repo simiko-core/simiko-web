@@ -124,6 +124,13 @@ class FeedResource extends Resource
                             ->reactive()
                             ->columnSpanFull(),
 
+                        Forms\Components\TextInput::make('max_participants')
+                            ->label('Maximum Participants')
+                            ->numeric()
+                            ->placeholder('100')
+                            ->helperText('Maximum number of participants allowed (leave empty for unlimited)')
+                            ->visible(fn(callable $get) => $get('type') === 'event'),
+
                         Forms\Components\Section::make('Create New Payment Configuration')
                             ->description('Create a new payment configuration for this event')
                             ->schema([
@@ -294,10 +301,7 @@ class FeedResource extends Resource
 
 
 
-                                Forms\Components\Toggle::make('payment_configuration.is_active')
-                                    ->label('Active')
-                                    ->helperText('Enable to make this payment configuration available')
-                                    ->default(true),
+
 
                                 Forms\Components\Repeater::make('payment_configuration.payment_methods')
                                     ->label('Payment Methods')
@@ -428,11 +432,16 @@ class FeedResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\ImageColumn::make('image')
-                    ->label('Image')
-                    ->disk('public')
-                    ->square()
-                    ->size(60),
+
+
+
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Title')
+                    ->searchable()
+                    ->sortable()
+                    ->weight('semibold')
+                    ->limit(50)
+                    ->wrap(),
 
                 Tables\Columns\TextColumn::make('type')
                     ->label('Type')
@@ -447,15 +456,6 @@ class FeedResource extends Resource
                         'event' => 'Event',
                         default => $state,
                     }),
-
-                Tables\Columns\TextColumn::make('title')
-                    ->label('Title')
-                    ->searchable()
-                    ->sortable()
-                    ->weight('semibold')
-                    ->limit(50)
-                    ->wrap(),
-
                 Tables\Columns\TextColumn::make('event_date')
                     ->label('Event Date')
                     ->date('M j, Y')
@@ -476,6 +476,7 @@ class FeedResource extends Resource
                         'offline' => 'Offline',
                         default => '-',
                     })
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->placeholder('-'),
 
                 Tables\Columns\IconColumn::make('is_paid')
@@ -487,19 +488,51 @@ class FeedResource extends Resource
                     ->falseColor('success')
                     ->placeholder('-'),
 
-                Tables\Columns\TextColumn::make('paymentConfiguration.name')
-                    ->label('Payment Config')
-                    ->searchable()
+                Tables\Columns\TextColumn::make('max_participants')
+                    ->label('Max Participants')
                     ->sortable()
-                    ->limit(30)
-                    ->wrap()
-                    ->placeholder('No config'),
+                    ->placeholder('Unlimited')
+                    ->formatStateUsing(fn(?int $state): string => $state ? number_format($state) : 'Unlimited'),
 
-                Tables\Columns\TextColumn::make('created_at')
-                    ->label('Published')
-                    ->dateTime('M j, Y H:i')
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                // Tables\Columns\TextColumn::make('paymentConfiguration.name')
+                //     ->label('Payment Config')
+                //     ->searchable()
+                //     ->sortable()
+                //     ->limit(30)
+                //     ->wrap()
+                //     ->placeholder('No config'),
+
+                Tables\Columns\TextColumn::make('registration_url')
+                    ->label('Registration Link')
+                    ->state(function ($record) {
+                        if (!$record || !$record->isPaidEvent()) {
+                            return 'Not available';
+                        }
+                        return $record->getRegistrationUrl();
+                    })
+                    ->copyable(function ($record) {
+                        return $record && $record->isPaidEvent();
+                    })
+                    ->copyMessage('Registration link copied!')
+                    ->copyMessageDuration(1500)
+                    ->url(function ($record) {
+                        if (!$record || !$record->isPaidEvent()) {
+                            return null;
+                        }
+                        return $record->getRegistrationUrl();
+                    })
+                    ->openUrlInNewTab()
+                    ->color(function ($record) {
+                        return $record && $record->isPaidEvent() ? 'primary' : 'gray';
+                    })
+                    ->weight(function ($record) {
+                        return $record && $record->isPaidEvent() ? 'semibold' : 'normal';
+                    })
+                    ->limit(10)
+                    ->tooltip(function ($record) {
+                        return $record && $record->isPaidEvent() ? 'Click to copy registration link' : 'Only available for paid events';
+                    }),
+
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([

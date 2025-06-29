@@ -13,7 +13,7 @@ class PaymentTransaction extends Model
 
     protected $fillable = [
         'unit_kegiatan_id',
-        'user_id',
+        'anonymous_registration_id',
         'payment_configuration_id',
         'feed_id',
         'transaction_id',
@@ -62,9 +62,9 @@ class PaymentTransaction extends Model
         return $this->belongsTo(UnitKegiatan::class);
     }
 
-    public function user()
+    public function anonymousRegistration()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(AnonymousEventRegistration::class, 'anonymous_registration_id');
     }
 
     public function paymentConfiguration()
@@ -210,5 +210,26 @@ class PaymentTransaction extends Model
     public function setCustomFilesAttribute($value)
     {
         $this->attributes['custom_files'] = is_array($value) ? json_encode($value) : $value;
+    }
+
+    // Helper methods for accessing user data from anonymous registration
+    public function getUserName()
+    {
+        return $this->anonymousRegistration?->name ?? 'Unknown User';
+    }
+
+    public function getUserEmail()
+    {
+        return $this->anonymousRegistration?->email;
+    }
+
+    public function getUserPhone()
+    {
+        return $this->anonymousRegistration?->phone;
+    }
+
+    public function getRegistrationTypeAttribute()
+    {
+        return 'Anonymous Registration';
     }
 }
