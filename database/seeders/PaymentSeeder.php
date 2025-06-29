@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\PaymentConfiguration;
 use App\Models\PaymentTransaction;
+use App\Models\AnonymousEventRegistration;
 use App\Models\UnitKegiatan;
 use App\Models\User;
 use App\Models\Feed;
@@ -59,7 +60,6 @@ class PaymentSeeder extends Seeder
                 'description' => $config['description'],
                 'amount' => $config['amount'],
                 'currency' => 'IDR',
-                'is_active' => $config['is_active'] ?? true,
                 'payment_methods' => $this->generatePaymentMethods($ukm, $config['type']),
                 'custom_fields' => $this->generateCustomFields($config['type']),
                 'settings' => $this->generateSettings($config),
@@ -141,11 +141,24 @@ class PaymentSeeder extends Seeder
         $createdAt = $specificDate ?? $this->getRandomTransactionDate();
         $paymentMethod = $this->selectPaymentMethod($config->payment_methods);
 
+        // Create anonymous event registration for this transaction
+        $eventFeed = $this->getOrCreateEventFeed($ukm);
+
+        $anonymousRegistration = AnonymousEventRegistration::create([
+            'feed_id' => $eventFeed->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'phone' => '08' . rand(100000000, 999999999),
+            'custom_data' => $this->generateCustomData($config->custom_fields, $user),
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
+        ]);
+
         $transaction = [
             'unit_kegiatan_id' => $ukm->id,
-            'user_id' => $user->id,
             'payment_configuration_id' => $config->id,
-            'feed_id' => null,
+            'anonymous_registration_id' => $anonymousRegistration->id,
+            'feed_id' => $eventFeed->id,
             'transaction_id' => $this->generateTransactionId($ukm->alias),
             'amount' => $config->amount,
             'currency' => $config->currency,
@@ -220,10 +233,23 @@ class PaymentSeeder extends Seeder
             $user = $users->random();
             $expiredDate = Carbon::now()->subDays(rand(7, 30));
 
+            // Create anonymous event registration
+            $eventFeed = $this->getOrCreateEventFeed($ukm);
+
+            $anonymousRegistration = AnonymousEventRegistration::create([
+                'feed_id' => $eventFeed->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => '08' . rand(100000000, 999999999),
+                'custom_data' => $this->generateCustomData($config->custom_fields, $user),
+                'created_at' => $expiredDate->copy()->subDays(rand(7, 14)),
+                'updated_at' => $expiredDate,
+            ]);
+
             PaymentTransaction::create([
                 'unit_kegiatan_id' => $ukm->id,
-                'user_id' => $user->id,
                 'payment_configuration_id' => $config->id,
+                'anonymous_registration_id' => $anonymousRegistration->id,
                 'transaction_id' => $this->generateTransactionId($ukm->alias),
                 'amount' => $config->amount,
                 'currency' => 'IDR',
@@ -256,10 +282,23 @@ class PaymentSeeder extends Seeder
             $user = $users->random();
             $failedDate = Carbon::now()->subDays(rand(1, 30));
 
+            // Create anonymous event registration
+            $eventFeed = $this->getOrCreateEventFeed($ukm);
+
+            $anonymousRegistration = AnonymousEventRegistration::create([
+                'feed_id' => $eventFeed->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => '08' . rand(100000000, 999999999),
+                'custom_data' => $this->generateCustomData($config->custom_fields, $user),
+                'created_at' => $failedDate,
+                'updated_at' => $failedDate->copy()->addMinutes(rand(5, 30)),
+            ]);
+
             PaymentTransaction::create([
                 'unit_kegiatan_id' => $ukm->id,
-                'user_id' => $user->id,
                 'payment_configuration_id' => $config->id,
+                'anonymous_registration_id' => $anonymousRegistration->id,
                 'transaction_id' => $this->generateTransactionId($ukm->alias),
                 'amount' => $config->amount,
                 'currency' => 'IDR',
@@ -290,10 +329,23 @@ class PaymentSeeder extends Seeder
             $user = $users->random();
             $cancelledDate = Carbon::now()->subDays(rand(1, 21));
 
+            // Create anonymous event registration
+            $eventFeed = $this->getOrCreateEventFeed($ukm);
+
+            $anonymousRegistration = AnonymousEventRegistration::create([
+                'feed_id' => $eventFeed->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => '08' . rand(100000000, 999999999),
+                'custom_data' => $this->generateCustomData($config->custom_fields, $user),
+                'created_at' => $cancelledDate,
+                'updated_at' => $cancelledDate->copy()->addHours(rand(1, 24)),
+            ]);
+
             PaymentTransaction::create([
                 'unit_kegiatan_id' => $ukm->id,
-                'user_id' => $user->id,
                 'payment_configuration_id' => $config->id,
+                'anonymous_registration_id' => $anonymousRegistration->id,
                 'transaction_id' => $this->generateTransactionId($ukm->alias),
                 'amount' => $config->amount,
                 'currency' => 'IDR',
@@ -317,10 +369,23 @@ class PaymentSeeder extends Seeder
             $user = $users->random();
             $recentDate = Carbon::now()->subHours(rand(1, 72));
 
+            // Create anonymous event registration
+            $eventFeed = $this->getOrCreateEventFeed($ukm);
+
+            $anonymousRegistration = AnonymousEventRegistration::create([
+                'feed_id' => $eventFeed->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'phone' => '08' . rand(100000000, 999999999),
+                'custom_data' => $this->generateCustomData($config->custom_fields, $user),
+                'created_at' => $recentDate,
+                'updated_at' => $recentDate,
+            ]);
+
             PaymentTransaction::create([
                 'unit_kegiatan_id' => $ukm->id,
-                'user_id' => $user->id,
                 'payment_configuration_id' => $config->id,
+                'anonymous_registration_id' => $anonymousRegistration->id,
                 'transaction_id' => $this->generateTransactionId($ukm->alias),
                 'amount' => $config->amount,
                 'currency' => 'IDR',
@@ -344,22 +409,19 @@ class PaymentSeeder extends Seeder
                 'name' => 'Membership Fee 2024/2025',
                 'description' => 'Biaya keanggotaan tahunan untuk mendapatkan akses penuh ke semua kegiatan',
                 'amount' => 25000,
-                'type' => 'membership',
-                'is_active' => true
+                'type' => 'membership'
             ],
             [
                 'name' => 'Event Registration Fee',
                 'description' => 'Biaya pendaftaran standar untuk mengikuti event dan workshop',
                 'amount' => 50000,
-                'type' => 'event',
-                'is_active' => true
+                'type' => 'event'
             ],
             [
                 'name' => 'Workshop Premium Package',
                 'description' => 'Paket workshop intensif dengan sertifikat dan materi lengkap',
                 'amount' => 100000,
-                'type' => 'workshop',
-                'is_active' => true
+                'type' => 'workshop'
             ]
         ];
 
@@ -683,5 +745,37 @@ class PaymentSeeder extends Seeder
     private function getRandomTransactionDate()
     {
         return Carbon::now()->subDays(rand(1, 90));
+    }
+
+    private function getOrCreateEventFeed($ukm)
+    {
+        // Get a random event feed from this UKM for the registration
+        $eventFeed = Feed::where('unit_kegiatan_id', $ukm->id)
+            ->where('type', 'event')
+            ->inRandomOrder()
+            ->first();
+
+        // If no event found, create a generic event feed for this UKM
+        if (!$eventFeed) {
+            $eventFeed = Feed::create([
+                'unit_kegiatan_id' => $ukm->id,
+                'type' => 'event',
+                'title' => 'General Registration Event',
+                'content' => 'General event for payment registrations',
+                'event_date' => Carbon::now()->addDays(30),
+                'event_type' => 'offline',
+                'location' => 'Campus',
+                'is_paid' => true,
+                'max_participants' => 50,
+            ]);
+        }
+
+        return $eventFeed;
+    }
+
+    private function getRandomFaculty()
+    {
+        $faculties = ['Teknik', 'Ekonomi', 'Hukum', 'Kedokteran', 'Pertanian', 'FKIP'];
+        return $faculties[array_rand($faculties)];
     }
 }
