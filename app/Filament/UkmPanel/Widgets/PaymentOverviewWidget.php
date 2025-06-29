@@ -15,9 +15,10 @@ class PaymentOverviewWidget extends BaseWidget
         // Get the current UKM admin's organization
         $ukmId = Auth::user()->admin->unit_kegiatan_id;
 
-        // Count active payment configurations
+        // Count active payment configurations using the computed attribute
         $activeConfigurations = PaymentConfiguration::where('unit_kegiatan_id', $ukmId)
-            ->where('is_active', true)
+            ->get()
+            ->filter(fn($config) => $config->is_active)
             ->count();
 
         // Count total transactions
@@ -66,4 +67,4 @@ class PaymentOverviewWidget extends BaseWidget
                 ->icon('heroicon-o-document'),
         ];
     }
-} 
+}

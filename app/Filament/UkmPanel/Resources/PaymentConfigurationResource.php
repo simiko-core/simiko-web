@@ -263,8 +263,11 @@ class PaymentConfigurationResource extends Resource
                             if (!$feed->max_participants) {
                                 return 'Available - Unlimited capacity';
                             }
-                            $available = $feed->max_participants - $feed->getTotalRegistrationsCount();
-                            return "Available - {$available} slots remaining";
+                            $confirmed = $feed->getPaidRegistrationsCount();
+                            $pendingWithProof = $feed->getPendingWithProofCount();
+                            $totalConfirmed = $confirmed + $pendingWithProof;
+                            $available = $feed->max_participants - $totalConfirmed;
+                            return "Available - {$available} slots remaining\nConfirmed: {$totalConfirmed} (paid: {$confirmed}, pending with proof: {$pendingWithProof})";
                         } else {
                             return 'Event is full - Registration closed';
                         }
@@ -310,12 +313,55 @@ class PaymentConfigurationResource extends Resource
                     ->label('Current Registrations')
                     ->getStateUsing(function (PaymentConfiguration $record) {
                         $feed = $record->feeds()->first();
-                        return $feed ? $feed->getTotalRegistrationsCount() : 0;
+                        if (!$feed) return 0;
+
+                        $confirmed = $feed->getPaidRegistrationsCount();
+                        $pendingWithProof = $feed->getPendingWithProofCount();
+                        $pendingWithoutProof = $feed->getPendingWithoutProofCount();
+
+                        return [
+                            'confirmed' => $confirmed,
+                            'pending_with_proof' => $pendingWithProof,
+                            'pending_without_proof' => $pendingWithoutProof,
+                            'total_confirmed' => $confirmed + $pendingWithProof
+                        ];
+                    })
+                    ->formatStateUsing(function ($state) {
+                        if (is_array($state)) {
+                            $confirmed = $state['confirmed'];
+                            $pendingWithProof = $state['pending_with_proof'];
+                            $pendingWithoutProof = $state['pending_without_proof'];
+                            $totalConfirmed = $state['total_confirmed'];
+
+                            $parts = [];
+                            if ($confirmed > 0) $parts[] = "{$confirmed} paid";
+                            if ($pendingWithProof > 0) $parts[] = "{$pendingWithProof} pending (proof uploaded)";
+                            if ($pendingWithoutProof > 0) $parts[] = "{$pendingWithoutProof} pending (no proof)";
+
+                            return $parts ? implode(', ', $parts) : '0';
+                        }
+                        return $state;
                     })
                     ->badge()
                     ->color('info')
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: false),
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->tooltip(function (PaymentConfiguration $record) {
+                        $feed = $record->feeds()->first();
+                        if (!$feed) return 'No associated event';
+
+                        $confirmed = $feed->getPaidRegistrationsCount();
+                        $pendingWithProof = $feed->getPendingWithProofCount();
+                        $pendingWithoutProof = $feed->getPendingWithoutProofCount();
+                        $totalConfirmed = $confirmed + $pendingWithProof;
+
+                        $tooltip = "Confirmed registrations: {$totalConfirmed}\n";
+                        $tooltip .= "• Paid: {$confirmed}\n";
+                        $tooltip .= "• Pending with proof: {$pendingWithProof}\n";
+                        $tooltip .= "• Pending without proof: {$pendingWithoutProof}";
+
+                        return $tooltip;
+                    }),
 
                 Tables\Columns\TextColumn::make('max_participants')
                     ->label('Max Participants')
@@ -335,8 +381,10 @@ class PaymentConfigurationResource extends Resource
                         if (!$feed || !$feed->max_participants) {
                             return 'Unlimited';
                         }
-                        $current = $feed->getTotalRegistrationsCount();
-                        $available = max(0, $feed->max_participants - $current);
+                        $confirmed = $feed->getPaidRegistrationsCount();
+                        $pendingWithProof = $feed->getPendingWithProofCount();
+                        $totalConfirmed = $confirmed + $pendingWithProof;
+                        $available = max(0, $feed->max_participants - $totalConfirmed);
                         return number_format($available);
                     })
                     ->badge()
@@ -364,10 +412,12 @@ class PaymentConfigurationResource extends Resource
                         if (!$feed || !$feed->max_participants) {
                             return 'No limit';
                         }
-                        $current = $feed->getTotalRegistrationsCount();
+                        $confirmed = $feed->getPaidRegistrationsCount();
+                        $pendingWithProof = $feed->getPendingWithProofCount();
+                        $totalConfirmed = $confirmed + $pendingWithProof;
                         $max = $feed->max_participants;
-                        $percentage = $max > 0 ? round(($current / $max) * 100) : 0;
-                        return "{$current}/{$max} ({$percentage}%)";
+                        $percentage = $max > 0 ? round(($totalConfirmed / $max) * 100) : 0;
+                        return "{$totalConfirmed}/{$max} ({$percentage}%)";
                     })
                     ->html()
                     ->formatStateUsing(function ($state, PaymentConfiguration $record) {
@@ -376,9 +426,11 @@ class PaymentConfigurationResource extends Resource
                             return '<span class="text-green-600 font-medium">No limit</span>';
                         }
 
-                        $current = $feed->getTotalRegistrationsCount();
+                        $confirmed = $feed->getPaidRegistrationsCount();
+                        $pendingWithProof = $feed->getPendingWithProofCount();
+                        $totalConfirmed = $confirmed + $pendingWithProof;
                         $max = $feed->max_participants;
-                        $percentage = $max > 0 ? ($current / $max) * 100 : 0;
+                        $percentage = $max > 0 ? ($totalConfirmed / $max) * 100 : 0;
 
                         $color = 'bg-green-500';
                         $textColor = 'text-green-700';
@@ -393,7 +445,7 @@ class PaymentConfigurationResource extends Resource
                         return '
                             <div class="w-full">
                                 <div class="flex justify-between text-xs ' . $textColor . ' mb-1">
-                                    <span>' . $current . '/' . $max . '</span>
+                                    <span>' . $totalConfirmed . '/' . $max . '</span>
                                     <span>' . round($percentage) . '%</span>
                                 </div>
                                 <div class="w-full bg-gray-200 rounded-full h-2">
@@ -422,12 +474,26 @@ class PaymentConfigurationResource extends Resource
                         true: fn(Builder $query) => $query->whereHas('feeds', function ($feedQuery) {
                             $feedQuery->where(function ($q) {
                                 $q->whereNull('max_participants')
-                                    ->orWhereRaw('max_participants > (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+                                    ->orWhereRaw('max_participants > (
+                                        SELECT COUNT(*) FROM payment_transactions 
+                                        WHERE feed_id = feeds.id 
+                                        AND (
+                                            status = "paid" 
+                                            OR (status = "pending" AND proof_of_payment IS NOT NULL)
+                                        )
+                                    )');
                             });
                         }),
                         false: fn(Builder $query) => $query->whereHas('feeds', function ($feedQuery) {
                             $feedQuery->whereNotNull('max_participants')
-                                ->whereRaw('max_participants <= (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+                                ->whereRaw('max_participants <= (
+                                    SELECT COUNT(*) FROM payment_transactions 
+                                    WHERE feed_id = feeds.id 
+                                    AND (
+                                        status = "paid" 
+                                        OR (status = "pending" AND proof_of_payment IS NOT NULL)
+                                    )
+                                )');
                         }),
                         blank: fn(Builder $query) => $query,
                     ),
