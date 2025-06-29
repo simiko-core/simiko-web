@@ -67,7 +67,14 @@ class PaymentConfiguration extends Model
         return $query->whereHas('feeds', function ($feedQuery) {
             $feedQuery->where(function ($q) {
                 $q->whereNull('max_participants')
-                    ->orWhereRaw('max_participants > (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+                    ->orWhereRaw('max_participants > (
+                        SELECT COUNT(*) FROM payment_transactions 
+                        WHERE feed_id = feeds.id 
+                        AND (
+                            status = "paid" 
+                            OR (status = "pending" AND proof_of_payment IS NOT NULL)
+                        )
+                    )');
             });
         });
     }
@@ -76,7 +83,14 @@ class PaymentConfiguration extends Model
     {
         return $query->whereHas('feeds', function ($feedQuery) {
             $feedQuery->whereNotNull('max_participants')
-                ->whereRaw('max_participants <= (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+                ->whereRaw('max_participants <= (
+                    SELECT COUNT(*) FROM payment_transactions 
+                    WHERE feed_id = feeds.id 
+                    AND (
+                        status = "paid" 
+                        OR (status = "pending" AND proof_of_payment IS NOT NULL)
+                    )
+                )');
         });
     }
 

@@ -295,14 +295,43 @@ try {
 4. **Unlimited Events**: `null` values indicate unlimited capacity
 5. **Automatic Status**: Payment configurations use `getIsActiveAttribute()` to determine status dynamically
 6. **No Manual Toggle**: Removed manual active/inactive controls from admin panel
+7. **Proof of Payment Logic**: Slots are only considered "taken" after proof of payment is uploaded or transaction is marked as paid
+
+### Registration Counting Logic
+
+The system now uses a more sophisticated counting mechanism:
+
+-   **Confirmed Registrations**: Transactions with status `paid` OR `pending` with proof of payment uploaded
+-   **Available Slots**: Only confirmed registrations count against the maximum participant limit
+-   **Pending Without Proof**: Transactions in `pending` status without proof of payment do NOT count against the limit
+
+This ensures that:
+
+-   Users can register and create transactions without immediately consuming slots
+-   Slots are only reserved after proof of payment is uploaded
+-   Admins can see detailed breakdown of registration status
 
 ### Database Queries
 
 The system uses efficient queries to count registrations:
 
 ```php
-// Count all registrations (pending and paid)
-$feed->transactions()->whereIn('status', ['pending', 'paid'])->count()
+// Count confirmed registrations (paid + pending with proof)
+$feed->transactions()
+    ->where(function ($query) {
+        $query->where('status', 'paid')
+            ->orWhere(function ($q) {
+                $q->where('status', 'pending')
+                  ->whereNotNull('proof_of_payment');
+            });
+    })
+    ->count()
+
+// Count pending transactions with proof uploaded
+$feed->getPendingWithProofCount()
+
+// Count pending transactions without proof
+$feed->getPendingWithoutProofCount()
 ```
 
 ### Performance Considerations

@@ -131,7 +131,17 @@ class Feed extends Model
 
     public function getRegistrationsCount()
     {
-        return $this->transactions()->whereIn('status', ['pending', 'paid'])->count();
+        // Only count transactions that have proof of payment uploaded or are marked as paid
+        // This ensures slots are only considered "taken" after proof of payment is provided
+        return $this->transactions()
+            ->where(function ($query) {
+                $query->where('status', 'paid')
+                    ->orWhere(function ($q) {
+                        $q->where('status', 'pending')
+                            ->whereNotNull('proof_of_payment');
+                    });
+            })
+            ->count();
     }
 
     public function getPaidRegistrationsCount()
@@ -148,5 +158,23 @@ class Feed extends Model
     {
         // Count both user-based and anonymous registrations
         return $this->getRegistrationsCount();
+    }
+
+    public function getPendingWithProofCount()
+    {
+        // Count pending transactions that have proof of payment uploaded
+        return $this->transactions()
+            ->where('status', 'pending')
+            ->whereNotNull('proof_of_payment')
+            ->count();
+    }
+
+    public function getPendingWithoutProofCount()
+    {
+        // Count pending transactions that don't have proof of payment uploaded
+        return $this->transactions()
+            ->where('status', 'pending')
+            ->whereNull('proof_of_payment')
+            ->count();
     }
 }
