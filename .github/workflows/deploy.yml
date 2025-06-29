@@ -39,7 +39,6 @@ jobs:
             sudo su -c '
               cd /www/wwwroot/simiko.rizkirmdhn.web.id &&
               git pull origin main &&
-              composer self-update --2 &&
               composer install --no-dev --optimize-autoloader &&
               npm ci &&
               npm run build &&
