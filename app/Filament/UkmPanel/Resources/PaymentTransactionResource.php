@@ -49,13 +49,13 @@ class PaymentTransactionResource extends Resource
                             ->preload()
                             ->helperText('Select which payment configuration this transaction belongs to'),
 
-                        Forms\Components\Select::make('user_id')
-                            ->label('User')
-                            ->relationship('user', 'name')
+                        Forms\Components\Select::make('anonymous_registration_id')
+                            ->label('Event Registration')
+                            ->relationship('anonymousRegistration', 'name')
                             ->required()
                             ->searchable()
                             ->preload()
-                            ->helperText('User who made this payment'),
+                            ->helperText('Anonymous registration for this payment'),
 
                         Forms\Components\Select::make('feed_id')
                             ->label('Related Event (Optional)')
@@ -170,11 +170,25 @@ class PaymentTransactionResource extends Resource
                     ->copyable()
                     ->copyMessage('Transaction ID copied!'),
 
-                Tables\Columns\TextColumn::make('user.name')
-                    ->label('User')
+                Tables\Columns\TextColumn::make('user_name')
+                    ->label('Participant')
                     ->searchable()
                     ->sortable()
-                    ->weight('medium'),
+                    ->weight('medium')
+                    ->formatStateUsing(function ($record) {
+                        return $record->getUserName();
+                    }),
+
+                Tables\Columns\TextColumn::make('user_email')
+                    ->label('Email')
+                    ->searchable()
+                    ->sortable()
+                    ->formatStateUsing(function ($record) {
+                        return $record->getUserEmail();
+                    })
+                    ->copyable()
+                    ->copyMessage('Email copied!')
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('paymentConfiguration.name')
                     ->label('Payment Type')

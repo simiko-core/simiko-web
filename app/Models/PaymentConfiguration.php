@@ -17,7 +17,6 @@ class PaymentConfiguration extends Model
         'description',
         'amount',
         'currency',
-        'is_active',
         'payment_methods',
         'custom_fields',
         'settings'
@@ -25,7 +24,6 @@ class PaymentConfiguration extends Model
 
     protected $casts = [
         'amount' => 'decimal:2',
-        'is_active' => 'boolean',
         'payment_methods' => 'array',
         'custom_fields' => 'array',
         'settings' => 'array',
@@ -33,7 +31,6 @@ class PaymentConfiguration extends Model
 
     protected $attributes = [
         'currency' => 'IDR',
-        'is_active' => true,
     ];
 
     protected static function booted(): void
@@ -67,15 +64,44 @@ class PaymentConfiguration extends Model
     // Scopes
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->whereHas('feeds', function ($feedQuery) {
+            $feedQuery->where(function ($q) {
+                $q->whereNull('max_participants')
+                    ->orWhereRaw('max_participants > (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+            });
+        });
     }
 
     public function scopeInactive($query)
     {
-        return $query->where('is_active', false);
+        return $query->whereHas('feeds', function ($feedQuery) {
+            $feedQuery->whereNotNull('max_participants')
+                ->whereRaw('max_participants <= (SELECT COUNT(*) FROM payment_transactions WHERE feed_id = feeds.id AND status IN ("pending", "paid"))');
+        });
     }
 
     // Helper methods
+    public function getIsActiveAttribute()
+    {
+        // Payment configuration is active if:
+        // 1. It has no associated feed (always active for general use)
+        // 2. It has a feed with unlimited participants (max_participants is null)
+        // 3. It has a feed where current registrations < max_participants
+
+        $feed = $this->feeds()->first();
+
+        if (!$feed) {
+            return true; // No feed associated, always active
+        }
+
+        if ($feed->max_participants === null) {
+            return true; // Unlimited participants
+        }
+
+        $currentRegistrations = $feed->getTotalRegistrationsCount();
+        return $currentRegistrations < $feed->max_participants;
+    }
+
     public function getFormattedAmountAttribute()
     {
         return 'Rp ' . number_format($this->amount, 0, ',', '.');

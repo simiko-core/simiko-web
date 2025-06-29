@@ -135,9 +135,7 @@ class FeedResource extends Resource
 
                         Forms\Components\Select::make('payment_configuration_id')
                             ->label('Payment Configuration')
-                            ->relationship('paymentConfiguration', 'name', function ($query) {
-                                return $query->where('is_active', true);
-                            })
+                            ->relationship('paymentConfiguration', 'name')
                             ->searchable()
                             ->preload()
                             ->helperText('Select a payment configuration for this event')
@@ -323,10 +321,7 @@ class FeedResource extends Resource
 
 
 
-                                Forms\Components\Toggle::make('payment_configuration.is_active')
-                                    ->label('Active')
-                                    ->helperText('Enable to make this payment configuration available')
-                                    ->default(true),
+
 
                                 Forms\Components\Repeater::make('payment_configuration.payment_methods')
                                     ->label('Payment Methods')

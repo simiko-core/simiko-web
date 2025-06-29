@@ -432,6 +432,28 @@
                                                                         "type": "boolean",
                                                                         "example": true
                                                                     },
+                                                                    "max_participants": {
+                                                                        "description": "Maximum number of participants allowed. Null if unlimited. Only present for paid events.",
+                                                                        "type": "integer",
+                                                                        "example": 100,
+                                                                        "nullable": true
+                                                                    },
+                                                                    "current_registrations": {
+                                                                        "description": "Current number of registered participants. Only present for paid events.",
+                                                                        "type": "integer",
+                                                                        "example": 75
+                                                                    },
+                                                                    "available_slots": {
+                                                                        "description": "Number of available slots remaining. Null if unlimited. Only present for paid events.",
+                                                                        "type": "integer",
+                                                                        "example": 25,
+                                                                        "nullable": true
+                                                                    },
+                                                                    "is_full": {
+                                                                        "description": "Whether the event has reached maximum capacity. Only present for paid events.",
+                                                                        "type": "boolean",
+                                                                        "example": false
+                                                                    },
                                                                     "ukm": {
                                                                         "properties": {
                                                                             "id": {
@@ -533,7 +555,113 @@
                                             "example": "Feed item retrieved successfully"
                                         },
                                         "data": {
-                                            "$ref": "#/components/schemas/FeedDetail"
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 11
+                                                },
+                                                "type": {
+                                                    "type": "string",
+                                                    "example": "event"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Workshop Laravel"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "Join us for an exciting Laravel workshop..."
+                                                },
+                                                "image_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8000/storage/feeds/sample.jpg",
+                                                    "nullable": true
+                                                },
+                                                "event_date": {
+                                                    "description": "Only present for events",
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2024-07-15",
+                                                    "nullable": true
+                                                },
+                                                "event_type": {
+                                                    "description": "Only present for events",
+                                                    "type": "string",
+                                                    "example": "Workshop",
+                                                    "nullable": true
+                                                },
+                                                "location": {
+                                                    "description": "Only present for events",
+                                                    "type": "string",
+                                                    "example": "Room A101",
+                                                    "nullable": true
+                                                },
+                                                "is_paid": {
+                                                    "description": "Only present for events",
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "amount": {
+                                                    "description": "Only present for paid events",
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 50000
+                                                },
+                                                "link": {
+                                                    "description": "Only present for paid events",
+                                                    "type": "string",
+                                                    "example": "https://payment.example.com/pay/11"
+                                                },
+                                                "max_participants": {
+                                                    "description": "Maximum number of participants allowed. Null if unlimited. Only present for paid events.",
+                                                    "type": "integer",
+                                                    "example": 100,
+                                                    "nullable": true
+                                                },
+                                                "current_registrations": {
+                                                    "description": "Current number of registered participants. Only present for paid events.",
+                                                    "type": "integer",
+                                                    "example": 75
+                                                },
+                                                "available_slots": {
+                                                    "description": "Number of available slots remaining. Null if unlimited. Only present for paid events.",
+                                                    "type": "integer",
+                                                    "example": 25,
+                                                    "nullable": true
+                                                },
+                                                "is_full": {
+                                                    "description": "Whether the event has reached maximum capacity. Only present for paid events.",
+                                                    "type": "boolean",
+                                                    "example": false
+                                                },
+                                                "ukm": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 2
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "HMTE"
+                                                        },
+                                                        "alias": {
+                                                            "type": "string",
+                                                            "example": "hmte"
+                                                        },
+                                                        "logo_url": {
+                                                            "type": "string",
+                                                            "example": "http://localhost:8000/storage/ukms/logo.jpg",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "format": "date-time"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -735,6 +863,28 @@
                                                                 "type": "boolean",
                                                                 "example": true
                                                             },
+                                                            "max_participants": {
+                                                                "description": "Maximum number of participants allowed. Null if unlimited. Only present for paid events.",
+                                                                "type": "integer",
+                                                                "example": 100,
+                                                                "nullable": true
+                                                            },
+                                                            "current_registrations": {
+                                                                "description": "Current number of registered participants. Only present for paid events.",
+                                                                "type": "integer",
+                                                                "example": 75
+                                                            },
+                                                            "available_slots": {
+                                                                "description": "Number of available slots remaining. Null if unlimited. Only present for paid events.",
+                                                                "type": "integer",
+                                                                "example": 25,
+                                                                "nullable": true
+                                                            },
+                                                            "is_full": {
+                                                                "description": "Whether the event has reached maximum capacity. Only present for paid events.",
+                                                                "type": "boolean",
+                                                                "example": false
+                                                            },
                                                             "ukm": {
                                                                 "properties": {
                                                                     "id": {
@@ -779,6 +929,189 @@
                     },
                     "401": {
                         "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/payment/transaction": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Create a new payment transaction",
+                "description": "Create a new payment transaction for a payment configuration or event",
+                "operationId": "ce17cbbfeea1b55d1840a3ab8fc5e259",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "payment_configuration_id": {
+                                        "description": "ID of the payment configuration",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "feed_id": {
+                                        "description": "ID of the event feed (optional)",
+                                        "type": "integer",
+                                        "example": 11,
+                                        "nullable": true
+                                    },
+                                    "custom_data": {
+                                        "description": "Custom form data",
+                                        "type": "object",
+                                        "nullable": true
+                                    },
+                                    "custom_files": {
+                                        "description": "Custom file uploads",
+                                        "type": "object",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transaction created successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "transaction": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 123
+                                                        },
+                                                        "transaction_id": {
+                                                            "type": "string",
+                                                            "example": "TXN-HMTE-1234567890-1234"
+                                                        },
+                                                        "amount": {
+                                                            "type": "number",
+                                                            "format": "float",
+                                                            "example": 50000
+                                                        },
+                                                        "status": {
+                                                            "type": "string",
+                                                            "example": "pending"
+                                                        },
+                                                        "expires_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        },
+                                                        "payment_configuration": {
+                                                            "properties": {
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Workshop Registration"
+                                                                },
+                                                                "description": {
+                                                                    "type": "string",
+                                                                    "example": "Registration fee for Laravel workshop"
+                                                                },
+                                                                "payment_methods": {
+                                                                    "type": "array",
+                                                                    "items": {
+                                                                        "type": "object"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "event": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 11
+                                                                },
+                                                                "title": {
+                                                                    "type": "string",
+                                                                    "example": "Laravel Workshop"
+                                                                },
+                                                                "event_date": {
+                                                                    "type": "string",
+                                                                    "format": "date",
+                                                                    "example": "2024-07-15"
+                                                                }
+                                                            },
+                                                            "type": "object",
+                                                            "nullable": true
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request - Event at capacity or invalid data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Event has reached maximum participant limit"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "max_participants": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                },
+                                                "current_registrations": {
+                                                    "type": "integer",
+                                                    "example": 100
+                                                },
+                                                "available_slots": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation Error"
                     }
                 },
                 "security": [
@@ -1523,6 +1856,10 @@
         {
             "name": "Feeds",
             "description": "Feeds"
+        },
+        {
+            "name": "Payment",
+            "description": "Payment"
         },
         {
             "name": "UKM",

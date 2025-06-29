@@ -10,6 +10,7 @@ use App\Models\Feed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use OpenApi\Attributes as OA;
 
 class paymentController extends Controller
 {
@@ -26,8 +27,9 @@ class paymentController extends Controller
             }
 
             $configurations = PaymentConfiguration::where('unit_kegiatan_id', $ukmId)
-                ->where('is_active', true)
-                ->get();
+                ->get()
+                ->filter(fn($config) => $config->is_active)
+                ->values();
 
             return ApiResponse::success($configurations, 'Payment configurations retrieved successfully');
         } catch (\Exception $e) {
@@ -38,6 +40,94 @@ class paymentController extends Controller
     /**
      * Create a new payment transaction
      */
+    #[OA\Post(
+        path: "/payment/transaction",
+        summary: "Create a new payment transaction",
+        description: "Create a new payment transaction for a payment configuration or event",
+        security: [["bearerAuth" => []]],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(property: "payment_configuration_id", type: "integer", example: 1, description: "ID of the payment configuration"),
+                    new OA\Property(property: "feed_id", type: "integer", nullable: true, example: 11, description: "ID of the event feed (optional)"),
+                    new OA\Property(property: "custom_data", type: "object", nullable: true, description: "Custom form data"),
+                    new OA\Property(property: "custom_files", type: "object", nullable: true, description: "Custom file uploads")
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: "Transaction created successfully",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "success", type: "boolean", example: true),
+                        new OA\Property(property: "message", type: "string", example: "Transaction created successfully"),
+                        new OA\Property(
+                            property: "data",
+                            type: "object",
+                            properties: [
+                                new OA\Property(
+                                    property: "transaction",
+                                    type: "object",
+                                    properties: [
+                                        new OA\Property(property: "id", type: "integer", example: 123),
+                                        new OA\Property(property: "transaction_id", type: "string", example: "TXN-HMTE-1234567890-1234"),
+                                        new OA\Property(property: "amount", type: "number", format: "float", example: 50000),
+                                        new OA\Property(property: "status", type: "string", example: "pending"),
+                                        new OA\Property(property: "expires_at", type: "string", format: "date-time"),
+                                        new OA\Property(
+                                            property: "payment_configuration",
+                                            type: "object",
+                                            properties: [
+                                                new OA\Property(property: "name", type: "string", example: "Workshop Registration"),
+                                                new OA\Property(property: "description", type: "string", example: "Registration fee for Laravel workshop"),
+                                                new OA\Property(property: "payment_methods", type: "array", items: new OA\Items(type: "object"))
+                                            ]
+                                        ),
+                                        new OA\Property(
+                                            property: "event",
+                                            type: "object",
+                                            nullable: true,
+                                            properties: [
+                                                new OA\Property(property: "id", type: "integer", example: 11),
+                                                new OA\Property(property: "title", type: "string", example: "Laravel Workshop"),
+                                                new OA\Property(property: "event_date", type: "string", format: "date", example: "2024-07-15")
+                                            ]
+                                        )
+                                    ]
+                                )
+                            ]
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 400,
+                description: "Bad request - Event at capacity or invalid data",
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: "success", type: "boolean", example: false),
+                        new OA\Property(property: "message", type: "string", example: "Event has reached maximum participant limit"),
+                        new OA\Property(
+                            property: "data",
+                            type: "object",
+                            nullable: true,
+                            properties: [
+                                new OA\Property(property: "max_participants", type: "integer", example: 100),
+                                new OA\Property(property: "current_registrations", type: "integer", example: 100),
+                                new OA\Property(property: "available_slots", type: "integer", example: 0)
+                            ]
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(response: 401, description: "Unauthorized"),
+            new OA\Response(response: 422, description: "Validation Error")
+        ],
+        tags: ["Payment"]
+    )]
     public function createTransaction(Request $request)
     {
         try {
@@ -64,6 +154,19 @@ class paymentController extends Controller
                 // Verify the feed is a paid event and has the correct payment configuration
                 if (!$feed->is_paid || $feed->payment_configuration_id !== $configuration->id) {
                     return ApiResponse::error('Invalid event or payment configuration', 400);
+                }
+
+                // Check if event has reached maximum participant limit
+                $maxParticipants = $feed->max_participants;
+                if ($maxParticipants !== null) {
+                    $currentRegistrations = $feed->getTotalRegistrationsCount();
+                    if ($currentRegistrations >= $maxParticipants) {
+                        return ApiResponse::error('Event has reached maximum participant limit', 400, [
+                            'max_participants' => $maxParticipants,
+                            'current_registrations' => $currentRegistrations,
+                            'available_slots' => 0
+                        ]);
+                    }
                 }
             }
 

@@ -36,7 +36,6 @@ class EditFeed extends EditRecord
                     'description' => $newPaymentConfig['description'] ?? null,
                     'amount' => $newPaymentConfig['amount'],
                     'currency' => 'IDR',
-                    'is_active' => true,
                     'payment_methods' => $newPaymentConfig['payment_methods'] ?? [],
                     'custom_fields' => $newPaymentConfig['custom_fields'] ?? [],
                     'settings' => [],
@@ -76,7 +75,6 @@ class EditFeed extends EditRecord
                 'description' => $paymentConfigData['description'] ?? $this->record->paymentConfiguration->description,
                 'amount' => $paymentConfigData['amount'] ?? $this->record->paymentConfiguration->amount,
                 'currency' => 'IDR',
-                'is_active' => $paymentConfigData['is_active'] ?? $this->record->paymentConfiguration->is_active,
                 'payment_methods' => $paymentConfigData['payment_methods'] ?? $this->record->paymentConfiguration->payment_methods,
                 'custom_fields' => $paymentConfigData['custom_fields'] ?? $this->record->paymentConfiguration->custom_fields,
             ]);
@@ -106,8 +104,6 @@ class EditFeed extends EditRecord
                 'name' => $this->record->paymentConfiguration->name,
                 'description' => $this->record->paymentConfiguration->description,
                 'amount' => $this->record->paymentConfiguration->amount,
-
-                'is_active' => $this->record->paymentConfiguration->is_active,
                 'payment_methods' => $this->record->paymentConfiguration->payment_methods,
                 'custom_fields' => $this->record->paymentConfiguration->custom_fields,
             ];
