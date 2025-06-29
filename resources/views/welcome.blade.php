@@ -122,8 +122,109 @@
         </div>
     </section>
 
+    <!-- About Simiko Section -->
+    <section class="py-20 bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Illustration Section -->
+            <div class="text-center mb-20">
+                <h2 class="text-3xl lg:text-4xl font-bold text-secondary mb-8 font-mono">
+                    Tentang <span class="text-primary">Simiko</span>
+                </h2>
+                <p class="text-xl text-gray-300 max-w-4xl mx-auto mb-12 leading-relaxed">
+                    Simiko adalah platform revolusioner yang mengintegrasikan seluruh aspek manajemen Unit Kegiatan Mahasiswa dalam satu ekosistem digital yang powerful dan user-friendly.
+                </p>
+                
+                <!-- Illustration Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                    <div class="bg-background p-8 border-2 border-black hard-shadow">
+                        <div class="bg-blue-900 border-2 border-black w-20 h-20 mx-auto flex items-center justify-center mb-6">
+                            <i class="fas fa-sitemap text-blue-400 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Centralized Management</h3>
+                        <p class="text-gray-400">
+                            Satu platform untuk mengelola semua aspek UKM, dari member management hingga financial tracking.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-background p-8 border-2 border-black hard-shadow">
+                        <div class="bg-green-900 border-2 border-black w-20 h-20 mx-auto flex items-center justify-center mb-6">
+                            <i class="fas fa-rocket text-green-400 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Modern Technology</h3>
+                        <p class="text-gray-400">
+                            Dibangun dengan teknologi terdepan untuk performa optimal dan user experience yang luar biasa.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-background p-8 border-2 border-black hard-shadow">
+                        <div class="bg-purple-900 border-2 border-black w-20 h-20 mx-auto flex items-center justify-center mb-6">
+                            <i class="fas fa-users text-purple-400 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-secondary mb-4 font-mono">Community Focused</h3>
+                        <p class="text-gray-400">
+                            Membangun ekosistem yang mendukung kolaborasi dan pertumbuhan komunitas mahasiswa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vision & Mission Section -->
+    <section class="py-20 bg-accent">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Vision -->
+                <div class="bg-background p-10 border-4 border-black hard-shadow">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-primary border-2 border-black w-12 h-12 flex items-center justify-center mr-4">
+                            <i class="fas fa-eye text-black text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-secondary font-mono">Visi Kami</h3>
+                    </div>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6">
+                        Menjadi platform digital terdepan yang memberdayakan Unit Kegiatan Mahasiswa untuk mencapai potensi maksimal melalui manajemen yang efisien, transparan, dan terintegrasi.
+                    </p>
+                    <div class="border-l-4 border-primary pl-4">
+                        <p class="text-primary font-semibold italic">
+                            "Membangun masa depan organisasi mahasiswa yang lebih terorganisir dan berdampak"
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mission -->
+                <div class="bg-background p-10 border-4 border-black hard-shadow">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-primary border-2 border-black w-12 h-12 flex items-center justify-center mr-4">
+                            <i class="fas fa-bullseye text-black text-xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-secondary font-mono">Misi Kami</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start">
+                            <div class="bg-primary w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <span>Menyediakan tools manajemen yang powerful namun mudah digunakan untuk seluruh aspek operasional UKM</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-primary w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <span>Mengintegrasikan sistem pembayaran, pendaftaran, dan manajemen event dalam satu platform</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-primary w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <span>Memfasilitasi transparansi dan akuntabilitas dalam pengelolaan organisasi mahasiswa</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="bg-primary w-2 h-2 rounded-full mt-2 mr-3 flex-shrink-0"></div>
+                            <span>Mendukung pertumbuhan dan perkembangan komunitas mahasiswa melalui teknologi digital</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Features Section -->
-    <section id="features" class="py-20 bg-accent">
+    <section id="features" class="py-20 bg-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-mono">
