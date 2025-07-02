@@ -338,7 +338,7 @@ class ukmController extends Controller
             },
             'achievements:id,unit_kegiatan_id,title,image,description',
             'feeds' => function ($query) {
-                $query->orderByDesc('created_at')->limit(5)->select('id', 'unit_kegiatan_id', 'title', 'image', 'content', 'type');
+                $query->orderByDesc('created_at')->limit(5)->select('id', 'unit_kegiatan_id', 'title', 'image', 'content', 'type', 'created_at');
             },
             'activityGalleries:id,unit_kegiatan_id,image'
         ])->findOrFail($id);
@@ -366,9 +366,11 @@ class ukmController extends Controller
                 }),
                 'recent_posts' => $ukm->feeds->map(function ($f) {
                     return [
+                        'id' => $f->id,
                         'title' => $f->title,
                         'type' => $f->type,
                         'image_url' => asset('storage/' . $f->image),
+                        'created_at' => $f->created_at,
                     ];
                 }),
                 'activity_gallery' => $ukm->activityGalleries->map(function ($g) {

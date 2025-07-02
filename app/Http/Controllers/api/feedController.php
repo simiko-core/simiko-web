@@ -183,14 +183,15 @@ class feedController extends Controller
 
 
         // Get all UKM with id and alias
-        $ukms = \App\Models\UnitKegiatan::select('id', 'alias')
+        $ukms = \App\Models\UnitKegiatan::select('id', 'alias', 'logo')
             ->whereNotNull('alias')
             ->orderBy('alias')
             ->get()
             ->map(function ($ukm) {
                 return [
                     'id' => $ukm->id,
-                    'name' => $ukm->alias
+                    'name' => $ukm->alias,
+                    'logo_url' => $ukm->logo ? asset('storage/' . $ukm->logo) : null,
                 ];
             })
             ->toArray();
