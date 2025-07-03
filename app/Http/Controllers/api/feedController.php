@@ -312,7 +312,7 @@ class feedController extends Controller
                 // Add amount and payment link if paid event has payment configuration
                 if ($feed->is_paid && $feed->paymentConfiguration) {
                     $data['amount'] = $feed->paymentConfiguration->amount;
-                    $data['link'] = 'https://payment.example.com/pay/' . $feed->id;
+                    $data['link'] = $feed->getRegistrationUrl();
                 }
 
                 // Add max participants and available slots information for paid events
