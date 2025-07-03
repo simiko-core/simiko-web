@@ -53,42 +53,121 @@ class UserSeeder extends Seeder
             }
         }
 
-        // Create regular users for testing
+        // Create regular users with realistic Indonesian names and patterns
         $userNames = [
-            'Ahmad Rizki Rahman',
-            'Siti Nurhaliza',
-            'Budi Santoso',
-            'Dewi Sartika',
-            'Fajar Nugroho',
-            'Indira Putri',
-            'Joko Widodo',
-            'Kartika Sari',
-            'Luthfi Hakim',
-            'Maya Angelica',
-            'Nurul Hidayah',
-            'Oscar Pratama',
-            'Putri Ananda',
-            'Qori Abdullah',
-            'Rina Puspitasari',
-            'Saiful Bahri',
-            'Tania Melinda',
-            'Umar Syahputra',
-            'Vina Amelia',
-            'Wulan Dari'
+            'Ahmad Fauzi Ramadhan',
+            'Siti Nurhidayah Putri',
+            'Budi Prabowo Santoso',
+            'Dewi Kartika Sari',
+            'Rizky Fajar Nugroho',
+            'Maya Indira Kusuma',
+            'Dimas Aldi Pratama',
+            'Putri Ananda Wijaya',
+            'Luthfi Hakim Al-Farisi',
+            'Rina Puspita Maharani',
+            'Bayu Satria Wibowo',
+            'Citra Nur Azizah',
+            'Eko Prasetyo Utomo',
+            'Fitri Rahmawati',
+            'Gilang Ramadhan',
+            'Hana Safitri',
+            'Irfan Maulana',
+            'Jihan Nurmalasari',
+            'Kevin Adiputra',
+            'Laras Pramesti',
+            'Muhammad Iqbal Firdaus',
+            'Nadia Khairunnisa',
+            'Omar Syahputra',
+            'Putri Maharani',
+            'Qonita Rahma',
+            'Reza Firmansyah',
+            'Shinta Dewi Lestari',
+            'Taufik Hidayat',
+            'Uswatun Hasanah',
+            'Vina Amelia Sari',
+            'Wahyu Kristianto',
+            'Xenia Putri Cantika',
+            'Yoga Pratama',
+            'Zahra Aulia Rahman',
+            'Arif Budiman',
+            'Bella Octaviani',
+            'Cahyo Nugroho',
+            'Diana Puspitasari',
+            'Eko Saputro',
+            'Fanny Wijayanti'
         ];
 
-        $domains = ['gmail.com', 'yahoo.com', 'outlook.com', 'student.univ.ac.id'];
+        // More diverse email domains including university emails
+        $domains = [
+            'gmail.com',
+            'yahoo.com',
+            'outlook.com',
+            'hotmail.com',
+            'student.univ.ac.id',
+            'mahasiswa.ac.id',
+            'students.ac.id',
+            'mail.student.ac.id'
+        ];
+
+        // More realistic Indonesian phone prefixes
+        $phoneProviders = [
+            '0812',
+            '0813',
+            '0821',
+            '0822',
+            '0823', // Telkomsel
+            '0814',
+            '0815',
+            '0816',
+            '0855',
+            '0856',
+            '0857',
+            '0858', // Indosat
+            '0817',
+            '0818',
+            '0819',
+            '0859',
+            '0877',
+            '0878', // XL
+            '0838',
+            '0831',
+            '0832',
+            '0833', // Axis
+            '0895',
+            '0896',
+            '0897',
+            '0898',
+            '0899' // Three
+        ];
 
         foreach ($userNames as $index => $name) {
-            $firstName = explode(' ', $name)[0];
-            $lastName = explode(' ', $name)[1] ?? '';
-            $email = strtolower($firstName . '.' . $lastName) . '@' . $domains[array_rand($domains)];
-            
+            // Create more realistic email from name
+            $nameParts = explode(' ', $name);
+            $firstName = strtolower($nameParts[0]);
+            $lastName = strtolower(end($nameParts));
+
+            // Various email patterns
+            $emailPatterns = [
+                $firstName . '.' . $lastName,
+                $firstName . $lastName,
+                $firstName . '.' . substr($lastName, 0, 1),
+                $firstName . rand(10, 99),
+                substr($firstName, 0, 3) . '.' . $lastName
+            ];
+
+            $emailPattern = $emailPatterns[array_rand($emailPatterns)];
+            $domain = $domains[array_rand($domains)];
+            $email = $emailPattern . '@' . $domain;
+
+            // Generate realistic Indonesian phone number
+            $phoneProvider = $phoneProviders[array_rand($phoneProviders)];
+            $phoneNumber = $phoneProvider . rand(10000000, 99999999);
+
             User::create([
                 'name' => $name,
                 'email' => $email,
                 'password' => Hash::make('password123'),
-                'phone' => '0856789012' . str_pad($index, 2, '0', STR_PAD_LEFT),
+                'phone' => $phoneNumber,
                 'photo' => null,
                 'email_verified_at' => rand(0, 1) ? now() : null, // Some verified, some not
             ]);

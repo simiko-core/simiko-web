@@ -51,7 +51,7 @@ class PaymentSeeder extends Seeder
 
     private function createPaymentConfigurations($ukm)
     {
-        $configurations = $this->getConfigurationTemplates($ukm);
+        $configurations = $this->getPaymentConfigurations($ukm);
 
         foreach ($configurations as $config) {
             PaymentConfiguration::create([
@@ -402,214 +402,476 @@ class PaymentSeeder extends Seeder
 
     // Helper methods
 
-    private function getConfigurationTemplates($ukm)
-    {
-        $baseConfigurations = [
-            [
-                'name' => 'Membership Fee 2024/2025',
-                'description' => 'Biaya keanggotaan tahunan untuk mendapatkan akses penuh ke semua kegiatan',
-                'amount' => 25000,
-                'type' => 'membership'
-            ],
-            [
-                'name' => 'Event Registration Fee',
-                'description' => 'Biaya pendaftaran standar untuk mengikuti event dan workshop',
-                'amount' => 50000,
-                'type' => 'event'
-            ],
-            [
-                'name' => 'Workshop Premium Package',
-                'description' => 'Paket workshop intensif dengan sertifikat dan materi lengkap',
-                'amount' => 100000,
-                'type' => 'workshop'
-            ]
-        ];
-
-        // Add category-specific configurations
-        $categoryConfigs = $this->getCategorySpecificConfigs($ukm->category);
-
-        return array_merge($baseConfigurations, $categoryConfigs);
-    }
-
-    private function getCategorySpecificConfigs($category)
+    private function getPaymentConfigurations($ukm)
     {
         $configs = [
-            'Himpunan' => [
+            'himpunan' => [
                 [
-                    'name' => 'Study Group Registration',
-                    'description' => 'Biaya pendaftaran study group untuk persiapan ujian dan kompetisi',
-                    'amount' => 75000,
-                    'type' => 'study_group'
+                    'name' => 'Iuran Keanggotaan Semester Genap 2024',
+                    'description' => 'Iuran wajib anggota semester genap untuk operasional organisasi, kegiatan rutin, dan pengembangan himpunan.',
+                    'amount' => rand(75000, 150000),
+                    'type' => 'membership'
                 ],
                 [
-                    'name' => 'Industry Visit Program',
-                    'description' => 'Program kunjungan industri untuk melihat aplikasi teknologi nyata',
-                    'amount' => 150000,
-                    'type' => 'industry_visit'
-                ]
-            ],
-            'UKM Seni' => [
-                [
-                    'name' => 'Art Exhibition Participation',
-                    'description' => 'Biaya partisipasi dalam pameran seni dan showcase karya',
-                    'amount' => 60000,
-                    'type' => 'exhibition'
+                    'name' => 'Workshop Web Development Fundamental',
+                    'description' => 'Pelatihan pemrograman web untuk mahasiswa tingkat pemula hingga menengah. Termasuk materi HTML, CSS, JavaScript, dan framework modern.',
+                    'amount' => rand(50000, 100000),
+                    'type' => 'workshop'
                 ],
                 [
-                    'name' => 'Equipment Rental Fee',
-                    'description' => 'Sewa peralatan profesional untuk project dan pertunjukan',
-                    'amount' => 40000,
-                    'type' => 'equipment'
+                    'name' => 'Seminar Nasional Tech Innovation 2024',
+                    'description' => 'Seminar nasional teknologi terkini dengan pembicara dari industri teknologi Indonesia (Gojek, Tokopedia, Traveloka).',
+                    'amount' => rand(75000, 125000),
+                    'type' => 'seminar'
+                ],
+                [
+                    'name' => 'Hackathon Smart City Jakarta 2024',
+                    'description' => 'Kompetisi pengembangan aplikasi untuk solusi smart city Jakarta. Hadiah jutaan rupiah dan internship opportunity.',
+                    'amount' => rand(100000, 200000),
+                    'type' => 'competition'
                 ]
             ],
-            'UKM Olahraga' => [
+            'ukm_seni' => [
                 [
-                    'name' => 'Tournament Registration',
-                    'description' => 'Biaya pendaftaran turnamen dan kompetisi olahraga',
-                    'amount' => 80000,
+                    'name' => 'Iuran Anggota Semester Genap 2024',
+                    'description' => 'Kontribusi anggota untuk kegiatan seni, latihan rutin, perlengkapan, dan pementasan semester genap.',
+                    'amount' => rand(50000, 100000),
+                    'type' => 'membership'
+                ],
+                [
+                    'name' => 'Workshop Fotografi Event & Portrait',
+                    'description' => 'Pelatihan teknik fotografi event dan portrait untuk dokumentasi kegiatan kampus. Include praktek lapangan.',
+                    'amount' => rand(75000, 125000),
+                    'type' => 'workshop'
+                ],
+                [
+                    'name' => 'Pertunjukan Seni Budaya Nusantara 2024',
+                    'description' => 'Pementasan kolaboratif menampilkan keberagaman seni tradisional Indonesia dengan sentuhan modern.',
+                    'amount' => rand(35000, 75000),
+                    'type' => 'event'
+                ],
+                [
+                    'name' => 'Festival Film Pendek Mahasiswa 2024',
+                    'description' => 'Kompetisi film pendek tingkat universitas dengan tema "Indonesia Muda Berkarya". Hadiah total 10 juta rupiah.',
+                    'amount' => rand(50000, 100000),
+                    'type' => 'competition'
+                ]
+            ],
+            'ukm_olahraga' => [
+                [
+                    'name' => 'Iuran Atlet Semester Genap 2024',
+                    'description' => 'Iuran untuk biaya latihan, peralatan olahraga, dan persiapan turnamen resmi tingkat regional dan nasional.',
+                    'amount' => rand(100000, 200000),
+                    'type' => 'membership'
+                ],
+                [
+                    'name' => 'Training Camp Persiapan LIMA 2024',
+                    'description' => 'Pemusatan latihan intensif untuk persiapan Liga Mahasiswa (LIMA) dengan pelatih profesional.',
+                    'amount' => rand(200000, 350000),
+                    'type' => 'training_camp'
+                ],
+                [
+                    'name' => 'Turnamen Internal Badminton Cup 2024',
+                    'description' => 'Kompetisi badminton tingkat universitas untuk seleksi atlet terbaik mewakili kampus di turnamen eksternal.',
+                    'amount' => rand(75000, 125000),
                     'type' => 'tournament'
                 ],
                 [
-                    'name' => 'Training Camp Fee',
-                    'description' => 'Biaya pelatihan intensif dengan pelatih profesional',
-                    'amount' => 200000,
-                    'type' => 'training_camp'
+                    'name' => 'Seminar Nutrisi & Mental Atlet',
+                    'description' => 'Edukasi nutrisi olahraga dan kesehatan mental atlet dengan ahli gizi dan psikolog olahraga.',
+                    'amount' => rand(50000, 75000),
+                    'type' => 'seminar'
+                ]
+            ],
+            'ukm_kemasyarakatan' => [
+                [
+                    'name' => 'Iuran Anggota & Dana Kegiatan Sosial',
+                    'description' => 'Kontribusi anggota untuk kegiatan sosial kemasyarakatan, program 3T, dan bantuan bencana alam.',
+                    'amount' => rand(50000, 100000),
+                    'type' => 'membership'
+                ],
+                [
+                    'name' => 'Program Pemberdayaan UMKM Digital',
+                    'description' => 'Pelatihan digital marketing untuk UMKM di sekitar kampus bekerjasama dengan Kemenkominfo.',
+                    'amount' => rand(25000, 50000),
+                    'type' => 'workshop'
+                ],
+                [
+                    'name' => 'Ekspedisi Konservasi Mangrove Pantai Utara',
+                    'description' => 'Program konservasi lingkungan dan edukasi masyarakat pesisir tentang pentingnya ekosistem mangrove.',
+                    'amount' => rand(150000, 250000),
+                    'type' => 'expedition'
+                ],
+                [
+                    'name' => 'Bakti Sosial Ramadan 1445H',
+                    'description' => 'Program berbagi dengan masyarakat kurang mampu selama bulan Ramadan berupa santunan dan buka puasa bersama.',
+                    'amount' => rand(75000, 125000),
+                    'type' => 'event'
+                ]
+            ],
+            'ukm_teknologi' => [
+                [
+                    'name' => 'Iuran Pengembangan Lab & Equipment',
+                    'description' => 'Kontribusi untuk upgrade peralatan laboratorium robotika dan pembelian komponen elektronik.',
+                    'amount' => rand(125000, 200000),
+                    'type' => 'membership'
+                ],
+                [
+                    'name' => 'Workshop IoT untuk Smart Farming',
+                    'description' => 'Pelatihan pengembangan sistem IoT untuk modernisasi pertanian Indonesia dengan sensor dan cloud computing.',
+                    'amount' => rand(100000, 175000),
+                    'type' => 'workshop'
+                ],
+                [
+                    'name' => 'Kontes Robot Indonesia Regional Jawa',
+                    'description' => 'Kompetisi robotika tingkat regional untuk kualifikasi ke Kontes Robot Indonesia tingkat nasional.',
+                    'amount' => rand(200000, 300000),
+                    'type' => 'competition'
+                ],
+                [
+                    'name' => 'Tech Talk: AI in Indonesian Industries',
+                    'description' => 'Diskusi penerapan Artificial Intelligence di industri Indonesia dengan praktisi dari startup unicorn.',
+                    'amount' => rand(50000, 100000),
+                    'type' => 'seminar'
+                ]
+            ],
+            'ukm_keagamaan' => [
+                [
+                    'name' => 'Iuran Kajian & Kegiatan Rohani',
+                    'description' => 'Kontribusi untuk kegiatan kajian rutin, buka puasa bersama, dan program dakwah kampus.',
+                    'amount' => rand(50000, 75000),
+                    'type' => 'membership'
+                ],
+                [
+                    'name' => 'Pesantren Kilat Ramadan 1445H',
+                    'description' => 'Program intensif kajian Al-Quran dan Hadist selama bulan Ramadan dengan ustadz berpengalaman.',
+                    'amount' => rand(75000, 125000),
+                    'type' => 'event'
+                ],
+                [
+                    'name' => 'Study Tour Jejak Sejarah Islam Nusantara',
+                    'description' => 'Wisata edukasi ke situs-situs bersejarah Islam di Jawa untuk memperdalam pemahaman sejarah.',
+                    'amount' => rand(200000, 350000),
+                    'type' => 'study_tour'
+                ],
+                [
+                    'name' => 'Seminar Ekonomi Islam Modern',
+                    'description' => 'Diskusi perkembangan ekonomi syariah di Indonesia dan peluang karir di perbankan syariah.',
+                    'amount' => rand(50000, 75000),
+                    'type' => 'seminar'
                 ]
             ]
         ];
 
-        return $configs[$category] ?? [];
+        // Determine UKM category
+        $category = $this->determineUkmCategory($ukm);
+
+        // Get configurations for this category, fallback to himpunan if category not found
+        $categoryConfigs = $configs[$category] ?? $configs['himpunan'];
+
+        // Return 2-4 configurations for variety
+        return array_slice($categoryConfigs, 0, rand(2, 4));
+    }
+
+    private function determineUkmCategory($ukm)
+    {
+        $name = strtolower($ukm->name);
+        $alias = strtolower($ukm->alias ?? '');
+
+        // Himpunan categories
+        if (str_contains($name, 'himpunan') || str_contains($alias, 'hm')) {
+            return 'himpunan';
+        }
+
+        // Seni categories
+        if (
+            str_contains($name, 'tari') || str_contains($name, 'musik') || str_contains($name, 'seni') ||
+            str_contains($name, 'photo') || str_contains($name, 'sinema') || str_contains($name, 'teater') ||
+            str_contains($alias, 'psm') || str_contains($alias, 'foto')
+        ) {
+            return 'ukm_seni';
+        }
+
+        // Olahraga categories  
+        if (
+            str_contains($name, 'football') || str_contains($name, 'badminton') || str_contains($name, 'basket') ||
+            str_contains($name, 'futsal') || str_contains($name, 'sport') || str_contains($name, 'athletic')
+        ) {
+            return 'ukm_olahraga';
+        }
+
+        // Kemasyarakatan categories
+        if (
+            str_contains($name, 'pecinta alam') || str_contains($name, 'pmr') || str_contains($name, 'pramuka') ||
+            str_contains($alias, 'pa') || str_contains($alias, 'pmr')
+        ) {
+            return 'ukm_kemasyarakatan';
+        }
+
+        // Teknologi categories
+        if (str_contains($name, 'robot') || str_contains($name, 'teknologi') || str_contains($name, 'riset')) {
+            return 'ukm_teknologi';
+        }
+
+        // Keagamaan categories
+        if (
+            str_contains($name, 'kerohanian') || str_contains($name, 'islam') || str_contains($name, 'kristen') ||
+            str_contains($alias, 'kki') || str_contains($alias, 'kkk')
+        ) {
+            return 'ukm_keagamaan';
+        }
+
+        // Default to himpunan
+        return 'himpunan';
     }
 
     private function generatePaymentMethods($ukm, $type)
     {
         $bankOptions = [
-            'BCA' => ['1234567890', '2345678901', '3456789012'],
-            'Mandiri' => ['9876543210', '8765432109', '7654321098'],
-            'BNI' => ['5555666677', '6666777788', '7777888899'],
-            'BRI' => ['4444555566', '5555666677', '6666777788']
+            'BCA' => [
+                'accounts' => ['1234567890', '2345678901', '3456789012', '4567890123'],
+                'name' => 'Bank Central Asia'
+            ],
+            'Mandiri' => [
+                'accounts' => ['1300012345678', '1300023456789', '1300034567890'],
+                'name' => 'Bank Mandiri'
+            ],
+            'BNI' => [
+                'accounts' => ['0123456789', '0234567890', '0345678901'],
+                'name' => 'Bank Negara Indonesia'
+            ],
+            'BRI' => [
+                'accounts' => ['001201234567890', '001202345678901', '001203456789012'],
+                'name' => 'Bank Rakyat Indonesia'
+            ],
+            'BSI' => [
+                'accounts' => ['7123456789', '7234567890', '7345678901'],
+                'name' => 'Bank Syariah Indonesia'
+            ],
+            'CIMB Niaga' => [
+                'accounts' => ['800123456789', '800234567890', '800345678901'],
+                'name' => 'CIMB Niaga'
+            ]
         ];
 
         $digitalWallets = [
-            'Dana',
-            'GoPay',
-            'OVO',
-            'ShopeePay',
-            'LinkAja'
+            'GoPay' => [
+                'numbers' => ['081234567890', '082345678901', '083456789012'],
+                'name' => 'GoPay by Gojek'
+            ],
+            'Dana' => [
+                'numbers' => ['085678901234', '086789012345', '087890123456'],
+                'name' => 'DANA Digital Wallet'
+            ],
+            'OVO' => [
+                'numbers' => ['087890123456', '088901234567', '089012345678'],
+                'name' => 'OVO by Grab'
+            ],
+            'ShopeePay' => [
+                'numbers' => ['081987654321', '082876543210', '083765432109'],
+                'name' => 'ShopeePay'
+            ],
+            'LinkAja' => [
+                'numbers' => ['081122334455', '082233445566', '083344556677'],
+                'name' => 'LinkAja by Telkomsel'
+            ]
         ];
 
-        $methods = [];
-
-        // Always include at least one bank transfer
+        // Select primary bank account
         $selectedBank = array_rand($bankOptions);
-        $methods[] = [
-            'method' => "Bank Transfer {$selectedBank}",
-            'account_number' => $bankOptions[$selectedBank][array_rand($bankOptions[$selectedBank])],
-            'account_name' => "Bendahara {$ukm->alias}",
-            'bank_name' => "Bank {$selectedBank}",
-            'instructions' => "Transfer ke rekening {$selectedBank} dan kirim bukti pembayaran via WhatsApp"
+        $bankData = $bankOptions[$selectedBank];
+
+        // Select digital wallet
+        $selectedWallet = array_rand($digitalWallets);
+        $walletData = $digitalWallets[$selectedWallet];
+
+        $paymentMethods = [
+            [
+                'method' => "Transfer Bank {$selectedBank}",
+                'account_number' => $bankData['accounts'][array_rand($bankData['accounts'])],
+                'account_name' => "Bendahara {$ukm->alias} 2024",
+                'bank_name' => $bankData['name'],
+                'bank_code' => $this->getBankCode($selectedBank),
+                'instructions' => "Transfer ke rekening {$bankData['name']} dan kirim bukti pembayaran via WhatsApp ke contact person. Pastikan nominal transfer tepat dan cantumkan nama lengkap + NIM pada keterangan.",
+                'processing_time' => '1-24 jam (hari kerja)',
+                'fees' => 'Biaya admin sesuai ketentuan bank'
+            ],
+            [
+                'method' => $selectedWallet,
+                'account_number' => $walletData['numbers'][array_rand($walletData['numbers'])],
+                'account_name' => "Kas {$ukm->alias}",
+                'wallet_name' => $walletData['name'],
+                'instructions' => "Kirim pembayaran via {$walletData['name']} dan sertakan nama lengkap + NIM dalam catatan transfer. Screenshot bukti pembayaran untuk konfirmasi.",
+                'processing_time' => 'Instan - 1 jam',
+                'fees' => 'Gratis (sesuai promo masing-masing wallet)'
+            ]
         ];
 
-        // Add 1-2 digital wallets
-        $walletCount = rand(1, 2);
-        $selectedWallets = array_rand(array_flip($digitalWallets), $walletCount);
-        if (!is_array($selectedWallets)) $selectedWallets = [$selectedWallets];
+        return $paymentMethods;
+    }
 
-        foreach ($selectedWallets as $wallet) {
-            $methods[] = [
-                'method' => $wallet,
-                'account_number' => '08' . rand(100000000, 999999999),
-                'account_name' => "Kas {$ukm->alias}",
-                'instructions' => "Kirim pembayaran via {$wallet} dan sertakan nama lengkap dalam keterangan"
-            ];
-        }
+    private function getBankCode($bankName)
+    {
+        $bankCodes = [
+            'BCA' => '014',
+            'Mandiri' => '008',
+            'BNI' => '009',
+            'BRI' => '002',
+            'BSI' => '451',
+            'CIMB Niaga' => '022'
+        ];
 
-        // Add cash option for smaller amounts
-        if ($type === 'membership' || rand(0, 2) === 0) {
-            $methods[] = [
-                'method' => 'Cash',
-                'account_number' => null,
-                'account_name' => "Sekretariat {$ukm->alias}",
-                'instructions' => "Pembayaran tunai di sekretariat pada jam operasional (09:00-16:00)"
-            ];
-        }
-
-        return $methods;
+        return $bankCodes[$bankName] ?? '000';
     }
 
     private function generateCustomFields($type)
     {
         $baseFields = [
             [
-                'label' => 'Student ID',
-                'name' => 'student_id',
+                'label' => 'Nomor Induk Mahasiswa (NIM)',
+                'name' => 'nim',
                 'type' => 'text',
-                'placeholder' => 'Masukkan NIM',
-                'required' => true
+                'placeholder' => 'Contoh: 2024123456',
+                'required' => true,
+                'validation' => 'numeric|digits:10'
             ],
             [
-                'label' => 'Full Name',
+                'label' => 'Nama Lengkap',
                 'name' => 'full_name',
                 'type' => 'text',
-                'placeholder' => 'Nama lengkap sesuai KTM',
+                'placeholder' => 'Sesuai KTM/Kartu Mahasiswa',
+                'required' => true,
+                'validation' => 'string|max:100'
+            ],
+            [
+                'label' => 'Fakultas',
+                'name' => 'faculty',
+                'type' => 'select',
+                'options' => 'Teknik, Ekonomi dan Bisnis, Hukum, Kedokteran, Pertanian, MIPA, Ilmu Sosial dan Politik, Psikologi, Farmasi',
                 'required' => true
             ],
             [
-                'label' => 'WhatsApp Number',
+                'label' => 'Program Studi',
+                'name' => 'study_program',
+                'type' => 'text',
+                'placeholder' => 'Contoh: Teknik Informatika',
+                'required' => true
+            ],
+            [
+                'label' => 'Semester',
+                'name' => 'semester',
+                'type' => 'select',
+                'options' => '1, 2, 3, 4, 5, 6, 7, 8, 9, 10',
+                'required' => true
+            ],
+            [
+                'label' => 'Nomor WhatsApp',
                 'name' => 'whatsapp',
                 'type' => 'tel',
                 'placeholder' => '08123456789',
-                'required' => true
+                'required' => true,
+                'validation' => 'regex:/^08[0-9]{8,11}$/'
+            ],
+            [
+                'label' => 'Email Mahasiswa',
+                'name' => 'email',
+                'type' => 'email',
+                'placeholder' => 'nama@student.ac.id atau email aktif',
+                'required' => true,
+                'validation' => 'email'
             ]
         ];
 
         $typeSpecificFields = [
+            'membership' => [
+                [
+                    'label' => 'Motivasi Bergabung',
+                    'name' => 'motivation',
+                    'type' => 'textarea',
+                    'placeholder' => 'Jelaskan motivasi dan harapan bergabung dengan organisasi ini...',
+                    'required' => true,
+                    'validation' => 'string|min:50|max:500'
+                ],
+                [
+                    'label' => 'Pengalaman Organisasi',
+                    'name' => 'organization_experience',
+                    'type' => 'textarea',
+                    'placeholder' => 'Ceritakan pengalaman organisasi sebelumnya (opsional)',
+                    'required' => false
+                ]
+            ],
             'workshop' => [
                 [
-                    'label' => 'Experience Level',
+                    'label' => 'Level Pengalaman',
                     'name' => 'experience_level',
                     'type' => 'select',
-                    'options' => 'Beginner, Intermediate, Advanced',
+                    'options' => 'Pemula (Belum pernah), Menengah (Pernah belajar basic), Mahir (Sudah berpengalaman)',
                     'required' => true
                 ],
                 [
-                    'label' => 'Laptop Availability',
-                    'name' => 'has_laptop',
-                    'type' => 'radio',
-                    'options' => 'Yes, No',
-                    'required' => true
+                    'label' => 'Ekspektasi dari Workshop',
+                    'name' => 'workshop_expectation',
+                    'type' => 'textarea',
+                    'placeholder' => 'Apa yang ingin dipelajari dari workshop ini?',
+                    'required' => true,
+                    'validation' => 'string|max:300'
                 ]
             ],
-            'tournament' => [
+            'competition' => [
                 [
-                    'label' => 'Team Name',
+                    'label' => 'Nama Tim',
                     'name' => 'team_name',
                     'type' => 'text',
-                    'placeholder' => 'Nama tim (jika ada)',
+                    'placeholder' => 'Nama tim (jika kompetisi beregu)',
                     'required' => false
                 ],
                 [
-                    'label' => 'Emergency Contact',
-                    'name' => 'emergency_contact',
-                    'type' => 'tel',
-                    'placeholder' => 'Nomor kontak darurat',
-                    'required' => true
-                ]
-            ],
-            'membership' => [
-                [
-                    'label' => 'Faculty',
-                    'name' => 'faculty',
-                    'type' => 'select',
-                    'options' => 'Teknik, Ekonomi, Hukum, Kedokteran, Pertanian, FKIP',
-                    'required' => true
+                    'label' => 'Anggota Tim',
+                    'name' => 'team_members',
+                    'type' => 'textarea',
+                    'placeholder' => 'Daftar anggota tim (Nama - NIM), pisahkan dengan enter',
+                    'required' => false,
+                    'validation' => 'string|max:1000'
                 ],
                 [
-                    'label' => 'Year of Study',
-                    'name' => 'year_of_study',
+                    'label' => 'Pengalaman Kompetisi',
+                    'name' => 'competition_experience',
+                    'type' => 'textarea',
+                    'placeholder' => 'Pengalaman kompetisi sebelumnya (opsional)',
+                    'required' => false
+                ]
+            ],
+            'event' => [
+                [
+                    'label' => 'Kebutuhan Khusus',
+                    'name' => 'special_needs',
+                    'type' => 'text',
+                    'placeholder' => 'Alergi makanan, kebutuhan akses, dll (opsional)',
+                    'required' => false
+                ],
+                [
+                    'label' => 'Sumber Informasi',
+                    'name' => 'information_source',
                     'type' => 'select',
-                    'options' => '1st Year, 2nd Year, 3rd Year, 4th Year, 5th Year',
-                    'required' => true
+                    'options' => 'Instagram, WhatsApp, Website, Teman, Poster, Lainnya',
+                    'required' => false
+                ]
+            ],
+            'seminar' => [
+                [
+                    'label' => 'Alasan Mengikuti Seminar',
+                    'name' => 'seminar_reason',
+                    'type' => 'textarea',
+                    'placeholder' => 'Mengapa tertarik mengikuti seminar ini?',
+                    'required' => true,
+                    'validation' => 'string|max:300'
+                ],
+                [
+                    'label' => 'Bidang Minat',
+                    'name' => 'interest_field',
+                    'type' => 'text',
+                    'placeholder' => 'Bidang/topik yang diminati',
+                    'required' => false
                 ]
             ]
         ];
@@ -619,45 +881,115 @@ class PaymentSeeder extends Seeder
 
     private function generateSettings($config)
     {
-        $daysToAdd = match ($config['type']) {
-            'membership' => rand(30, 60),
-            'event' => rand(7, 21),
-            'workshop' => rand(14, 30),
-            'tournament' => rand(21, 45),
-            default => rand(7, 30)
-        };
-
-        $maxParticipants = match ($config['type']) {
-            'membership' => rand(200, 500),
-            'workshop' => rand(20, 50),
-            'tournament' => rand(16, 32),
-            'study_group' => rand(15, 25),
-            default => rand(30, 100)
-        };
+        $dueDate = Carbon::now()->addDays(rand(7, 30))->format('Y-m-d');
+        $maxParticipants = $this->getMaxParticipantsByType($config['type']);
 
         return [
-            'due_date' => Carbon::now()->addDays($daysToAdd)->format('Y-m-d'),
+            'due_date' => $dueDate,
             'max_participants' => $maxParticipants,
-            'terms_conditions' => "Pembayaran tidak dapat dikembalikan. Peserta yang tidak hadir tanpa pemberitahuan tidak berhak atas refund.",
-            'auto_confirm' => $config['type'] === 'membership',
-            'send_reminder' => true,
-            'reminder_days' => [7, 3, 1], // Send reminders 7, 3, and 1 day before due date
-            'notes' => "Payment configuration for {$config['type']} - {$config['name']}"
+            'min_participants' => max(1, intval($maxParticipants * 0.3)), // 30% of max as minimum
+            'early_bird_discount' => rand(0, 1) ? [
+                'percentage' => rand(10, 25),
+                'valid_until' => Carbon::now()->addDays(rand(3, 14))->format('Y-m-d'),
+                'description' => 'Diskon early bird untuk pendaftar awal'
+            ] : null,
+            'late_registration_fee' => rand(0, 1) ? [
+                'amount' => rand(5000, 15000),
+                'applicable_after' => Carbon::parse($dueDate)->subDays(3)->format('Y-m-d'),
+                'description' => 'Biaya tambahan untuk pendaftaran terlambat'
+            ] : null,
+            'refund_policy' => [
+                'refundable_until' => Carbon::parse($dueDate)->subDays(7)->format('Y-m-d'),
+                'refund_percentage' => rand(70, 90),
+                'processing_fee' => 5000,
+                'description' => 'Pengembalian dana dengan potongan biaya administrasi'
+            ],
+            'terms_conditions' => $this->generateTermsConditions($config['type']),
+            'contact_person' => [
+                'name' => "CP {$config['type']} " . now()->year,
+                'whatsapp' => '08' . rand(100000000, 999999999),
+                'email' => "contact." . strtolower(str_replace(' ', '', $config['name'])) . "@gmail.com",
+                'available_hours' => '09:00 - 21:00 WIB'
+            ],
+            'payment_confirmation' => [
+                'whatsapp_required' => true,
+                'upload_receipt' => true,
+                'verification_time' => '1x24 jam (hari kerja)',
+                'confirmation_message' => 'Kirim bukti pembayaran + data diri lengkap ke WhatsApp contact person'
+            ]
         ];
+    }
+
+    private function getMaxParticipantsByType($type)
+    {
+        $limits = [
+            'membership' => rand(20, 50),
+            'workshop' => rand(15, 35),
+            'competition' => rand(10, 25),
+            'seminar' => rand(50, 150),
+            'event' => rand(25, 75),
+            'study_group' => rand(8, 20),
+            'industry_visit' => rand(20, 40),
+            'exhibition' => rand(30, 60),
+            'equipment' => rand(5, 15),
+            'tournament' => rand(16, 32),
+            'training_camp' => rand(12, 24)
+        ];
+
+        return $limits[$type] ?? rand(20, 50);
+    }
+
+    private function generateTermsConditions($type)
+    {
+        $baseTerms = [
+            'Peserta wajib mengisi formulir pendaftaran dengan data yang benar dan lengkap',
+            'Pembayaran harus dilakukan sesuai dengan nominal dan metode yang ditentukan',
+            'Bukti pembayaran wajib dikirimkan maksimal 1x24 jam setelah transfer',
+            'Peserta yang tidak hadir tanpa konfirmasi tidak akan mendapat pengembalian biaya',
+            'Organisasi berhak membatalkan acara jika tidak mencapai kuota minimum peserta',
+            'Peserta wajib mengikuti protokol kesehatan yang berlaku',
+            'Segala bentuk kerusakan atau kehilangan barang menjadi tanggung jawab peserta',
+            'Keputusan panitia bersifat final dan tidak dapat diganggu gugat'
+        ];
+
+        $typeSpecificTerms = [
+            'membership' => [
+                'Calon anggota wajib mengikuti seluruh rangkaian proses seleksi',
+                'Pembayaran iuran keanggotaan tidak dapat dikembalikan setelah dinyatakan lulus',
+                'Anggota wajib aktif dalam kegiatan organisasi minimal 70% dari total kegiatan'
+            ],
+            'workshop' => [
+                'Peserta wajib membawa laptop/perangkat yang diperlukan sesuai requirements',
+                'Sertifikat hanya diberikan kepada peserta yang mengikuti workshop hingga selesai',
+                'Materi workshop tidak boleh disebarluaskan tanpa izin'
+            ],
+            'competition' => [
+                'Tim yang tidak hadir saat technical meeting akan didiskualifikasi',
+                'Segala bentuk kecurangan akan berakibat diskualifikasi langsung',
+                'Keputusan juri bersifat final dan tidak dapat diganggu gugat'
+            ]
+        ];
+
+        $specificTerms = $typeSpecificTerms[$type] ?? [];
+        return array_merge($baseTerms, $specificTerms);
     }
 
     private function getTransactionCount($configName)
     {
-        // Different configurations have different popularity
-        if (str_contains(strtolower($configName), 'membership')) {
-            return rand(15, 35); // Membership is popular
-        } elseif (str_contains(strtolower($configName), 'workshop')) {
-            return rand(8, 20);
+        // Indonesian university realistic transaction patterns
+        if (str_contains(strtolower($configName), 'membership') || str_contains(strtolower($configName), 'keanggotaan')) {
+            return rand(15, 40); // Membership fees
+        } elseif (str_contains(strtolower($configName), 'workshop') || str_contains(strtolower($configName), 'pelatihan')) {
+            return rand(8, 25); // Workshops
+        } elseif (str_contains(strtolower($configName), 'seminar')) {
+            return rand(20, 60); // Seminars
+        } elseif (str_contains(strtolower($configName), 'competition') || str_contains(strtolower($configName), 'kompetisi')) {
+            return rand(5, 20); // Competitions
         } elseif (str_contains(strtolower($configName), 'event')) {
-            return rand(10, 25);
+            return rand(10, 35); // General events
         }
 
-        return rand(5, 15);
+        return rand(8, 30); // Default range
     }
 
     private function weightedRandom($values, $weights)
@@ -696,14 +1028,27 @@ class PaymentSeeder extends Seeder
 
         foreach ($customFields as $field) {
             $data[$field['name']] = match ($field['name']) {
-                'student_id' => '2024' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT),
+                'nim' => '2024' . str_pad(rand(100001, 999999), 6, '0', STR_PAD_LEFT),
+                'student_id' => '2024' . str_pad(rand(100001, 999999), 6, '0', STR_PAD_LEFT),
                 'full_name' => $user->name,
                 'whatsapp' => '08' . rand(100000000, 999999999),
-                'faculty' => ['Teknik', 'Ekonomi', 'Hukum', 'Kedokteran', 'Pertanian'][array_rand(['Teknik', 'Ekonomi', 'Hukum', 'Kedokteran', 'Pertanian'])],
-                'year_of_study' => ['1st Year', '2nd Year', '3rd Year', '4th Year'][array_rand(['1st Year', '2nd Year', '3rd Year', '4th Year'])],
-                'experience_level' => ['Beginner', 'Intermediate', 'Advanced'][array_rand(['Beginner', 'Intermediate', 'Advanced'])],
-                'has_laptop' => ['Yes', 'No'][array_rand(['Yes', 'No'])],
-                'team_name' => 'Team ' . ucfirst(fake()->word()),
+                'email' => $user->email,
+                'faculty' => $this->getRandomIndonesianFaculty(),
+                'study_program' => $this->getRandomStudyProgram(),
+                'semester' => rand(1, 8),
+                'year_of_study' => rand(1, 4) . ' Tahun',
+                'experience_level' => ['Pemula (Belum pernah)', 'Menengah (Pernah belajar basic)', 'Mahir (Sudah berpengalaman)'][array_rand(['Pemula (Belum pernah)', 'Menengah (Pernah belajar basic)', 'Mahir (Sudah berpengalaman)'])],
+                'workshop_expectation' => $this->getRandomWorkshopExpectation(),
+                'motivation' => $this->getRandomMotivation(),
+                'organization_experience' => $this->getRandomOrgExperience(),
+                'has_laptop' => ['Ya, punya laptop pribadi', 'Belum punya, akan meminjam'][array_rand(['Ya, punya laptop pribadi', 'Belum punya, akan meminjam'])],
+                'team_name' => 'Tim ' . ucfirst($this->getRandomIndonesianTeamName()),
+                'team_members' => $this->generateTeamMembers(),
+                'competition_experience' => $this->getRandomCompetitionExperience(),
+                'special_needs' => rand(0, 3) === 0 ? $this->getRandomSpecialNeeds() : null,
+                'information_source' => ['Instagram', 'WhatsApp', 'Website', 'Teman', 'Poster', 'Lainnya'][array_rand(['Instagram', 'WhatsApp', 'Website', 'Teman', 'Poster', 'Lainnya'])],
+                'seminar_reason' => $this->getRandomSeminarReason(),
+                'interest_field' => $this->getRandomInterestField(),
                 'emergency_contact' => '08' . rand(100000000, 999999999),
                 default => fake()->word()
             };
@@ -715,36 +1060,223 @@ class PaymentSeeder extends Seeder
     private function generateTransactionNotes($status, $paymentMethod)
     {
         return match ($status) {
-            'paid' => "Payment confirmed via {$paymentMethod}. Thank you!",
-            'pending' => "Waiting for payment confirmation via {$paymentMethod}",
-            'failed' => "Payment failed via {$paymentMethod}. Please try again.",
-            'cancelled' => "Transaction cancelled by user request",
-            'expired' => "Transaction expired due to timeout",
-            default => "Transaction {$status}"
+            'paid' => "Pembayaran berhasil dikonfirmasi via {$paymentMethod}. Terima kasih!",
+            'pending' => "Menunggu konfirmasi pembayaran via {$paymentMethod}. Silakan kirim bukti pembayaran ke WhatsApp contact person.",
+            'failed' => "Pembayaran gagal via {$paymentMethod}. Silakan coba lagi atau hubungi contact person.",
+            'cancelled' => "Transaksi dibatalkan atas permintaan peserta",
+            'expired' => "Transaksi kadaluarsa karena melebihi batas waktu pembayaran",
+            default => "Status transaksi: {$status}"
         };
     }
 
-    private function generateCustomFiles()
+    private function getRandomIndonesianFaculty()
     {
-        $files = [
-            'student_id_card' => 'custom_files/student_cards/ktm_' . rand(1000, 9999) . '.jpg',
-            'payment_proof' => 'custom_files/payment_proofs/proof_' . rand(1000, 9999) . '.jpg',
+        $faculties = [
+            'Fakultas Teknik',
+            'Fakultas Ekonomi dan Bisnis',
+            'Fakultas Hukum',
+            'Fakultas Kedokteran',
+            'Fakultas Pertanian',
+            'Fakultas MIPA (Matematika dan Ilmu Pengetahuan Alam)',
+            'Fakultas Ilmu Sosial dan Politik',
+            'Fakultas Psikologi',
+            'Fakultas Farmasi',
+            'Fakultas Keguruan dan Ilmu Pendidikan'
         ];
-
-        // Randomly include some files
-        $selectedFiles = [];
-        foreach ($files as $key => $path) {
-            if (rand(0, 1)) {
-                $selectedFiles[$key] = $path;
-            }
-        }
-
-        return empty($selectedFiles) ? null : $selectedFiles;
+        return $faculties[array_rand($faculties)];
     }
 
-    private function getRandomTransactionDate()
+    private function getRandomStudyProgram()
     {
-        return Carbon::now()->subDays(rand(1, 90));
+        $programs = [
+            'Teknik Informatika',
+            'Sistem Informasi',
+            'Teknik Elektro',
+            'Teknik Mesin',
+            'Teknik Sipil',
+            'Manajemen',
+            'Akuntansi',
+            'Ekonomi Pembangunan',
+            'Ilmu Ekonomi',
+            'Hukum',
+            'Ilmu Hukum',
+            'Kedokteran',
+            'Kedokteran Gigi',
+            'Keperawatan',
+            'Agroteknologi',
+            'Agribisnis',
+            'Peternakan',
+            'Matematika',
+            'Fisika',
+            'Kimia',
+            'Biologi',
+            'Statistika',
+            'Ilmu Komunikasi',
+            'Hubungan Internasional',
+            'Administrasi Publik',
+            'Psikologi',
+            'Farmasi',
+            'Pendidikan Bahasa Indonesia',
+            'Pendidikan Matematika',
+            'PGSD'
+        ];
+        return $programs[array_rand($programs)];
+    }
+
+    private function getRandomWorkshopExpectation()
+    {
+        $expectations = [
+            'Ingin belajar skill baru yang relevan dengan industri terkini',
+            'Menambah pengetahuan praktis untuk mendukung perkuliahan',
+            'Mempersiapkan diri untuk dunia kerja dan karir masa depan',
+            'Mengembangkan kemampuan teknis yang lebih mendalam',
+            'Belajar dari praktisi profesional yang berpengalaman',
+            'Mendapatkan sertifikat yang dapat menunjang CV',
+            'Networking dengan sesama mahasiswa dan professionals',
+            'Menerapkan teori yang sudah dipelajari di kampus'
+        ];
+        return $expectations[array_rand($expectations)];
+    }
+
+    private function getRandomMotivation()
+    {
+        $motivations = [
+            'Ingin mengembangkan potensi diri dan berkontribusi untuk kemajuan organisasi serta universitas',
+            'Tertarik untuk belajar berorganisasi dan mengasah kemampuan leadership serta teamwork',
+            'Berharap dapat menambah pengalaman, relasi, dan soft skills melalui kegiatan-kegiatan positif',
+            'Ingin mengaplikasikan ilmu yang dipelajari di perkuliahan melalui kegiatan praktis organisasi',
+            'Termotivasi untuk turut serta memajukan bidang keilmuan sesuai program studi yang saya tekuni',
+            'Berkomitmen untuk aktif dalam kegiatan sosial kemasyarakatan dan pengabdian kepada masyarakat'
+        ];
+        return $motivations[array_rand($motivations)];
+    }
+
+    private function getRandomOrgExperience()
+    {
+        $experiences = [
+            'Pernah menjadi pengurus OSIS di SMA dengan fokus bidang akademik dan lomba',
+            'Aktif di organisasi keagamaan dan kegiatan sosial di lingkungan masyarakat',
+            'Pengalaman sebagai ketua kelas dan koordinator kegiatan kampus tingkat jurusan',
+            'Belum memiliki pengalaman organisasi formal, namun sering terlibat dalam kepanitiaan event',
+            'Aktif di UKM olahraga dan pernah menjadi captain tim dalam berbagai turnamen',
+            null // Some people might not have experience
+        ];
+        return $experiences[array_rand($experiences)];
+    }
+
+    private function generateTeamMembers()
+    {
+        $memberCount = rand(2, 5);
+        $members = [];
+
+        for ($i = 0; $i < $memberCount; $i++) {
+            $names = [
+                'Ahmad Rizki Pratama',
+                'Siti Nurhaliza Dewi',
+                'Muhammad Fajar Sidiq',
+                'Andi Putri Melati',
+                'Bayu Setiawan',
+                'Dinda Ayu Lestari',
+                'Eko Prasetyo',
+                'Fira Angelina',
+                'Galuh Permata',
+                'Hendra Gunawan',
+                'Indira Sari',
+                'Joko Widodo',
+                'Kartika Sari',
+                'Luthfi Rahman'
+            ];
+            $name = $names[array_rand($names)];
+            $nim = '2024' . str_pad(rand(100001, 999999), 6, '0', STR_PAD_LEFT);
+            $members[] = "{$name} - {$nim}";
+        }
+
+        return implode("\n", $members);
+    }
+
+    private function getRandomCompetitionExperience()
+    {
+        $experiences = [
+            'Juara 2 Lomba Karya Tulis Ilmiah tingkat regional tahun 2023',
+            'Finalis Hackathon Nasional Smart City dengan aplikasi e-government',
+            'Pernah mengikuti beberapa kompetisi programming dan business case',
+            'Juara 1 kompetisi debat bahasa Inggris tingkat universitas',
+            'Pengalaman mengikuti olimpiade sains tingkat provinsi saat SMA',
+            'Belum pernah mengikuti kompetisi formal, namun siap belajar dan berkompetisi',
+            null
+        ];
+        return $experiences[array_rand($experiences)];
+    }
+
+    private function getRandomSpecialNeeds()
+    {
+        $needs = [
+            'Vegetarian - tidak mengonsumsi daging',
+            'Alergi seafood dan kacang-kacangan',
+            'Membutuhkan akses kursi roda',
+            'Memiliki gangguan pendengaran ringan',
+            'Tidak dapat mengonsumsi makanan pedas'
+        ];
+        return $needs[array_rand($needs)];
+    }
+
+    private function getRandomSeminarReason()
+    {
+        $reasons = [
+            'Ingin mengetahui perkembangan terbaru di bidang teknologi dan industri Indonesia',
+            'Tertarik untuk menambah wawasan tentang peluang karir dan pengembangan diri',
+            'Berharap dapat networking dengan profesional dan mendapat insights valuable',
+            'Ingin memahami tren industri yang relevan dengan program studi saya',
+            'Mencari inspirasi dan motivasi untuk mengembangkan ide bisnis atau startup'
+        ];
+        return $reasons[array_rand($reasons)];
+    }
+
+    private function getRandomInterestField()
+    {
+        $fields = [
+            'Teknologi AI dan Machine Learning',
+            'Digital Marketing dan E-commerce',
+            'Sustainable Development dan Green Technology',
+            'Fintech dan Financial Technology',
+            'Data Science dan Business Analytics',
+            'UI/UX Design dan Product Development',
+            'Cybersecurity dan Information Security',
+            'Renewable Energy dan Clean Technology'
+        ];
+        return $fields[array_rand($fields)];
+    }
+
+    private function getRandomIndonesianTeamName()
+    {
+        $teamNames = [
+            'Garuda',
+            'Nusantara',
+            'Bhinneka',
+            'Merah Putih',
+            'Pancasila',
+            'Wijaya',
+            'Sriwijaya',
+            'Majapahit',
+            'Borobudur',
+            'Diponegoro',
+            'Gajah Mada',
+            'Kartini',
+            'Bung Karno',
+            'Innovator',
+            'CodeMaster',
+            'TechStar',
+            'SmartGen',
+            'FutureTech',
+            'NextGen'
+        ];
+        return $teamNames[array_rand($teamNames)];
+    }
+
+    private function getRandomFaculty()
+    {
+        $faculties = ['Teknik', 'Ekonomi', 'Hukum', 'Kedokteran', 'Pertanian', 'FKIP'];
+        return $faculties[array_rand($faculties)];
     }
 
     private function getOrCreateEventFeed($ukm)
@@ -773,9 +1305,28 @@ class PaymentSeeder extends Seeder
         return $eventFeed;
     }
 
-    private function getRandomFaculty()
+    private function generateCustomFiles()
     {
-        $faculties = ['Teknik', 'Ekonomi', 'Hukum', 'Kedokteran', 'Pertanian', 'FKIP'];
-        return $faculties[array_rand($faculties)];
+        $files = [
+            'student_id_card' => 'custom_files/student_cards/ktm_' . rand(1000, 9999) . '.jpg',
+            'payment_proof' => 'custom_files/payment_proofs/bukti_' . rand(1000, 9999) . '.jpg',
+            'cv_file' => 'custom_files/documents/cv_' . rand(1000, 9999) . '.pdf',
+            'motivation_letter' => 'custom_files/documents/surat_motivasi_' . rand(1000, 9999) . '.pdf'
+        ];
+
+        // Randomly include some files
+        $selectedFiles = [];
+        foreach ($files as $key => $path) {
+            if (rand(0, 1)) {
+                $selectedFiles[$key] = $path;
+            }
+        }
+
+        return empty($selectedFiles) ? null : $selectedFiles;
+    }
+
+    private function getRandomTransactionDate()
+    {
+        return Carbon::now()->subDays(rand(1, 90));
     }
 }
