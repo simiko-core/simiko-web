@@ -15,9 +15,9 @@ class UnitKegiatanProfileFactory extends Factory
         return [
             'unit_kegiatan_id' => UnitKegiatan::factory(),
             'description' => $this->faker->paragraph,
-            'vision' => $this->faker->sentence(8),
-            'mission' => $this->faker->sentence(10),
+            'vision_mission' => $this->faker->sentence(15) . ' ' . $this->faker->sentence(12),
             'period' => $this->faker->year,
+            'background_photo' => null,
             'created_at' => now(),
             'updated_at' => now(),
             // Add other fields as needed

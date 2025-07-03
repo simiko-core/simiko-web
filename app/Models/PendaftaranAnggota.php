@@ -2,12 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Filament\Facades\Filament;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class PendaftaranAnggota extends Model
 {
+    use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'unit_kegiatan_id',
+        'status',
+    ];
+
     protected static function booted(): void
     {
         static::addGlobalScope('unitKegiatan', function (Builder $query) {

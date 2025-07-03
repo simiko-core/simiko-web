@@ -12,9 +12,11 @@ class UnitKegiatanFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->company,
-            'logo' => $this->faker->imageUrl(200, 200, 'business', true, 'UKM'),
-            // Add other fields as needed
+            'name' => $this->faker->unique()->company(),
+            'alias' => strtoupper($this->faker->unique()->lexify('???')),
+            'category' => $this->faker->randomElement(['Himpunan', 'UKM Olahraga', 'UKM Seni', 'UKM Keagamaan']),
+            'logo' => ['logo_unit_kegiatan/' . $this->faker->uuid() . '.png'],
+            'open_registration' => $this->faker->boolean(80),
         ];
     }
 }

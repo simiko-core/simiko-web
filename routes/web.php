@@ -12,7 +12,8 @@ Route::get('/', function () {
 Route::get('/event/register/{token}', [App\Http\Controllers\EventRegistrationController::class, 'show'])
     ->name('event.register');
 
-Route::post('/event/register/{token}', [App\Http\Controllers\EventRegistrationController::class, 'register']);
+Route::post('/event/register/{token}', [App\Http\Controllers\EventRegistrationController::class, 'register'])
+    ->name('event.register.submit');
 
 Route::get('/event/{token}/payment/{transactionId}', [App\Http\Controllers\EventRegistrationController::class, 'showPayment'])
     ->name('event.payment');

@@ -2,11 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Banner extends Model
 {
-    protected $fillable = ["feed_id", "active"];
+    use HasFactory;
+
+    protected $fillable = [
+        'feed_id',
+        'active',
+    ];
+
+    protected $casts = [
+        'active' => 'boolean',
+    ];
 
     public function feed()
     {

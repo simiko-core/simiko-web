@@ -148,7 +148,9 @@ class feedController extends Controller
                 'ukm' => [
                     'id' => $feed->unitKegiatan->id,
                     'name' => $feed->unitKegiatan->name,
-                    'logo_url' => $feed->unitKegiatan->logo ? asset('storage/' . $feed->unitKegiatan->logo) : null,
+                    'logo_url' => $feed->unitKegiatan->logo && is_array($feed->unitKegiatan->logo) && !empty($feed->unitKegiatan->logo)
+                        ? asset('storage/' . $feed->unitKegiatan->logo[0])
+                        : null,
                 ]
             ];
 
@@ -191,7 +193,9 @@ class feedController extends Controller
                 return [
                     'id' => $ukm->id,
                     'name' => $ukm->alias,
-                    'logo_url' => $ukm->logo ? asset('storage/' . $ukm->logo) : null,
+                    'logo_url' => $ukm->logo && is_array($ukm->logo) && !empty($ukm->logo)
+                        ? asset('storage/' . $ukm->logo[0])
+                        : null,
                 ];
             })
             ->toArray();
@@ -297,7 +301,9 @@ class feedController extends Controller
                     'id' => $feed->unitKegiatan->id,
                     'name' => $feed->unitKegiatan->name,
                     'alias' => $feed->unitKegiatan->alias,
-                    'logo_url' => $feed->unitKegiatan->logo ? asset('storage/' . $feed->unitKegiatan->logo) : null,
+                    'logo_url' => $feed->unitKegiatan->logo && is_array($feed->unitKegiatan->logo) && !empty($feed->unitKegiatan->logo)
+                        ? asset('storage/' . $feed->unitKegiatan->logo[0])
+                        : null,
                 ],
                 'created_at' => $feed->created_at,
             ];

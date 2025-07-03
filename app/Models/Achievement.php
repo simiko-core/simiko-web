@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Facades\Filament;
@@ -9,6 +10,7 @@ use Filament\Facades\Filament;
 
 class Achievement extends Model
 {
+    use HasFactory;
 
     protected static function booted(): void
     {
@@ -24,7 +26,10 @@ class Achievement extends Model
     }
 
     protected $fillable = [
-        'unit_kegiatan_id', 'title', 'image', 'description'
+        'unit_kegiatan_id',
+        'title',
+        'image',
+        'description'
     ];
 
     public function unitKegiatan()
