@@ -151,6 +151,39 @@ class PaymentConfiguration extends Model
             ->toArray();
     }
 
+    /**
+     * Sanitize and validate custom fields array
+     * Ensures all fields have required keys: name, label, type
+     */
+    public function sanitizeCustomFields($customFields)
+    {
+        if (!is_array($customFields)) {
+            return [];
+        }
+
+        return collect($customFields)
+            ->filter(function ($field) {
+                // Only keep fields that are arrays and have required keys
+                return is_array($field) &&
+                    isset($field['name']) &&
+                    isset($field['label']) &&
+                    isset($field['type']) &&
+                    !empty($field['name']) &&
+                    !empty($field['label']) &&
+                    !empty($field['type']);
+            })
+            ->values()
+            ->toArray();
+    }
+
+    /**
+     * Get sanitized custom fields (accessor)
+     */
+    public function getSanitizedCustomFieldsAttribute()
+    {
+        return $this->sanitizeCustomFields($this->custom_fields);
+    }
+
     public function validateFileUpload($fieldName, $file)
     {
         $fileFields = $this->getFileFields();

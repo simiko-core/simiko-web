@@ -9,6 +9,7 @@ use App\Models\AnonymousEventRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -25,16 +26,33 @@ class EventRegistrationController extends Controller
             ->with(['unitKegiatan', 'paymentConfiguration'])
             ->firstOrFail();
 
-        // Check if event is still open for registration
-        if ($event->event_date && $event->event_date->isPast()) {
-            return view('event-registration.closed', compact('event'));
+        // Debug information (remove this in production)
+        if (config('app.debug')) {
+            \Illuminate\Support\Facades\Log::info('Event Registration Debug', [
+                'event_id' => $event->id,
+                'event_title' => $event->title,
+                'event_date' => $event->event_date,
+                'current_time' => now(),
+                'is_past' => $event->event_date ? $event->event_date->isPast() : 'No date',
+                'registration_deadline' => $this->getRegistrationDeadline($event),
+                'is_registration_open' => $this->isRegistrationOpen($event),
+                'max_participants' => $event->max_participants,
+                'current_registrations' => $event->getTotalRegistrationsCount(),
+            ]);
+        }
+
+        // Check if event registration is still open
+        if (!$this->isRegistrationOpen($event)) {
+            $reason = 'date_passed';
+            return view('event-registration.closed', compact('event', 'reason'));
         }
 
         // Check if event has reached maximum capacity
         if ($event->max_participants) {
             $currentRegistrations = $event->getTotalRegistrationsCount();
             if ($currentRegistrations >= $event->max_participants) {
-                return view('event-registration.closed', compact('event'))->with('reason', 'capacity_full');
+                $reason = 'capacity_full';
+                return view('event-registration.closed', compact('event', 'reason'));
             }
         }
 
@@ -54,6 +72,11 @@ class EventRegistrationController extends Controller
             ->where('type', 'event')
             ->with(['unitKegiatan', 'paymentConfiguration'])
             ->firstOrFail();
+
+        // Check if event registration is still open
+        if (!$this->isRegistrationOpen($event)) {
+            return back()->with('error', 'Maaf, pendaftaran untuk event ini sudah ditutup karena tanggal event sudah berlalu.');
+        }
 
         // Validate basic registration data
         $validator = Validator::make($request->all(), [
@@ -233,10 +256,45 @@ class EventRegistrationController extends Controller
         return $pdf->download($filename);
     }
 
+    /**
+     * Calculate registration deadline for an event
+     * By default, allows registration until the end of the event date
+     * Can be customized to close registration earlier if needed
+     */
+    private function getRegistrationDeadline($event)
+    {
+        if (!$event->event_date) {
+            return null; // No deadline if no event date
+        }
+
+        // Default: Allow registration until the end of the event date (23:59:59)
+        $deadline = $event->event_date->copy()->endOfDay();
+
+        // Optional: Close registration 2 hours before event starts
+        // Uncomment the line below if you want to close registration earlier
+        // $deadline = $event->event_date->copy()->subHours(2);
+
+        return $deadline;
+    }
+
+    /**
+     * Check if event registration is still open
+     */
+    private function isRegistrationOpen($event)
+    {
+        $deadline = $this->getRegistrationDeadline($event);
+
+        if (!$deadline) {
+            return true; // No deadline set, always open
+        }
+
+        return now()->isBefore($deadline);
+    }
+
     private function validateCustomFields(Request $request, $paymentConfiguration)
     {
         $errors = [];
-        $customFields = $paymentConfiguration->custom_fields ?? [];
+        $customFields = $paymentConfiguration->sanitizeCustomFields($paymentConfiguration->custom_fields ?? []);
 
         foreach ($customFields as $field) {
             $fieldName = $field['name'];

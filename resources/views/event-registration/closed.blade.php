@@ -110,7 +110,21 @@
                 <h2 class="text-3xl font-bold text-red-400 mb-6 font-mono">Pendaftaran Ditutup</h2>
                 
                 <div class="bg-red-900 border-2 border-red-400 p-6 mb-6">
-                    @if(session('reason') === 'capacity_full')
+                    @php
+                        // Use the reason passed from controller, or determine it from event status
+                        $reason = $reason ?? null;
+                        
+                        // If no reason is set, check the actual event status
+                        if (!$reason) {
+                            if ($event->max_participants && $event->getTotalRegistrationsCount() >= $event->max_participants) {
+                                $reason = 'capacity_full';
+                            } else {
+                                $reason = 'date_passed';
+                            }
+                        }
+                    @endphp
+                    
+                    @if($reason === 'capacity_full')
                         <p class="text-lg text-red-200 mb-4">
                             Maaf, pendaftaran untuk event ini sudah ditutup karena telah mencapai kapasitas maksimum peserta.
                         </p>

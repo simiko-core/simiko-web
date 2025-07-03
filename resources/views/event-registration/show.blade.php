@@ -294,7 +294,7 @@
                             </div>
 
                             <!-- Custom Fields -->
-                            @if($event->paymentConfiguration->custom_fields)
+                            @if($event->paymentConfiguration->sanitized_custom_fields)
                                 <div class="bg-gray-700 border-2 border-black p-5">
                                     <h3 class="text-lg font-semibold text-secondary mb-4 flex items-center font-mono">
                                         <i class="fas fa-clipboard-list text-primary mr-2"></i>
@@ -302,7 +302,7 @@
                                     </h3>
                                     
                                     <div class="space-y-4">
-                                        @foreach($event->paymentConfiguration->custom_fields as $field)
+                                        @foreach($event->paymentConfiguration->sanitized_custom_fields as $field)
                                             <div>
                                                 <label for="custom_{{ $field['name'] }}" class="block text-sm font-semibold text-gray-200 mb-2">
                                                     {{ $field['label'] }}
@@ -316,6 +316,7 @@
                                                            name="custom_data[{{ $field['name'] }}]" 
                                                            value="{{ old('custom_data.' . $field['name']) }}"
                                                            @if($field['required'] ?? false) required @endif
+                                                           @if(isset($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                                                            class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
                                                 
                                                 @elseif($field['type'] === 'email')
@@ -323,6 +324,7 @@
                                                            name="custom_data[{{ $field['name'] }}]" 
                                                            value="{{ old('custom_data.' . $field['name']) }}"
                                                            @if($field['required'] ?? false) required @endif
+                                                           @if(isset($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                                                            class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
                                                 
                                                 @elseif($field['type'] === 'number')
@@ -330,6 +332,7 @@
                                                            name="custom_data[{{ $field['name'] }}]" 
                                                            value="{{ old('custom_data.' . $field['name']) }}"
                                                            @if($field['required'] ?? false) required @endif
+                                                           @if(isset($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                                                            class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
                                                 
                                                 @elseif($field['type'] === 'tel')
@@ -337,6 +340,7 @@
                                                            name="custom_data[{{ $field['name'] }}]" 
                                                            value="{{ old('custom_data.' . $field['name']) }}"
                                                            @if($field['required'] ?? false) required @endif
+                                                           @if(isset($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                                                            class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
                                                 
                                                 @elseif($field['type'] === 'url')
@@ -344,6 +348,7 @@
                                                            name="custom_data[{{ $field['name'] }}]" 
                                                            value="{{ old('custom_data.' . $field['name']) }}"
                                                            @if($field['required'] ?? false) required @endif
+                                                           @if(isset($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                                                            class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
                                                 
                                                 @elseif($field['type'] === 'date')
@@ -358,6 +363,7 @@
                                                               name="custom_data[{{ $field['name'] }}]" 
                                                               rows="3"
                                                               @if($field['required'] ?? false) required @endif
+                                                              @if(isset($field['placeholder'])) placeholder="{{ $field['placeholder'] }}" @endif
                                                               class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">{{ old('custom_data.' . $field['name']) }}</textarea>
                                                 
                                                 @elseif($field['type'] === 'select')
@@ -366,22 +372,24 @@
                                                             @if($field['required'] ?? false) required @endif
                                                             class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
                                                         <option value="">Pilih opsi</option>
-                                                        @foreach($field['options'] ?? [] as $option)
-                                                            <option value="{{ $option }}" 
-                                                                    @if(old('custom_data.' . $field['name']) === $option) selected @endif>
-                                                                {{ $option }}
-                                                            </option>
-                                                        @endforeach
+                                                        @if(isset($field['options']))
+                                                            @foreach(explode(',', $field['options']) as $option)
+                                                                @php $option = trim($option); @endphp
+                                                                <option value="{{ $option }}" 
+                                                                        @if(old('custom_data.' . $field['name']) === $option) selected @endif>
+                                                                    {{ $option }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                 
                                                 @elseif($field['type'] === 'file')
                                                     <input type="file" id="custom_{{ $field['name'] }}" 
                                                            name="custom_files[{{ $field['name'] }}]"
                                                            @if($field['required'] ?? false) required @endif
+                                                           accept="image/*"
                                                            class="w-full px-4 py-3 border-2 border-black bg-gray-600 text-secondary focus:outline-none focus:bg-gray-500 transition duration-150">
-                                                    @if(isset($field['description']))
-                                                        <p class="text-sm text-gray-400 mt-2">{{ $field['description'] }}</p>
-                                                    @endif
+                                                    <p class="text-sm text-gray-400 mt-2">Hanya file gambar yang diperbolehkan (JPG, PNG, GIF). Maksimal 10MB.</p>
                                                 @endif
                                             </div>
                                         @endforeach
