@@ -285,7 +285,7 @@ class ukmController extends Controller
                     'name' => $ukm->name,
                     'alias' => $ukm->alias,
                     'category' => $ukm->category,
-                    'logo' => $ukm->logo,
+                    'logo' => $ukm->logo ? url(Storage::url($ukm->logo)) : null,
                     'profile_image_url' => $ukm->logo ? url(Storage::url($ukm->logo)) : null,
                     'description' => $ukm->unitKegiatanProfile->first()?->description ?? null,
                     'background_photo_url' => $ukm->unitKegiatanProfile->first()?->background_photo ? asset('storage/' . $ukm->unitKegiatanProfile->first()->background_photo) : null,
