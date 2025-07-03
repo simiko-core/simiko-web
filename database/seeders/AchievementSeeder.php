@@ -44,7 +44,7 @@ class AchievementSeeder extends Seeder
                     'unit_kegiatan_id' => $ukm->id,
                     'title' => $achievement['title'],
                     'description' => $achievement['description'],
-                    'image' => $this->generateAchievementImagePath($achievement['type'], $ukm->alias),
+                    'image' => 'achievements/dummy.png',
                     'created_at' => $createdDate,
                     'updated_at' => $createdDate->copy()->addDays(rand(1, 7)),
                 ]);
@@ -314,20 +314,7 @@ class AchievementSeeder extends Seeder
 
     private function generateAchievementImagePath($type, $alias)
     {
-        $typePrefix = match ($type) {
-            'competition' => 'trophy',
-            'innovation' => 'innovation',
-            'exhibition' => 'exhibition',
-            'performance' => 'performance',
-            'certification' => 'certificate',
-            'patent' => 'patent',
-            'startup' => 'startup',
-            'service' => 'service',
-            'environment' => 'environment',
-            default => 'achievement',
-        };
-
-        return "achievements/{$typePrefix}-{$alias}-" . rand(1, 3) . '.jpg';
+        return 'achievements/dummy.png';
     }
 
     private function createCollaborativeAchievement($ukm)
@@ -367,7 +354,7 @@ class AchievementSeeder extends Seeder
             'unit_kegiatan_id' => $ukm->id,
             'title' => $achievement['title'],
             'description' => $achievement['description'],
-            'image' => "achievements/collaborative-{$ukm->alias}-" . rand(1, 3) . '.jpg',
+            'image' => 'achievements/dummy.png',
             'created_at' => $createdDate,
             'updated_at' => $createdDate->copy()->addDays(rand(1, 14)),
         ]);
@@ -405,7 +392,7 @@ class AchievementSeeder extends Seeder
                 'unit_kegiatan_id' => $achievement['ukm']->id,
                 'title' => $achievement['title'],
                 'description' => $achievement['description'],
-                'image' => 'achievements/university-wide-' . rand(1, 4) . '.jpg',
+                'image' => 'achievements/dummy.png',
                 'created_at' => $createdDate,
                 'updated_at' => $createdDate->copy()->addDays(rand(1, 30)),
             ]);

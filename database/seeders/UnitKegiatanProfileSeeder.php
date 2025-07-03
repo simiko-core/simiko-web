@@ -410,79 +410,11 @@ class UnitKegiatanProfileSeeder extends Seeder
      */
     private function getBackgroundPhoto($category, $alias)
     {
-        $backgroundPhotos = [
-            'Himpunan' => [
-                'backgrounds/tech-campus-1.jpg',
-                'backgrounds/computer-lab-1.jpg',
-                'backgrounds/engineering-1.jpg',
-                'backgrounds/innovation-center-1.jpg',
-                'backgrounds/lecture-hall-1.jpg'
-            ],
-            'UKM Seni' => [
-                'backgrounds/art-gallery-1.jpg',
-                'backgrounds/music-studio-1.jpg',
-                'backgrounds/creative-space-1.jpg',
-                'backgrounds/performance-hall-1.jpg',
-                'backgrounds/cultural-center-1.jpg'
-            ],
-            'UKM Olahraga' => [
-                'backgrounds/sports-field-1.jpg',
-                'backgrounds/gymnasium-1.jpg',
-                'backgrounds/fitness-center-1.jpg',
-                'backgrounds/athletics-track-1.jpg',
-                'backgrounds/sports-complex-1.jpg'
-            ],
-            'UKM Kemasyarakatan' => [
-                'backgrounds/community-service-1.jpg',
-                'backgrounds/volunteer-activity-1.jpg',
-                'backgrounds/social-work-1.jpg',
-                'backgrounds/outreach-program-1.jpg'
-            ],
-            'UKM Keagamaan' => [
-                'backgrounds/mosque-campus-1.jpg',
-                'backgrounds/prayer-room-1.jpg',
-                'backgrounds/religious-activity-1.jpg',
-                'backgrounds/spiritual-gathering-1.jpg'
-            ],
-            'UKM Teknologi' => [
-                'backgrounds/tech-lab-1.jpg',
-                'backgrounds/robotics-lab-1.jpg',
-                'backgrounds/innovation-hub-1.jpg',
-                'backgrounds/maker-space-1.jpg'
-            ],
-            'UKM Keilmuan' => [
-                'backgrounds/research-center-1.jpg',
-                'backgrounds/academic-discussion-1.jpg',
-                'backgrounds/seminar-room-1.jpg',
-                'backgrounds/library-study-1.jpg'
-            ],
-            'UKM Kewirausahaan' => [
-                'backgrounds/business-incubator-1.jpg',
-                'backgrounds/startup-space-1.jpg',
-                'backgrounds/entrepreneurship-hub-1.jpg',
-                'backgrounds/business-meeting-1.jpg'
-            ],
-            'UKM Media' => [
-                'backgrounds/media-studio-1.jpg',
-                'backgrounds/broadcasting-room-1.jpg',
-                'backgrounds/journalism-office-1.jpg',
-                'backgrounds/newsroom-1.jpg'
-            ],
-            'default' => [
-                'backgrounds/campus-view-1.jpg',
-                'backgrounds/student-center-1.jpg',
-                'backgrounds/university-hall-1.jpg',
-                'backgrounds/campus-garden-1.jpg'
-            ]
-        ];
-
-        $categoryPhotos = $backgroundPhotos[$category] ?? $backgroundPhotos['default'];
-
         // Return null 25% of the time to simulate some profiles without background photos
         if (rand(0, 3) === 0) {
             return null;
         }
 
-        return $categoryPhotos[array_rand($categoryPhotos)];
+        return 'backgrounds/dummy.png';
     }
 }

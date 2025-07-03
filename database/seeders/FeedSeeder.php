@@ -598,26 +598,8 @@ class FeedSeeder extends Seeder
     private function getImagePool()
     {
         return [
-            'posts' => [
-                'feeds/post-tech-1.jpg',
-                'feeds/post-study-1.jpg',
-                'feeds/post-campus-1.jpg',
-                'feeds/post-achievement-1.jpg',
-                'feeds/post-tutorial-1.jpg',
-                'feeds/post-news-1.jpg',
-                'feeds/post-discussion-1.jpg',
-                'feeds/post-announcement-1.jpg'
-            ],
-            'events' => [
-                'feeds/event-workshop-1.jpg',
-                'feeds/event-seminar-1.jpg',
-                'feeds/event-competition-1.jpg',
-                'feeds/event-gathering-1.jpg',
-                'feeds/event-training-1.jpg',
-                'feeds/event-expo-1.jpg',
-                'feeds/event-conference-1.jpg',
-                'feeds/event-hackathon-1.jpg'
-            ]
+            'posts' => ['feeds/dummy.png'],
+            'events' => ['feeds/dummy.png']
         ];
     }
 }

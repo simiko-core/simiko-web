@@ -252,16 +252,7 @@ class ActivityGallerySeeder extends Seeder
 
     private function generateImagePath($category, $activityType, $index)
     {
-        $categoryPrefix = match ($category) {
-            'Himpunan' => 'tech',
-            'UKM Seni' => 'arts',
-            'UKM Olahraga' => 'sports',
-            'UKM Teknologi' => 'innovation',
-            'UKM Kemasyarakatan' => 'community',
-            default => 'general',
-        };
-
-        return "activity_galleries/{$categoryPrefix}-{$activityType}-" . ($index + 1) . '.jpg';
+        return 'activity_galleries/dummy.png';
     }
 
     private function createSpecialGalleryItems($ukm)
@@ -302,7 +293,7 @@ class ActivityGallerySeeder extends Seeder
 
             ActivityGallery::create([
                 'unit_kegiatan_id' => $ukm->id,
-                'image' => "activity_galleries/special-{$item['type']}-{$ukm->alias}.jpg",
+                'image' => 'activity_galleries/dummy.png',
                 'caption' => $item['caption'],
                 'created_at' => $createdDate,
                 'updated_at' => $createdDate->copy()->addHours(rand(1, 12)),

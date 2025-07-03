@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'superadmin@gmail.com',
             'password' => Hash::make('superadmin'),
             'phone' => '081234567890',
-            'photo' => null,
+            'photo' => 'users/dummy.png',
             'email_verified_at' => now(),
         ]);
 
@@ -38,7 +38,7 @@ class UserSeeder extends Seeder
                     'email' => strtolower($ukm->alias) . '@gmail.com',
                     'password' => Hash::make(strtolower($ukm->alias)),
                     'phone' => '0812345678' . str_pad($index + 10, 2, '0', STR_PAD_LEFT),
-                    'photo' => null,
+                    'photo' => 'users/dummy.png',
                     'email_verified_at' => now(),
                 ]);
 
@@ -168,7 +168,7 @@ class UserSeeder extends Seeder
                 'email' => $email,
                 'password' => Hash::make('password123'),
                 'phone' => $phoneNumber,
-                'photo' => null,
+                'photo' => 'users/dummy.png',
                 'email_verified_at' => rand(0, 1) ? now() : null, // Some verified, some not
             ]);
         }
