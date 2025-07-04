@@ -59,6 +59,9 @@ class AchievementResource extends Resource
                             ->label('Description')
                             ->placeholder('Describe the achievement, competition details, and significance...')
                             ->helperText('Provide detailed context about this achievement. You can use formatting, lists, and links.')
+                            ->disableToolbarButtons([
+                                'attachFiles',
+                            ])
                             ->columnSpanFull(),
                     ])
                     ->columns(2)

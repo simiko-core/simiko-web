@@ -54,6 +54,9 @@ class ActivityGalleryResource extends Resource
                             ->maxLength(100)
                             ->placeholder('e.g., Annual Tech Workshop 2024 - Group Photo')
                             ->helperText('Add a descriptive caption to give context to the photo. You can use formatting for better presentation.')
+                            ->disableToolbarButtons([
+                                'attachFiles',
+                            ])
                             ->columnSpanFull(),
                     ])
                     ->columns(1)

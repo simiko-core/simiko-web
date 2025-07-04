@@ -210,7 +210,7 @@ class FeedResource extends Resource
                                                     $fieldName = strtolower(str_replace(' ', '-', $state));
                                                     // Remove any special characters except hyphens and underscores
                                                     $fieldName = preg_replace('/[^a-z0-9\-_]/', '', $fieldName);
-                                                    \Log::info('FeedResource CREATE: Setting field name', [
+                                                    Log::info('FeedResource CREATE: Setting field name', [
                                                         'label' => $state,
                                                         'generated_name' => $fieldName
                                                     ]);
