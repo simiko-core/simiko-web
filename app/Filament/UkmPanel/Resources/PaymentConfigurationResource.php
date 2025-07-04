@@ -28,6 +28,11 @@ class PaymentConfigurationResource extends Resource
 
     protected static ?int $navigationSort = 1;
 
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -42,12 +47,6 @@ class PaymentConfigurationResource extends Resource
                             ->placeholder('e.g., Event Registration Fee, Workshop Payment, Membership Fee')
                             ->helperText('Give this payment configuration a clear, descriptive name'),
 
-                        Forms\Components\Textarea::make('description')
-                            ->label('Description')
-                            ->maxLength(500)
-                            ->rows(3)
-                            ->placeholder('Describe what this payment is for and any important details...')
-                            ->helperText('Optional description to help identify this payment configuration'),
 
                         Forms\Components\TextInput::make('amount')
                             ->label('Amount')
@@ -56,10 +55,6 @@ class PaymentConfigurationResource extends Resource
                             ->prefix('Rp')
                             ->placeholder('50000')
                             ->helperText('Enter the payment amount in Indonesian Rupiah'),
-
-
-
-
                     ])
                     ->columns(2)
                     ->collapsible(),
@@ -192,34 +187,6 @@ class PaymentConfigurationResource extends Resource
                             ->collapsible()
                             ->itemLabel(fn(array $state): ?string => $state['label'] ?? null),
                     ])
-                    ->collapsible(),
-
-                Forms\Components\Section::make('Additional Settings')
-                    ->description('Configure additional settings for this payment configuration')
-                    ->schema([
-                        Forms\Components\DatePicker::make('settings.due_date')
-                            ->label('Payment Due Date')
-                            ->helperText('Set a deadline for payments (optional)'),
-
-                        Forms\Components\TextInput::make('settings.max_participants')
-                            ->label('Maximum Participants')
-                            ->numeric()
-                            ->placeholder('100')
-                            ->helperText('Maximum number of participants allowed (optional)'),
-
-                        Forms\Components\Textarea::make('settings.terms_conditions')
-                            ->label('Terms & Conditions')
-                            ->rows(4)
-                            ->placeholder('Enter terms and conditions for this payment...')
-                            ->helperText('Optional terms and conditions that participants must agree to'),
-
-                        Forms\Components\Textarea::make('settings.notes')
-                            ->label('Internal Notes')
-                            ->rows(3)
-                            ->placeholder('Internal notes for admin reference...')
-                            ->helperText('Notes visible only to administrators'),
-                    ])
-                    ->columns(2)
                     ->collapsible(),
             ]);
     }

@@ -26,18 +26,31 @@ class CreateFeed extends CreateRecord
             if ($newPaymentConfig && !empty($newPaymentConfig['amount'])) {
                 // Force the name value if missing
                 $newPaymentConfig['name'] = $newPaymentConfig['name'] ?? $data['title'] ?? 'Event Payment';
+
+                // Process custom_fields to ensure each has a 'name' field
+                if (!empty($newPaymentConfig['custom_fields'])) {
+                    foreach ($newPaymentConfig['custom_fields'] as &$customField) {
+                        if (empty($customField['name']) && !empty($customField['label'])) {
+                            // Generate field name from label
+                            $fieldName = strtolower(str_replace(' ', '-', $customField['label']));
+                            // Remove any special characters except hyphens and underscores
+                            $fieldName = preg_replace('/[^a-z0-9\-_]/', '', $fieldName);
+                            $customField['name'] = $fieldName;
+                        }
+                    }
+                    unset($customField); // Break the reference
+                }
+
                 // Get the current UKM admin's organization
                 $ukmId = Auth::user()->admin->unit_kegiatan_id;
                 // Create the payment configuration
                 $paymentConfig = PaymentConfiguration::create([
                     'unit_kegiatan_id' => $ukmId,
                     'name' => $newPaymentConfig['name'],
-                    'description' => $newPaymentConfig['description'] ?? null,
                     'amount' => $newPaymentConfig['amount'],
                     'currency' => 'IDR',
                     'payment_methods' => $newPaymentConfig['payment_methods'] ?? [],
                     'custom_fields' => $newPaymentConfig['custom_fields'] ?? [],
-                    'settings' => [],
                 ]);
 
                 // Set the payment configuration ID for the feed

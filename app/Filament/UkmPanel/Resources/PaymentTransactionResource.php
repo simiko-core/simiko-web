@@ -170,14 +170,6 @@ class PaymentTransactionResource extends Resource
                     ->copyable()
                     ->copyMessage('Transaction ID copied!'),
 
-                Tables\Columns\TextColumn::make('user_name')
-                    ->label('Participant')
-                    ->searchable()
-                    ->sortable()
-                    ->weight('medium')
-                    ->formatStateUsing(function ($record) {
-                        return $record->getUserName();
-                    }),
 
                 Tables\Columns\TextColumn::make('user_email')
                     ->label('Email')
@@ -190,20 +182,17 @@ class PaymentTransactionResource extends Resource
                     ->copyMessage('Email copied!')
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                Tables\Columns\TextColumn::make('paymentConfiguration.name')
-                    ->label('Payment Type')
+                Tables\Columns\TextColumn::make('feed.title')
+                    ->label('Event Name')
                     ->searchable()
                     ->sortable()
-                    ->limit(30)
-                    ->wrap(),
+                    ->limit(40)
+                    ->wrap()
+                    ->placeholder('No event associated'),
 
-                Tables\Columns\TextColumn::make('amount')
-                    ->label('Amount')
-                    ->money('IDR')
-                    ->sortable()
-                    ->color('success'),
 
-                Tables\Columns\BadgeColumn::make('status')
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
                     ->label('Status')
                     ->colors([
                         'warning' => 'pending',
@@ -234,18 +223,6 @@ class PaymentTransactionResource extends Resource
                     ->limit(20)
                     ->wrap(),
 
-                Tables\Columns\TextColumn::make('custom_files')
-                    ->label('Custom Files')
-                    ->formatStateUsing(function ($state) {
-                        if (!$state || !is_array($state)) return '-';
-                        $files = collect($state)->map(function ($file) {
-                            return '<a href="' . asset('storage/' . $file) . '" target="_blank">' . basename($file) . '</a>';
-                        })->implode(', ');
-                        return $files ?: '-';
-                    })
-                    ->html()
-                    ->limit(30)
-                    ->wrap(),
 
                 Tables\Columns\TextColumn::make('paid_at')
                     ->label('Paid At')
@@ -272,9 +249,9 @@ class PaymentTransactionResource extends Resource
                     ])
                     ->multiple(),
 
-                Tables\Filters\SelectFilter::make('payment_configuration_id')
-                    ->label('Payment Type')
-                    ->relationship('paymentConfiguration', 'name')
+                Tables\Filters\SelectFilter::make('feed_id')
+                    ->label('Event Name')
+                    ->relationship('feed', 'title')
                     ->searchable()
                     ->preload()
                     ->multiple(),

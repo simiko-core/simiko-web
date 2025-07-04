@@ -15,15 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('unit_kegiatan_id')->constrained()->cascadeOnDelete();
             $table->string('name'); // e.g., "Event Registration", "Membership Fee", "Workshop Payment"
-            $table->text('description')->nullable();
+            // $table->text('description')->nullable();
             $table->decimal('amount', 10, 2); // Amount in IDR
-            $table->enum('currency', ['IDR', 'USD'])->default('IDR');
+            $table->enum('currency', ['IDR'])->default('IDR');
             $table->boolean('is_active')->default(true);
             $table->json('payment_methods')->nullable(); // Flexible payment methods
             $table->json('custom_fields')->nullable(); // Dynamic fields like "Student ID", "Phone", etc.
-            $table->json('settings')->nullable(); // Additional settings like due date, max participants, etc.
             $table->timestamps();
-            
+
             // Indexes for performance
             $table->index(['unit_kegiatan_id', 'is_active']);
             $table->index('created_at');
@@ -37,4 +36,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('payment_configurations');
     }
-}; 
+};

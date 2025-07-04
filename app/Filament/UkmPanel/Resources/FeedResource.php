@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Log;
 
 class FeedResource extends Resource
 {
@@ -82,6 +83,7 @@ class FeedResource extends Resource
                         Forms\Components\FileUpload::make('image')
                             ->label('Featured Image')
                             ->image()
+                            ->required()
                             ->disk('public')
                             ->directory('feeds')
                             ->visibility('public')
@@ -122,14 +124,15 @@ class FeedResource extends Resource
                             ->label('Paid Event')
                             ->helperText('Turn on if this event requires payment from participants')
                             ->reactive()
-                            ->columnSpanFull(),
+                            ->columnSpan(1),
 
                         Forms\Components\TextInput::make('max_participants')
                             ->label('Maximum Participants')
                             ->numeric()
                             ->placeholder('100')
                             ->helperText('Maximum number of participants allowed (leave empty for unlimited)')
-                            ->visible(fn(callable $get) => $get('type') === 'event'),
+                            ->visible(fn(callable $get) => $get('type') === 'event')
+                            ->columnSpan(1),
 
                         Forms\Components\Section::make('Create New Payment Configuration')
                             ->description('Create a new payment configuration for this event')
@@ -148,13 +151,6 @@ class FeedResource extends Resource
                                     ->prefix('Rp')
                                     ->placeholder('50000')
                                     ->helperText('Enter the payment amount in Indonesian Rupiah'),
-                                Forms\Components\Textarea::make('new_payment_config.description')
-                                    ->label('Description')
-                                    ->rows(2)
-                                    ->placeholder('Describe what this payment is for...')
-                                    ->helperText('Optional description'),
-
-
 
                                 Forms\Components\Repeater::make('new_payment_config.payment_methods')
                                     ->label('Payment Methods')
@@ -199,7 +195,6 @@ class FeedResource extends Resource
                                     ->reorderable(false)
                                     ->collapsible()
                                     ->itemLabel(fn(array $state): ?string => $state['method'] ?? null),
-
                                 Forms\Components\Repeater::make('new_payment_config.custom_fields')
                                     ->label('Custom Fields')
                                     ->schema([
@@ -215,6 +210,10 @@ class FeedResource extends Resource
                                                     $fieldName = strtolower(str_replace(' ', '-', $state));
                                                     // Remove any special characters except hyphens and underscores
                                                     $fieldName = preg_replace('/[^a-z0-9\-_]/', '', $fieldName);
+                                                    \Log::info('FeedResource CREATE: Setting field name', [
+                                                        'label' => $state,
+                                                        'generated_name' => $fieldName
+                                                    ]);
                                                     $set('name', $fieldName);
                                                 }
                                             }),
@@ -228,7 +227,8 @@ class FeedResource extends Resource
                                             ->validationMessages([
                                                 'regex' => 'Field name can only contain lowercase letters, numbers, hyphens, and underscores.',
                                             ])
-                                            ->hidden(),
+                                            ->hidden()
+                                            ->dehydrated(true),
 
                                         Forms\Components\Select::make('type')
                                             ->label('Field Type')
@@ -244,8 +244,7 @@ class FeedResource extends Resource
                                                 'file' => 'File Upload',
                                             ])
                                             ->required()
-                                            ->default('text')
-                                            ->reactive(),
+                                            ->default('text'),
 
                                         Forms\Components\TextInput::make('placeholder')
                                             ->label('Placeholder Text')
@@ -285,11 +284,6 @@ class FeedResource extends Resource
                                     ->dehydrated(true)
                                     ->required(),
 
-                                Forms\Components\Textarea::make('payment_configuration.description')
-                                    ->label('Description')
-                                    ->rows(2)
-                                    ->placeholder('Describe what this payment is for...')
-                                    ->helperText('Optional description'),
 
                                 Forms\Components\TextInput::make('payment_configuration.amount')
                                     ->label('Amount')
@@ -298,10 +292,6 @@ class FeedResource extends Resource
                                     ->placeholder('50000')
                                     ->helperText('Enter the payment amount in Indonesian Rupiah')
                                     ->required(),
-
-
-
-
 
                                 Forms\Components\Repeater::make('payment_configuration.payment_methods')
                                     ->label('Payment Methods')
@@ -319,7 +309,6 @@ class FeedResource extends Resource
                                                 'OVO' => 'OVO',
                                                 'ShopeePay' => 'ShopeePay',
                                                 'LinkAja' => 'LinkAja',
-                                                'QRIS' => 'QRIS',
                                                 'Cash' => 'Cash',
                                                 'Other' => 'Other',
                                             ])
@@ -376,7 +365,8 @@ class FeedResource extends Resource
                                             ->validationMessages([
                                                 'regex' => 'Field name can only contain lowercase letters, numbers, hyphens, and underscores.',
                                             ])
-                                            ->hidden(),
+                                            ->hidden()
+                                            ->dehydrated(true),
 
                                         Forms\Components\Select::make('type')
                                             ->label('Field Type')
@@ -432,9 +422,6 @@ class FeedResource extends Resource
     {
         return $table
             ->columns([
-
-
-
                 Tables\Columns\TextColumn::make('title')
                     ->label('Title')
                     ->searchable()
@@ -494,13 +481,7 @@ class FeedResource extends Resource
                     ->placeholder('Unlimited')
                     ->formatStateUsing(fn(?int $state): string => $state ? number_format($state) : 'Unlimited'),
 
-                // Tables\Columns\TextColumn::make('paymentConfiguration.name')
-                //     ->label('Payment Config')
-                //     ->searchable()
-                //     ->sortable()
-                //     ->limit(30)
-                //     ->wrap()
-                //     ->placeholder('No config'),
+
 
                 Tables\Columns\TextColumn::make('registration_url')
                     ->label('Registration Link')

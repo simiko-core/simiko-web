@@ -51,9 +51,6 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <a href="{{ url('/admin') }}" class="text-secondary hover:text-primary px-3 py-2 text-sm font-medium transition duration-150 border-2 border-transparent hover:border-primary">
-                        Panel Admin
-                    </a>
                     <a href="{{ url('/admin-panel') }}" class="bg-primary text-black px-4 py-2 text-sm font-bold transition duration-150 border-2 border-black hard-shadow hover:bg-yellow-400">
                         Panel UKM
                     </a>

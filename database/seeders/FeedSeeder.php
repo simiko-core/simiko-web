@@ -259,17 +259,10 @@ class FeedSeeder extends Seeder
         return PaymentConfiguration::create([
             'unit_kegiatan_id' => $ukm->id,
             'name' => $eventTitle . ' - Registration Fee',
-            'description' => "Biaya pendaftaran untuk mengikuti {$eventTitle}",
             'amount' => $amount,
             'currency' => 'IDR',
             'payment_methods' => $this->getPaymentMethods($ukm),
-            'custom_fields' => $this->getEventCustomFields($eventType),
-            'settings' => [
-                'due_date' => Carbon::now()->addDays(rand(7, 21))->format('Y-m-d'),
-                'max_participants' => $this->getMaxParticipants($eventType),
-                'terms_conditions' => "Pembayaran tidak dapat dikembalikan. Harap pastikan kehadiran sebelum mendaftar.",
-                'notes' => "Payment configuration for {$eventTitle}"
-            ]
+            'custom_fields' => $this->getEventCustomFields($eventType)
         ]);
     }
 

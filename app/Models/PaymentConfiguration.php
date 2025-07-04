@@ -19,14 +19,12 @@ class PaymentConfiguration extends Model
         'currency',
         'payment_methods',
         'custom_fields',
-        'settings'
     ];
 
     protected $casts = [
         'amount' => 'decimal:2',
         'payment_methods' => 'array',
         'custom_fields' => 'array',
-        'settings' => 'array',
     ];
 
     protected $attributes = [

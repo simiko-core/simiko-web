@@ -57,12 +57,10 @@ class PaymentSeeder extends Seeder
             PaymentConfiguration::create([
                 'unit_kegiatan_id' => $ukm->id,
                 'name' => $config['name'],
-                'description' => $config['description'],
                 'amount' => $config['amount'],
                 'currency' => 'IDR',
                 'payment_methods' => $this->generatePaymentMethods($ukm, $config['type']),
                 'custom_fields' => $this->generateCustomFields($config['type']),
-                'settings' => $this->generateSettings($config),
             ]);
         }
     }
@@ -879,46 +877,7 @@ class PaymentSeeder extends Seeder
         return array_merge($baseFields, $typeSpecificFields[$type] ?? []);
     }
 
-    private function generateSettings($config)
-    {
-        $dueDate = Carbon::now()->addDays(rand(7, 30))->format('Y-m-d');
-        $maxParticipants = $this->getMaxParticipantsByType($config['type']);
 
-        return [
-            'due_date' => $dueDate,
-            'max_participants' => $maxParticipants,
-            'min_participants' => max(1, intval($maxParticipants * 0.3)), // 30% of max as minimum
-            'early_bird_discount' => rand(0, 1) ? [
-                'percentage' => rand(10, 25),
-                'valid_until' => Carbon::now()->addDays(rand(3, 14))->format('Y-m-d'),
-                'description' => 'Diskon early bird untuk pendaftar awal'
-            ] : null,
-            'late_registration_fee' => rand(0, 1) ? [
-                'amount' => rand(5000, 15000),
-                'applicable_after' => Carbon::parse($dueDate)->subDays(3)->format('Y-m-d'),
-                'description' => 'Biaya tambahan untuk pendaftaran terlambat'
-            ] : null,
-            'refund_policy' => [
-                'refundable_until' => Carbon::parse($dueDate)->subDays(7)->format('Y-m-d'),
-                'refund_percentage' => rand(70, 90),
-                'processing_fee' => 5000,
-                'description' => 'Pengembalian dana dengan potongan biaya administrasi'
-            ],
-            'terms_conditions' => $this->generateTermsConditions($config['type']),
-            'contact_person' => [
-                'name' => "CP {$config['type']} " . now()->year,
-                'whatsapp' => '08' . rand(100000000, 999999999),
-                'email' => "contact." . strtolower(str_replace(' ', '', $config['name'])) . "@gmail.com",
-                'available_hours' => '09:00 - 21:00 WIB'
-            ],
-            'payment_confirmation' => [
-                'whatsapp_required' => true,
-                'upload_receipt' => true,
-                'verification_time' => '1x24 jam (hari kerja)',
-                'confirmation_message' => 'Kirim bukti pembayaran + data diri lengkap ke WhatsApp contact person'
-            ]
-        ];
-    }
 
     private function getMaxParticipantsByType($type)
     {
@@ -939,40 +898,7 @@ class PaymentSeeder extends Seeder
         return $limits[$type] ?? rand(20, 50);
     }
 
-    private function generateTermsConditions($type)
-    {
-        $baseTerms = [
-            'Peserta wajib mengisi formulir pendaftaran dengan data yang benar dan lengkap',
-            'Pembayaran harus dilakukan sesuai dengan nominal dan metode yang ditentukan',
-            'Bukti pembayaran wajib dikirimkan maksimal 1x24 jam setelah transfer',
-            'Peserta yang tidak hadir tanpa konfirmasi tidak akan mendapat pengembalian biaya',
-            'Organisasi berhak membatalkan acara jika tidak mencapai kuota minimum peserta',
-            'Peserta wajib mengikuti protokol kesehatan yang berlaku',
-            'Segala bentuk kerusakan atau kehilangan barang menjadi tanggung jawab peserta',
-            'Keputusan panitia bersifat final dan tidak dapat diganggu gugat'
-        ];
 
-        $typeSpecificTerms = [
-            'membership' => [
-                'Calon anggota wajib mengikuti seluruh rangkaian proses seleksi',
-                'Pembayaran iuran keanggotaan tidak dapat dikembalikan setelah dinyatakan lulus',
-                'Anggota wajib aktif dalam kegiatan organisasi minimal 70% dari total kegiatan'
-            ],
-            'workshop' => [
-                'Peserta wajib membawa laptop/perangkat yang diperlukan sesuai requirements',
-                'Sertifikat hanya diberikan kepada peserta yang mengikuti workshop hingga selesai',
-                'Materi workshop tidak boleh disebarluaskan tanpa izin'
-            ],
-            'competition' => [
-                'Tim yang tidak hadir saat technical meeting akan didiskualifikasi',
-                'Segala bentuk kecurangan akan berakibat diskualifikasi langsung',
-                'Keputusan juri bersifat final dan tidak dapat diganggu gugat'
-            ]
-        ];
-
-        $specificTerms = $typeSpecificTerms[$type] ?? [];
-        return array_merge($baseTerms, $specificTerms);
-    }
 
     private function getTransactionCount($configName)
     {

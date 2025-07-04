@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('unit_kegiatan_id')->constrained()->cascadeOnDelete();
             $table->string('image');
-            $table->string('caption')->nullable();
+            $table->text('caption')->nullable();
             $table->timestamps();
         });
     }

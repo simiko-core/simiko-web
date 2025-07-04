@@ -26,6 +26,20 @@ class EditFeed extends EditRecord
             $newPaymentConfig = $data['new_payment_config'] ?? null;
 
             if ($newPaymentConfig && !empty($newPaymentConfig['name']) && !empty($newPaymentConfig['amount'])) {
+                // Process custom_fields to ensure each has a 'name' field
+                if (!empty($newPaymentConfig['custom_fields'])) {
+                    foreach ($newPaymentConfig['custom_fields'] as &$customField) {
+                        if (empty($customField['name']) && !empty($customField['label'])) {
+                            // Generate field name from label
+                            $fieldName = strtolower(str_replace(' ', '-', $customField['label']));
+                            // Remove any special characters except hyphens and underscores
+                            $fieldName = preg_replace('/[^a-z0-9\-_]/', '', $fieldName);
+                            $customField['name'] = $fieldName;
+                        }
+                    }
+                    unset($customField); // Break the reference
+                }
+
                 // Get the current UKM admin's organization
                 $ukmId = Auth::user()->admin->unit_kegiatan_id;
 
@@ -33,12 +47,10 @@ class EditFeed extends EditRecord
                 $paymentConfig = PaymentConfiguration::create([
                     'unit_kegiatan_id' => $ukmId,
                     'name' => $newPaymentConfig['name'],
-                    'description' => $newPaymentConfig['description'] ?? null,
                     'amount' => $newPaymentConfig['amount'],
                     'currency' => 'IDR',
                     'payment_methods' => $newPaymentConfig['payment_methods'] ?? [],
                     'custom_fields' => $newPaymentConfig['custom_fields'] ?? [],
-                    'settings' => [],
                 ]);
 
                 // Set the payment configuration ID for the feed
@@ -69,10 +81,23 @@ class EditFeed extends EditRecord
         if (isset($data['payment_configuration']) && $this->record && $this->record->paymentConfiguration) {
             $paymentConfigData = $data['payment_configuration'];
 
+            // Process custom_fields to ensure each has a 'name' field
+            if (!empty($paymentConfigData['custom_fields'])) {
+                foreach ($paymentConfigData['custom_fields'] as &$customField) {
+                    if (empty($customField['name']) && !empty($customField['label'])) {
+                        // Generate field name from label
+                        $fieldName = strtolower(str_replace(' ', '-', $customField['label']));
+                        // Remove any special characters except hyphens and underscores
+                        $fieldName = preg_replace('/[^a-z0-9\-_]/', '', $fieldName);
+                        $customField['name'] = $fieldName;
+                    }
+                }
+                unset($customField); // Break the reference
+            }
+
             // Update the existing payment configuration
             $this->record->paymentConfiguration->update([
                 'name' => $paymentConfigData['name'] ?? $this->record->paymentConfiguration->name,
-                'description' => $paymentConfigData['description'] ?? $this->record->paymentConfiguration->description,
                 'amount' => $paymentConfigData['amount'] ?? $this->record->paymentConfiguration->amount,
                 'currency' => 'IDR',
                 'payment_methods' => $paymentConfigData['payment_methods'] ?? $this->record->paymentConfiguration->payment_methods,
@@ -102,7 +127,6 @@ class EditFeed extends EditRecord
         if ($this->record && $this->record->paymentConfiguration) {
             $data['payment_configuration'] = [
                 'name' => $this->record->paymentConfiguration->name,
-                'description' => $this->record->paymentConfiguration->description,
                 'amount' => $this->record->paymentConfiguration->amount,
                 'payment_methods' => $this->record->paymentConfiguration->payment_methods,
                 'custom_fields' => $this->record->paymentConfiguration->custom_fields,
