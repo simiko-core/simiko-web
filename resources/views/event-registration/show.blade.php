@@ -37,6 +37,42 @@
         .hard-shadow-hover:hover {
             box-shadow: 6px 6px 0px #000;
         }
+        /* Rich content styling */
+        .rich-content {
+            color: #d1d5db;
+        }
+        .rich-content h1, .rich-content h2, .rich-content h3 {
+            color: #f9fafb;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .rich-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+        .rich-content strong {
+            color: #facc15;
+            font-weight: bold;
+        }
+        .rich-content ul, .rich-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .rich-content li {
+            margin-bottom: 0.25rem;
+            line-height: 1.5;
+        }
+        .rich-content em {
+            font-style: italic;
+            color: #9ca3af;
+        }
+        .rich-content a {
+            color: #facc15;
+            text-decoration: underline;
+        }
+        .rich-content a:hover {
+            color: #fbbf24;
+        }
     </style>
 </head>
 <body class="bg-background text-secondary font-sans">
@@ -106,7 +142,9 @@
                         
                         <div class="text-center mb-6">
                             <h1 class="text-2xl lg:text-3xl font-bold text-secondary mb-3 font-mono">{{ $event->title }}</h1>
-                            <p class="text-gray-300 leading-relaxed">{{ $event->content }}</p>
+                            <div class="leading-relaxed rich-content">
+                                {!! $event->content !!}
+                            </div>
                         </div>
                         
                         <!-- Event Details Grid -->
