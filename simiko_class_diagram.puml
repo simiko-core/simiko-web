@@ -1,0 +1,318 @@
+@startuml Simiko Class Diagram
+
+!theme plain
+skinparam class {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+    ArrowColor DarkBlue
+}
+
+title Simiko - Student Activity Management System Class Diagram
+
+' Core User Management
+class User {
+    -id: integer
+    -name: string
+    -email: string
+    -password: string
+    -phone: string
+    -photo: string
+    -email_verified_at: datetime
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +admin(): Admin
+    +canAccessPanel(panel): boolean
+}
+
+class Admin {
+    -id: integer
+    -user_id: integer
+    -unit_kegiatan_id: integer
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +user(): User
+    +unitKegiatan(): UnitKegiatan
+}
+
+' UKM Management
+class UnitKegiatan {
+    -id: integer
+    -name: string
+    -alias: string
+    -category: string
+    -logo: array
+    -open_registration: boolean
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +admins(): Admin
+    +pendaftaranAnggota(): PendaftaranAnggota[]
+    +unitKegiatanProfile(): UnitKegiatanProfile[]
+    +achievements(): Achievement[]
+    +activityGalleries(): ActivityGallery[]
+    +feeds(): Feed[]
+    +paymentConfigurations(): PaymentConfiguration[]
+    +paymentTransactions(): PaymentTransaction[]
+}
+
+class UnitKegiatanProfile {
+    -id: integer
+    -unit_kegiatan_id: integer
+    -vision_mission: text
+    -description: text
+    -period: string
+    -background_photo: string
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+    +getVisionMissionTextAttribute(): string
+}
+
+class PendaftaranAnggota {
+    -id: integer
+    -user_id: integer
+    -unit_kegiatan_id: integer
+    -status: string
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+    +user(): User
+    +IsOpen(): boolean
+}
+
+' Content Management
+class Feed {
+    -id: integer
+    -unit_kegiatan_id: integer
+    -payment_configuration_id: integer
+    -type: string
+    -title: string
+    -content: text
+    -image: string
+    -event_date: date
+    -event_type: string
+    -location: string
+    -is_paid: boolean
+    -max_participants: integer
+    -registration_token: string
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+    +paymentConfiguration(): PaymentConfiguration
+    +banner(): Banner
+    +transactions(): PaymentTransaction[]
+    +anonymousRegistrations(): AnonymousEventRegistration[]
+    +isEvent(): boolean
+    +isPost(): boolean
+    +isPaidEvent(): boolean
+    +getRegistrationUrl(): string
+    +getTotalRegistrationsCount(): integer
+    +getPendingWithProofCount(): integer
+    +getPendingWithoutProofCount(): integer
+}
+
+class Banner {
+    -id: integer
+    -feed_id: integer
+    -active: boolean
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +feed(): Feed
+}
+
+' Payment System
+class PaymentConfiguration {
+    -id: integer
+    -unit_kegiatan_id: integer
+    -name: string
+    -description: text
+    -amount: decimal
+    -currency: string
+    -payment_methods: array
+    -custom_fields: array
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+    +transactions(): PaymentTransaction[]
+    +feeds(): Feed[]
+    +getIsActiveAttribute(): boolean
+    +getFormattedAmountAttribute(): string
+    +getTotalRevenueAttribute(): decimal
+    +getFileFields(): array
+    +validateFileUpload(fieldName, file): array
+}
+
+class PaymentTransaction {
+    -id: integer
+    -unit_kegiatan_id: integer
+    -anonymous_registration_id: integer
+    -payment_configuration_id: integer
+    -feed_id: integer
+    -transaction_id: string
+    -amount: decimal
+    -currency: string
+    -status: string
+    -payment_method: string
+    -payment_details: array
+    -custom_data: array
+    -custom_files: array
+    -notes: text
+    -paid_at: datetime
+    -expires_at: datetime
+    -proof_of_payment: string
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+    +anonymousRegistration(): AnonymousEventRegistration
+    +paymentConfiguration(): PaymentConfiguration
+    +feed(): Feed
+    +markAsPaid(): void
+    +markAsFailed(): void
+    +markAsCancelled(): void
+    +markAsExpired(): void
+    +isExpired(): boolean
+    +canBePaid(): boolean
+    +getFormattedAmountAttribute(): string
+    +getStatusColorAttribute(): string
+}
+
+class AnonymousEventRegistration {
+    -id: integer
+    -feed_id: integer
+    -name: string
+    -email: string
+    -phone: string
+    -custom_data: array
+    -custom_files: array
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +feed(): Feed
+    +paymentTransactions(): PaymentTransaction[]
+    +getFormattedNameAttribute(): string
+    +getContactInfoAttribute(): string
+    +hasCustomData(): boolean
+    +hasCustomFiles(): boolean
+    +getCustomFileUrls(): array
+}
+
+' Achievement & Gallery
+class Achievement {
+    -id: integer
+    -unit_kegiatan_id: integer
+    -title: string
+    -image: string
+    -description: text
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+}
+
+class ActivityGallery {
+    -id: integer
+    -unit_kegiatan_id: integer
+    -image: string
+    -caption: string
+    -created_at: datetime
+    -updated_at: datetime
+    --
+    +unitKegiatan(): UnitKegiatan
+}
+
+' Controllers
+class authController {
+    +login(request): JsonResponse
+    +logout(request): JsonResponse
+    +register(request): JsonResponse
+    +profile(request): JsonResponse
+}
+
+class ukmController {
+    +index(): JsonResponse
+    +profile(id): JsonResponse
+    +profileFull(id): JsonResponse
+    +registerMember(request, id): JsonResponse
+    +search(request): JsonResponse
+}
+
+class feedController {
+    +index(request): JsonResponse
+    +show(id): JsonResponse
+    +posts(request): JsonResponse
+    +events(request): JsonResponse
+}
+
+class paymentController {
+    +getConfigurations(request): JsonResponse
+    +createTransaction(request): JsonResponse
+    +getUserTransactions(request): JsonResponse
+    +uploadProof(request, transactionId): JsonResponse
+}
+
+class bannerController {
+    +index(): JsonResponse
+}
+
+class EventRegistrationController {
+    +show(token): View
+    +register(request, token): RedirectResponse
+    +showPayment(token, transactionId): View
+    +uploadProof(request, token, transactionId): RedirectResponse
+    +status(token, transactionId): View
+    +downloadReceipt(token, transactionId): Response
+}
+
+' Response Helper
+class ApiResponse {
+    +{static} success(data, message, code): JsonResponse
+    +{static} error(message, code, errors, errorCode): JsonResponse
+    +{static} validationError(errors, message): JsonResponse
+    +{static} unauthorized(message): JsonResponse
+    +{static} notFound(message): JsonResponse
+    +{static} forbidden(message): JsonResponse
+    +{static} serverError(message): JsonResponse
+    +{static} paginated(data, message): JsonResponse
+}
+
+' Relationships
+User ||--o{ Admin : has
+User ||--o{ PendaftaranAnggota : registers
+UnitKegiatan ||--o{ Admin : has
+UnitKegiatan ||--o{ PendaftaranAnggota : receives
+UnitKegiatan ||--o{ UnitKegiatanProfile : has
+UnitKegiatan ||--o{ Achievement : has
+UnitKegiatan ||--o{ ActivityGallery : has
+UnitKegiatan ||--o{ Feed : creates
+UnitKegiatan ||--o{ PaymentConfiguration : configures
+UnitKegiatan ||--o{ PaymentTransaction : processes
+
+Feed ||--o| Banner : has
+Feed ||--o{ PaymentTransaction : generates
+Feed ||--o{ AnonymousEventRegistration : receives
+Feed ||--o| PaymentConfiguration : uses
+
+PaymentConfiguration ||--o{ PaymentTransaction : creates
+PaymentConfiguration ||--o{ Feed : configures
+
+AnonymousEventRegistration ||--o{ PaymentTransaction : generates
+
+' Controller relationships (simplified)
+authController ..> User : manages
+ukmController ..> UnitKegiatan : manages
+feedController ..> Feed : manages
+paymentController ..> PaymentTransaction : manages
+paymentController ..> PaymentConfiguration : manages
+bannerController ..> Banner : manages
+EventRegistrationController ..> AnonymousEventRegistration : manages
+EventRegistrationController ..> PaymentTransaction : manages
+
+@enduml 

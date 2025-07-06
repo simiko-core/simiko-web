@@ -1,0 +1,224 @@
+@startuml Simiko ERD
+
+!theme plain
+skinparam entity {
+    BackgroundColor LightYellow
+    BorderColor DarkOrange
+    ArrowColor DarkOrange
+}
+
+title Simiko - Database Entity Relationship Diagram
+
+' Users and Authentication
+entity "users" {
+    * id : bigint (PK)
+    --
+    name : varchar(255)
+    email : varchar(255) UNIQUE
+    password : varchar(255)
+    phone : varchar(20)
+    photo : varchar(255)
+    email_verified_at : timestamp
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "admins" {
+    * id : bigint (PK)
+    --
+    * user_id : bigint (FK)
+    * unit_kegiatan_id : bigint (FK)
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+' UKM Management
+entity "unit_kegiatans" {
+    * id : bigint (PK)
+    --
+    name : varchar(255)
+    alias : varchar(255) UNIQUE
+    category : varchar(255)
+    logo : json
+    open_registration : boolean
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "unit_kegiatan_profiles" {
+    * id : bigint (PK)
+    --
+    * unit_kegiatan_id : bigint (FK)
+    vision_mission : text
+    description : text
+    period : varchar(255)
+    background_photo : varchar(255)
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "pendaftaran_anggotas" {
+    * id : bigint (PK)
+    --
+    * user_id : bigint (FK)
+    * unit_kegiatan_id : bigint (FK)
+    status : enum('pending', 'accepted', 'rejected')
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+' Content Management
+entity "feeds" {
+    * id : bigint (PK)
+    --
+    * unit_kegiatan_id : bigint (FK)
+    payment_configuration_id : bigint (FK)
+    type : enum('post', 'event')
+    title : varchar(255)
+    content : text
+    image : varchar(255)
+    event_date : date
+    event_type : varchar(255)
+    location : varchar(255)
+    is_paid : boolean
+    max_participants : integer
+    registration_token : varchar(255) UNIQUE
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "banners" {
+    * id : bigint (PK)
+    --
+    * feed_id : bigint (FK) UNIQUE
+    active : boolean
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+' Payment System
+entity "payment_configurations" {
+    * id : bigint (PK)
+    --
+    * unit_kegiatan_id : bigint (FK)
+    name : varchar(255)
+    description : text
+    amount : decimal(10,2)
+    currency : varchar(3)
+    payment_methods : json
+    custom_fields : json
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "payment_transactions" {
+    * id : bigint (PK)
+    --
+    * unit_kegiatan_id : bigint (FK)
+    anonymous_registration_id : bigint (FK)
+    * payment_configuration_id : bigint (FK)
+    feed_id : bigint (FK)
+    transaction_id : varchar(255) UNIQUE
+    amount : decimal(10,2)
+    currency : varchar(3)
+    status : enum('pending', 'paid', 'failed', 'cancelled', 'expired')
+    payment_method : varchar(255)
+    payment_details : json
+    custom_data : json
+    custom_files : json
+    notes : text
+    paid_at : timestamp
+    expires_at : timestamp
+    proof_of_payment : varchar(255)
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "anonymous_event_registrations" {
+    * id : bigint (PK)
+    --
+    * feed_id : bigint (FK)
+    name : varchar(255)
+    email : varchar(255)
+    phone : varchar(255)
+    custom_data : json
+    custom_files : json
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+' Achievement & Gallery
+entity "achievements" {
+    * id : bigint (PK)
+    --
+    * unit_kegiatan_id : bigint (FK)
+    title : varchar(255)
+    image : varchar(255)
+    description : text
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+entity "activity_galleries" {
+    * id : bigint (PK)
+    --
+    * unit_kegiatan_id : bigint (FK)
+    image : varchar(255)
+    caption : text
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+' Personal Access Tokens (Laravel Sanctum)
+entity "personal_access_tokens" {
+    * id : bigint (PK)
+    --
+    tokenable_type : varchar(255)
+    * tokenable_id : bigint
+    name : varchar(255)
+    token : varchar(64) UNIQUE
+    abilities : text
+    last_used_at : timestamp
+    expires_at : timestamp
+    created_at : timestamp
+    updated_at : timestamp
+}
+
+' Relationships
+users ||--o{ admins : "has"
+users ||--o{ pendaftaran_anggotas : "registers"
+users ||--o{ personal_access_tokens : "has"
+
+unit_kegiatans ||--o{ admins : "has"
+unit_kegiatans ||--o{ pendaftaran_anggotas : "receives"
+unit_kegiatans ||--o{ unit_kegiatan_profiles : "has"
+unit_kegiatans ||--o{ achievements : "has"
+unit_kegiatans ||--o{ activity_galleries : "has"
+unit_kegiatans ||--o{ feeds : "creates"
+unit_kegiatans ||--o{ payment_configurations : "configures"
+unit_kegiatans ||--o{ payment_transactions : "processes"
+
+feeds ||--o| banners : "has"
+feeds ||--o{ payment_transactions : "generates"
+feeds ||--o{ anonymous_event_registrations : "receives"
+feeds }o--|| payment_configurations : "uses"
+
+payment_configurations ||--o{ payment_transactions : "creates"
+payment_configurations ||--o{ feeds : "configures"
+
+anonymous_event_registrations ||--o{ payment_transactions : "generates"
+
+' Indexes (simplified representation)
+note right of feeds : Indexes:\n- unit_kegiatan_id + created_at\n- type + created_at\n- event_date\n- registration_token
+
+note right of payment_transactions : Indexes:\n- unit_kegiatan_id\n- status\n- feed_id\n- transaction_id
+
+note right of pendaftaran_anggotas : Indexes:\n- status\n- unit_kegiatan_id + status
+
+note right of achievements : Indexes:\n- unit_kegiatan_id + created_at
+
+note right of activity_galleries : Indexes:\n- unit_kegiatan_id + created_at
+
+note right of banners : Indexes:\n- active\n- feed_id + active
+
+@enduml 

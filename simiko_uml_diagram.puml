@@ -1,0 +1,273 @@
+@startuml Simiko Student Activity Management System
+
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontSize 12
+skinparam classFontName Arial
+skinparam packageStyle rectangle
+
+package "Authentication & Users" {
+    class User {
+        +id: bigint
+        +name: string
+        +email: string
+        +email_verified_at: timestamp
+        +password: string
+        +phone: string
+        +photo: string
+        +remember_token: string
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +admin(): HasOne<Admin>
+        +canAccessPanel(panel): bool
+    }
+
+    class Admin {
+        +id: bigint
+        +user_id: bigint
+        +unit_kegiatan_id: bigint
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +user(): BelongsTo<User>
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+    }
+}
+
+package "Core Entities" {
+    class UnitKegiatan {
+        +id: bigint
+        +name: string
+        +alias: string
+        +category: string
+        +logo: string
+        +open_registration: boolean
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +admins(): HasOne<Admin>
+        +pendaftaranAnggota(): HasMany<PendaftaranAnggota>
+        +unitKegiatanProfile(): HasMany<UnitKegiatanProfile>
+        +achievements(): HasMany<Achievement>
+        +activityGalleries(): HasMany<ActivityGallery>
+        +feeds(): HasMany<Feed>
+        +paymentConfigurations(): HasMany<PaymentConfiguration>
+        +paymentTransactions(): HasMany<PaymentTransaction>
+    }
+
+    class UnitKegiatanProfile {
+        +id: bigint
+        +unit_kegiatan_id: bigint
+        +vision_mission: text
+        +description: text
+        +period: string
+        +background_photo: string
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+        +getVisionMissionTextAttribute(): string
+    }
+}
+
+package "Content Management" {
+    class Feed {
+        +id: bigint
+        +unit_kegiatan_id: bigint
+        +payment_configuration_id: bigint
+        +type: enum('post', 'event')
+        +title: string
+        +content: text
+        +image: string
+        +event_date: date
+        +event_type: enum('online', 'offline')
+        +location: string
+        +is_paid: boolean
+        +max_participants: integer
+        +registration_token: string
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+        +paymentConfiguration(): BelongsTo<PaymentConfiguration>
+        +banner(): HasOne<Banner>
+        +transactions(): HasMany<PaymentTransaction>
+        +anonymousRegistrations(): HasMany<AnonymousEventRegistration>
+        +scopePosts(query): QueryBuilder
+        +scopeEvents(query): QueryBuilder
+        +scopePaidEvents(query): QueryBuilder
+        +isEvent(): boolean
+        +isPost(): boolean
+        +isPaidEvent(): boolean
+        +getRegistrationUrl(): string
+        +getTotalRegistrationsCount(): int
+    }
+
+    class Banner {
+        +id: bigint
+        +feed_id: bigint
+        +active: boolean
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +feed(): BelongsTo<Feed>
+    }
+
+    class Achievement {
+        +id: bigint
+        +unit_kegiatan_id: bigint
+        +title: string
+        +image: string
+        +description: text
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+    }
+
+    class ActivityGallery {
+        +id: bigint
+        +unit_kegiatan_id: bigint
+        +image: string
+        +caption: string
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+    }
+}
+
+package "Membership Management" {
+    class PendaftaranAnggota {
+        +id: bigint
+        +user_id: bigint
+        +unit_kegiatan_id: bigint
+        +status: enum('pending', 'accepted', 'rejected')
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+        +user(): BelongsTo<User>
+        +IsOpen(): boolean
+    }
+}
+
+package "Payment System" {
+    class PaymentConfiguration {
+        +id: bigint
+        +unit_kegiatan_id: bigint
+        +name: string
+        +description: text
+        +amount: decimal(10,2)
+        +currency: string
+        +payment_methods: json
+        +custom_fields: json
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+        +transactions(): HasMany<PaymentTransaction>
+        +feeds(): HasMany<Feed>
+        +scopeActive(query): QueryBuilder
+        +scopeInactive(query): QueryBuilder
+        +getIsActiveAttribute(): boolean
+        +getFormattedAmountAttribute(): string
+        +getTotalRevenueAttribute(): decimal
+        +sanitizeCustomFields(fields): array
+    }
+
+    class PaymentTransaction {
+        +id: bigint
+        +unit_kegiatan_id: bigint
+        +anonymous_registration_id: bigint
+        +payment_configuration_id: bigint
+        +feed_id: bigint
+        +transaction_id: string
+        +amount: decimal(10,2)
+        +currency: string
+        +status: enum('pending', 'paid', 'failed', 'cancelled', 'expired')
+        +payment_method: string
+        +payment_details: json
+        +custom_data: json
+        +custom_files: json
+        +notes: text
+        +paid_at: timestamp
+        +expires_at: timestamp
+        +proof_of_payment: string
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +unitKegiatan(): BelongsTo<UnitKegiatan>
+        +anonymousRegistration(): BelongsTo<AnonymousEventRegistration>
+        +paymentConfiguration(): BelongsTo<PaymentConfiguration>
+        +feed(): BelongsTo<Feed>
+        +scopePending(query): QueryBuilder
+        +scopePaid(query): QueryBuilder
+        +scopeFailed(query): QueryBuilder
+        +scopeCancelled(query): QueryBuilder
+        +scopeExpired(query): QueryBuilder
+        +getFormattedAmountAttribute(): string
+        +getStatusColorAttribute(): string
+        +getStatusLabelAttribute(): string
+        +isExpired(): boolean
+        +canBePaid(): boolean
+        +markAsPaid(method, details): void
+        +markAsFailed(notes): void
+        +markAsCancelled(notes): void
+        +markAsExpired(): void
+    }
+
+    class AnonymousEventRegistration {
+        +id: bigint
+        +feed_id: bigint
+        +name: string
+        +email: string
+        +phone: string
+        +custom_data: json
+        +custom_files: json
+        +created_at: timestamp
+        +updated_at: timestamp
+        --
+        +feed(): BelongsTo<Feed>
+        +paymentTransactions(): HasMany<PaymentTransaction>
+        +getFormattedNameAttribute(): string
+        +getContactInfoAttribute(): string
+        +hasCustomData(): boolean
+        +hasCustomFiles(): boolean
+        +getCustomFileUrls(): array
+    }
+}
+
+' Relationships
+User ||--o{ Admin : has
+User ||--o{ PendaftaranAnggota : has
+
+UnitKegiatan ||--o{ Admin : has
+UnitKegiatan ||--o{ PendaftaranAnggota : has
+UnitKegiatan ||--o{ UnitKegiatanProfile : has
+UnitKegiatan ||--o{ Achievement : has
+UnitKegiatan ||--o{ ActivityGallery : has
+UnitKegiatan ||--o{ Feed : has
+UnitKegiatan ||--o{ PaymentConfiguration : has
+UnitKegiatan ||--o{ PaymentTransaction : has
+
+Feed ||--o| Banner : has
+Feed ||--o{ PaymentTransaction : has
+Feed ||--o{ AnonymousEventRegistration : has
+Feed }o--|| PaymentConfiguration : belongs_to
+
+PaymentConfiguration ||--o{ PaymentTransaction : has
+PaymentConfiguration ||--o{ Feed : has
+
+AnonymousEventRegistration ||--o{ PaymentTransaction : has
+
+' Notes
+note top of User : "Core user entity with authentication"
+note top of UnitKegiatan : "Student organizations (UKM)"
+note top of Feed : "Posts and events content"
+note top of PaymentConfiguration : "Payment setup for events"
+note top of PaymentTransaction : "Payment records and status"
+note top of AnonymousEventRegistration : "Guest registrations for events"
+
+@enduml 

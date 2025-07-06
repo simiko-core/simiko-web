@@ -1,0 +1,159 @@
+@startuml Simiko Use Case Diagram
+
+!theme plain
+skinparam actorStyle awesome
+skinparam usecase {
+    BackgroundColor LightBlue
+    BorderColor DarkBlue
+    ArrowColor DarkBlue
+}
+
+title Simiko - Student Activity Management System Use Case Diagram
+
+' Actors
+actor "Student" as Student
+actor "UKM Admin" as UKMAdmin
+actor "Super Admin" as SuperAdmin
+actor "Guest User" as Guest
+actor "Payment System" as Payment
+
+' System boundary
+rectangle "Simiko System" {
+    
+    ' Authentication & User Management
+    package "Authentication & User Management" {
+        usecase "Register Account" as UC1
+        usecase "Login" as UC2
+        usecase "Logout" as UC3
+        usecase "View Profile" as UC4
+        usecase "Update Profile" as UC5
+    }
+    
+    ' UKM Management
+    package "UKM Management" {
+        usecase "View All UKMs" as UC6
+        usecase "Search UKMs" as UC7
+        usecase "View UKM Profile" as UC8
+        usecase "View UKM Full Profile" as UC9
+        usecase "Register for UKM Membership" as UC10
+        usecase "Manage UKM Profile" as UC11
+        usecase "Manage UKM Members" as UC12
+    }
+    
+    ' Content Management
+    package "Content Management" {
+        usecase "View Feeds" as UC13
+        usecase "View Posts" as UC14
+        usecase "View Events" as UC15
+        usecase "Create Post" as UC16
+        usecase "Create Event" as UC17
+        usecase "Edit Content" as UC18
+        usecase "Delete Content" as UC19
+        usecase "View Banners" as UC20
+        usecase "Manage Banners" as UC21
+    }
+    
+    ' Event Registration & Payment
+    package "Event Registration & Payment" {
+        usecase "Register for Event" as UC22
+        usecase "View Event Details" as UC23
+        usecase "Upload Payment Proof" as UC24
+        usecase "Track Registration Status" as UC25
+        usecase "Download Receipt" as UC26
+        usecase "Manage Payment Configurations" as UC27
+        usecase "Process Payment" as UC28
+        usecase "Verify Payment" as UC29
+    }
+    
+    ' Achievement & Gallery Management
+    package "Achievement & Gallery" {
+        usecase "View Achievements" as UC30
+        usecase "Manage Achievements" as UC31
+        usecase "View Activity Gallery" as UC32
+        usecase "Manage Activity Gallery" as UC33
+    }
+    
+    ' Administrative Functions
+    package "Administrative Functions" {
+        usecase "Manage Users" as UC34
+        usecase "Manage UKMs" as UC35
+        usecase "View System Statistics" as UC36
+        usecase "Manage Payment Transactions" as UC37
+        usecase "Generate Reports" as UC38
+    }
+}
+
+' Student relationships
+Student --> UC1
+Student --> UC2
+Student --> UC3
+Student --> UC4
+Student --> UC5
+Student --> UC6
+Student --> UC7
+Student --> UC8
+Student --> UC9
+Student --> UC10
+Student --> UC13
+Student --> UC14
+Student --> UC15
+Student --> UC22
+Student --> UC23
+Student --> UC24
+Student --> UC25
+Student --> UC26
+Student --> UC30
+Student --> UC32
+
+' UKM Admin relationships
+UKMAdmin --> UC2
+UKMAdmin --> UC3
+UKMAdmin --> UC4
+UKMAdmin --> UC5
+UKMAdmin --> UC11
+UKMAdmin --> UC12
+UKMAdmin --> UC16
+UKMAdmin --> UC17
+UKMAdmin --> UC18
+UKMAdmin --> UC19
+UKMAdmin --> UC21
+UKMAdmin --> UC27
+UKMAdmin --> UC29
+UKMAdmin --> UC31
+UKMAdmin --> UC33
+UKMAdmin --> UC37
+
+' Super Admin relationships
+SuperAdmin --> UC2
+SuperAdmin --> UC3
+SuperAdmin --> UC4
+SuperAdmin --> UC5
+SuperAdmin --> UC34
+SuperAdmin --> UC35
+SuperAdmin --> UC36
+SuperAdmin --> UC37
+SuperAdmin --> UC38
+
+' Guest User relationships
+Guest --> UC22
+Guest --> UC23
+Guest --> UC24
+Guest --> UC25
+Guest --> UC26
+
+' Payment System relationships
+Payment --> UC28
+
+' Include relationships
+UC22 ..> UC28 : <<include>>
+UC24 ..> UC29 : <<include>>
+UC17 ..> UC27 : <<include>>
+UC10 ..> UC12 : <<include>>
+
+' Extend relationships
+UC9 ..> UC30 : <<extend>>
+UC9 ..> UC32 : <<extend>>
+UC15 ..> UC22 : <<extend>>
+UC37 ..> UC29 : <<extend>>
+
+@enduml 
