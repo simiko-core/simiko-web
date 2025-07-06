@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Notifications\Notification;
 
 class PaymentTransactionResource extends Resource
 {
@@ -278,7 +279,20 @@ class PaymentTransactionResource extends Resource
                     ->modalDescription('This will mark the transaction as paid.')
                     ->visible(fn(PaymentTransaction $record): bool => $record->status === 'pending')
                     ->action(function (PaymentTransaction $record) {
-                        $record->markAsPaid();
+                        // Ensure we're only updating this specific record
+                        $transaction = PaymentTransaction::find($record->id);
+                        if ($transaction && $transaction->status === 'pending') {
+                            $transaction->markAsPaid();
+                            Notification::make()
+                                ->title('Transaction marked as paid successfully.')
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Transaction could not be updated.')
+                                ->danger()
+                                ->send();
+                        }
                     }),
                 Tables\Actions\Action::make('mark_failed')
                     ->label('Mark as Failed')
@@ -289,7 +303,20 @@ class PaymentTransactionResource extends Resource
                     ->modalDescription('This will mark the transaction as failed.')
                     ->visible(fn(PaymentTransaction $record): bool => $record->status === 'pending')
                     ->action(function (PaymentTransaction $record) {
-                        $record->markAsFailed();
+                        // Ensure we're only updating this specific record
+                        $transaction = PaymentTransaction::find($record->id);
+                        if ($transaction && $transaction->status === 'pending') {
+                            $transaction->markAsFailed();
+                            Notification::make()
+                                ->title('Transaction marked as failed successfully.')
+                                ->success()
+                                ->send();
+                        } else {
+                            Notification::make()
+                                ->title('Transaction could not be updated.')
+                                ->danger()
+                                ->send();
+                        }
                     }),
             ])
             ->bulkActions([
