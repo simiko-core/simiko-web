@@ -285,6 +285,7 @@ class feedController extends Controller
                 'is_paid',
                 'max_participants',
                 'unit_kegiatan_id',
+                'registration_token',
                 'payment_configuration_id',
                 'created_at'
             )
