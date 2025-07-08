@@ -27,6 +27,7 @@ jobs:
         run: |
           npm ci
           npm run build
+
       - name: Deploy to server
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -35,12 +36,10 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            sudo su -c '
-              cd /www/wwwroot/simiko.software &&
-              git pull origin main &&
-              composer install --no-dev --optimize-autoloader &&
-              php artisan migrate --force &&
-              php artisan config:cache &&
-              php artisan route:cache &&
-              php artisan view:cache &&
-            '
+            cd /www/wwwroot/simiko.software
+            git pull origin main
+            composer install --no-dev --optimize-autoloader
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
