@@ -123,6 +123,15 @@ class Feed extends Model
         return route('event.register', ['token' => $this->registration_token]);
     }
 
+    public function getRegistrationUrlMobile()
+    {
+        if (!$this->isPaidEvent() || !$this->registration_token) {
+            return null;
+        }
+
+        return url('/event/register/' . $this->registration_token);
+    }
+
     public function regenerateRegistrationToken()
     {
         $this->update(['registration_token' => Str::random(32)]);
