@@ -1,4 +1,4 @@
-name: Deploy Laravel Application
+name: Deploy to aaPanel
 
 on:
   push:
@@ -8,33 +8,39 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to Production Server
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.3"
-          extensions: dom, fileinfo, mbstring
-          coverage: none
+          extensions: mbstring, pdo, pdo_mysql, zip, bcmath, gd, curl, xml
 
-      - name: Install Composer Dependencies
+      - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@master
+      - name: Build assets
+        run: |
+          npm ci
+          npm run build
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
+          port: ${{ secrets.PORT }}
           script: |
-            cd /www/wwwroot/simiko.software
-            git pull origin main
-            composer install --no-dev --optimize-autoloader
-            php artisan migrate --force
-            php artisan config:cache
+            sudo su -c '
+              cd /www/wwwroot/simiko.software &&
+              git pull origin main &&
+              composer install --no-dev --optimize-autoloader &&
+              php artisan migrate --force &&
+              php artisan config:cache &&
+              php artisan route:cache &&
+              php artisan view:cache &&
+            '
