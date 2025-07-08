@@ -292,6 +292,7 @@ class feedController extends Controller
                 ->with(['unitKegiatan:id,name,logo,alias', 'paymentConfiguration'])
                 ->findOrFail($id);
 
+
             $data = [
                 'id' => $feed->id,
                 'type' => $feed->type,
@@ -302,9 +303,7 @@ class feedController extends Controller
                     'id' => $feed->unitKegiatan->id,
                     'name' => $feed->unitKegiatan->name,
                     'alias' => $feed->unitKegiatan->alias,
-                    'logo_url' => $feed->unitKegiatan->logo && is_array($feed->unitKegiatan->logo) && !empty($feed->unitKegiatan->logo)
-                        ? asset('storage/' . $feed->unitKegiatan->logo[0])
-                        : null,
+                    'logo_url' => $feed->unitKegiatan->logo ? asset('storage/' . $feed->unitKegiatan->logo) : null,
                 ],
                 'created_at' => $feed->created_at,
             ];
