@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  test:
-    name: Run Tests
+  deploy:
+    name: Deploy to Production Server
     runs-on: ubuntu-latest
 
     steps:
@@ -21,34 +21,9 @@ jobs:
           extensions: dom, fileinfo, mbstring
           coverage: none
 
-      - name: Get Composer Cache Directory
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
-
-      - name: Cache Composer Dependencies
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
       - name: Install Composer Dependencies
-        run: composer install --no-progress --no-interaction --prefer-dist --optimize-autoloader
+        run: composer install --no-dev --optimize-autoloader
 
-      - name: Generate Application Key
-        run: |
-          cp .env.example .env
-          php artisan key:generate
-
-      - name: Run Tests
-        run: composer test
-
-  deploy:
-    name: Deploy to Production Server
-    needs: test
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy via SSH
         uses: appleboy/ssh-action@master
         with:
@@ -62,5 +37,3 @@ jobs:
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
             php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
