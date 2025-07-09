@@ -75,7 +75,7 @@
                         Admin posting berita, pengumuman, event, hingga payment—semua dalam satu sistem terintegrasi.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <a href="{{ url('/admin') }}" class="bg-primary text-black px-8 py-3 text-lg font-bold transition duration-150 border-2 border-black hard-shadow hover:bg-yellow-400 text-center">
+                        <a href="{{ url('/admin-panel') }}" class="bg-primary text-black px-8 py-3 text-lg font-bold transition duration-150 border-2 border-black hard-shadow hover:bg-yellow-400 text-center">
                             <i class="fas fa-users-cog mr-2"></i>
                             Kelola UKM Sekarang
                         </a>
