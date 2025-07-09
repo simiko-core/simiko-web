@@ -65,7 +65,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <div>
                     <h1 class="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-mono">
-                        Sistem Manajemen 
+                        Sistem Manajemen <br>
                         <span class="text-primary">Unit Kegiatan</span>
                         Mahasiswa
                     </h1>
@@ -381,10 +381,10 @@
                     <i class="fas fa-tachometer-alt mr-2"></i>
                     Mulai Kelola UKM
                 </a>
-                <a href="{{ url('/api/documentation') }}" class="border-2 border-black text-black hover:bg-accent hover:text-primary px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center">
+                {{-- <a href="{{ url('/api/documentation') }}" class="border-2 border-black text-black hover:bg-accent hover:text-primary px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center">
                     <i class="fas fa-book mr-2"></i>
                     Dokumentasi Lengkap
-                </a>
+                </a> --}}
             </div>
         </div>
     </section>
