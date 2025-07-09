@@ -345,7 +345,7 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="text-center">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">10+</div>
                     <div class="text-gray-300">Organisasi Mahasiswa</div>
@@ -357,10 +357,6 @@
                 <div class="text-center">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">33+</div>
                     <div class="text-gray-300">Prestasi Tercatat</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">100%</div>
-                    <div class="text-gray-300">Cakupan API</div>
                 </div>
             </div>
         </div>
