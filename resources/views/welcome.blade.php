@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/assets/image.png">
     <script>
         tailwind.config = {
@@ -64,7 +65,7 @@
     <section class="pt-16 bg-background min-h-screen flex items-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
+                <div data-aos="fade-right">
                     <h1 class="text-4xl lg:text-6xl font-bold text-secondary mb-6 font-mono">
                         Sistem Manajemen <br>
                         <span class="text-primary">Unit Kegiatan</span>
@@ -84,7 +85,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="flex justify-center">
+                <div class="flex justify-center" data-aos="fade-left">
                     <div class="relative">
                         <div class="bg-gray-800 p-8 border-4 border-black hard-shadow">
                             <div class="grid grid-cols-3 gap-4">
@@ -134,7 +135,7 @@
                 
                 <!-- Illustration Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-                    <div class="bg-background p-8 border-2 border-black hard-shadow">
+                    <div class="bg-background p-8 border-2 border-black hard-shadow" data-aos="fade-up" data-aos-delay="100">
                         <div class="bg-blue-900 border-2 border-black w-20 h-20 mx-auto flex items-center justify-center mb-6">
                             <i class="fas fa-sitemap text-blue-400 text-3xl"></i>
                         </div>
@@ -144,7 +145,7 @@
                         </p>
                     </div>
                     
-                    <div class="bg-background p-8 border-2 border-black hard-shadow">
+                    <div class="bg-background p-8 border-2 border-black hard-shadow"  data-aos="fade-up" data-aos-delay="200">
                         <div class="bg-green-900 border-2 border-black w-20 h-20 mx-auto flex items-center justify-center mb-6">
                             <i class="fas fa-rocket text-green-400 text-3xl"></i>
                         </div>
@@ -154,7 +155,7 @@
                         </p>
                     </div>
                     
-                    <div class="bg-background p-8 border-2 border-black hard-shadow">
+                    <div class="bg-background p-8 border-2 border-black hard-shadow" data-aos="fade-up" data-aos-delay="300">
                         <div class="bg-purple-900 border-2 border-black w-20 h-20 mx-auto flex items-center justify-center mb-6">
                             <i class="fas fa-users text-purple-400 text-3xl"></i>
                         </div>
@@ -173,7 +174,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <!-- Vision -->
-                <div class="bg-background p-10 border-4 border-black hard-shadow">
+                <div class="bg-background p-10 border-4 border-black hard-shadow" data-aos="fade-right">
                     <div class="flex items-center mb-6">
                         <div class="bg-primary border-2 border-black w-12 h-12 flex items-center justify-center mr-4">
                             <i class="fas fa-eye text-black text-xl"></i>
@@ -191,7 +192,7 @@
                 </div>
 
                 <!-- Mission -->
-                <div class="bg-background p-10 border-4 border-black hard-shadow">
+                <div class="bg-background p-10 border-4 border-black hard-shadow" data-aos="fade-left">
                     <div class="flex items-center mb-6">
                         <div class="bg-primary border-2 border-black w-12 h-12 flex items-center justify-center mr-4">
                             <i class="fas fa-bullseye text-black text-xl"></i>
@@ -224,7 +225,7 @@
     <!-- Features Section -->
     <section id="features" class="py-20 bg-background">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl lg:text-4xl font-bold text-secondary mb-4 font-mono">
                     Fitur Lengkap Manajemen UKM
                 </h2>
@@ -236,7 +237,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- UKM Management -->
-                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover" data-aos="fade-up" data-aos-delay="100">
                     <div class="bg-blue-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
                         <i class="fas fa-building text-blue-400 text-2xl"></i>
                     </div>
@@ -268,7 +269,7 @@
                 </div>
 
                 <!-- Member Registration -->
-                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover" data-aos="fade-up" data-aos-delay="300">
                     <div class="bg-purple-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
                         <i class="fas fa-user-plus text-purple-400 text-2xl"></i>
                     </div>
@@ -284,7 +285,7 @@
                 </div>
 
                 <!-- Content Management -->
-                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover" data-aos="fade-up" data-aos-delay="400">
                     <div class="bg-yellow-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
                         <i class="fas fa-rss text-yellow-400 text-2xl"></i>
                     </div>
@@ -300,7 +301,7 @@
                 </div>
 
                 <!-- Achievement Tracking -->
-                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover" data-aos="fade-up" data-aos-delay="500">
                     <div class="bg-red-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
                         <i class="fas fa-trophy text-red-400 text-2xl"></i>
                     </div>
@@ -316,7 +317,7 @@
                 </div>
 
                 <!-- API Integration -->
-                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover">
+                <div class="bg-background p-8 border-2 border-black transition duration-300 hard-shadow-hover" data-aos="fade-up" data-aos-delay="600">
                     <div class="bg-indigo-900 border-2 border-black w-16 h-16 flex items-center justify-center mb-6">
                         <i class="fas fa-code text-indigo-400 text-2xl"></i>
                     </div>
@@ -337,7 +338,7 @@
     <!-- Statistics Section -->
     <section class="py-20 bg-background text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
+            <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-3xl lg:text-4xl font-bold mb-4 font-mono">
                     Terbukti Efektif & Terintegrasi
                 </h2>
@@ -346,29 +347,25 @@
                 </p>
             </div>
             
-            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="text-center">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">10+</div>
                     <div class="text-gray-300">Organisasi Mahasiswa</div>
                 </div>
-                <div class="text-center">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">95+</div>
                     <div class="text-gray-300">Event Terpublikasi</div>
                 </div>
-                <div class="text-center">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
                     <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">33+</div>
                     <div class="text-gray-300">Prestasi Tercatat</div>
-                </div>
-                <div class="text-center">
-                    <div class="text-4xl lg:text-5xl font-bold text-primary mb-2">100%</div>
-                    <div class="text-gray-300">Cakupan API</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="py-20 bg-primary">
+    <section class="py-20 bg-primary" data-aos="zoom-in">
         <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl lg:text-4xl font-bold text-black mb-6 font-mono">
                 Siap Upgrade Manajemen UKM?
@@ -378,7 +375,7 @@
                 Semua kebutuhan UKM, satu solusi lengkap.
             </p>
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="{{ url('/admin') }}" class="bg-accent text-primary hover:bg-gray-800 px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center border-2 border-black hard-shadow">
+                <a href="{{ url('/admin-panel') }}" class="bg-accent text-primary hover:bg-gray-800 px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center border-2 border-black hard-shadow">
                     <i class="fas fa-tachometer-alt mr-2"></i>
                     Mulai Kelola UKM
                 </a>
@@ -454,6 +451,13 @@
                 });
             });
         });
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true
+      });
     </script>
 </body>
 </html>
