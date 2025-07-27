@@ -379,10 +379,6 @@
                     <i class="fas fa-tachometer-alt mr-2"></i>
                     Mulai Kelola UKM
                 </a>
-                <a href="{{ url('/api/documentation') }}" class="border-2 border-black text-black hover:bg-accent hover:text-primary px-8 py-3 text-lg font-bold transition duration-150 inline-flex items-center justify-center">
-                    <i class="fas fa-book mr-2"></i>
-                    Dokumentasi Lengkap
-                </a>
             </div>
         </div>
     </section>
