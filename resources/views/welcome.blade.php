@@ -383,6 +383,33 @@
         </div>
     </section>
 
+    <!-- Download App Section (Gen Z Style) -->
+    <section class="py-16 bg-gradient-to-br from-pink-200 via-yellow-100 to-blue-200 relative overflow-hidden" data-aos="zoom-in-up">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-10 rounded-3xl shadow-2xl border-4 border-primary bg-white/80 backdrop-blur-lg">
+            <div class="flex-1 flex flex-col items-center md:items-start text-center md:text-left py-8">
+                <h2 class="text-3xl md:text-4xl font-extrabold text-accent mb-4 font-mono drop-shadow-lg">
+                    Download Simiko Apps
+                </h2>
+                <p class="text-lg text-gray-700 mb-6 max-w-md">
+                    Dapatkan pengalaman Simiko lebih mudah dan cepat melalui aplikasi mobile kami! Scan QR code di samping atau klik tombol di bawah untuk download.
+                </p>
+                <a href="https://drive.google.com/file/d/14Bc7TWQb_rL5RDmUXc_3J5J8Wy_v85O5/view" class="inline-block bg-primary text-black font-bold px-6 py-3 rounded-xl shadow-lg hover:bg-yellow-400 transition-all duration-300 text-lg mt-2">
+                    Download Sekarang
+                </a>
+            </div>
+            <div class="flex-1 flex flex-col items-center gap-4 py-8">
+                <div class="relative group">
+                    <img src="/assets/simikoapps.jpg" alt="Simiko App Preview" class="w-48 h-48 object-cover rounded-2xl border-4 border-accent shadow-xl group-hover:scale-105 transition-transform duration-300 bg-white">
+                    <span class="absolute -top-4 -right-4 w-10 h-10 bg-primary opacity-30 rounded-full blur"></span>
+                </div>
+                <div class="mt-4 flex flex-col items-center">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://simikoapps.link/download" alt="QR Code Download Simiko App" class="w-32 h-32 rounded-lg border-2 border-accent shadow-md bg-white">
+                    <span class="text-xs text-gray-500 mt-2">Scan untuk download</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="bg-accent text-white py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
