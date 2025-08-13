@@ -400,12 +400,13 @@
             <div class="flex-1 flex flex-col items-center gap-4 py-8">
                 <div class="relative group">
                     <img src="/assets/simikoapps.jpg" alt="Simiko App Preview" class="w-48 h-48 object-cover rounded-2xl border-4 border-accent shadow-xl group-hover:scale-105 transition-transform duration-300 bg-white">
+                    <span class="text-xs px-10 py-3 text-gray-500 mt-2">Scan untuk download</span>
                     <span class="absolute -top-4 -right-4 w-10 h-10 bg-primary opacity-30 rounded-full blur"></span>
                 </div>
-                <div class="mt-4 flex flex-col items-center">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://simikoapps.link/download" alt="QR Code Download Simiko App" class="w-32 h-32 rounded-lg border-2 border-accent shadow-md bg-white">
+                {{-- <div class="mt-4 flex flex-col items-center">
+                    <img src="  " alt="QR Code Download Simiko App" class="w-32 h-32 rounded-lg border-2 border-accent shadow-md bg-white">
                     <span class="text-xs text-gray-500 mt-2">Scan untuk download</span>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>
